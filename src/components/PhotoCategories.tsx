@@ -24,16 +24,14 @@ export function PhotoCategories({
   return (
     <section className="py-20 lg:py-28 bg-cream section-accent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12 lg:mb-16">
-          <div>
-            <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
-              {dict.formats.eyebrow}
-            </p>
-            <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight">
-              {dict.formats.title}
-            </h2>
-          </div>
-          <p className="mt-4 lg:mt-0 text-ink-500 max-w-md text-sm leading-relaxed">
+        <div className="max-w-2xl mb-12 lg:mb-16">
+          <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+            {dict.formats.eyebrow}
+          </p>
+          <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight mb-4">
+            {dict.formats.title}
+          </h2>
+          <p className="text-ink-600 text-base leading-relaxed max-w-lg">
             {dict.formats.body}
           </p>
         </div>

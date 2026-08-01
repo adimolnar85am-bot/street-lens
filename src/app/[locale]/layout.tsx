@@ -4,6 +4,8 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { LocaleProvider } from "@/i18n/LocaleContext";
 import { HtmlLang } from "@/components/HtmlLang";
 import { Header, Footer } from "@/components/Header";
+import { OrganizationJsonLd } from "@/components/JsonLd";
+import { buildPageMetadata } from "@/lib/metadata";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -17,10 +19,13 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
-  return {
+  return buildPageMetadata({
+    locale,
     title: dict.meta.title,
     description: dict.meta.description,
-  };
+    ogTitle: `${dict.brand.name} — ${dict.meta.ogHeadline}`,
+    ogDescription: dict.meta.ogTagline,
+  });
 }
 
 export default async function LocaleLayout({
@@ -38,6 +43,7 @@ export default async function LocaleLayout({
 
   return (
     <LocaleProvider locale={locale} dict={dict}>
+      <OrganizationJsonLd />
       <HtmlLang />
       <Header />
       <main>{children}</main>

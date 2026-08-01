@@ -4,11 +4,19 @@ import { cookies } from "next/headers";
 export const ADMIN_COOKIE = "sl_admin_session";
 
 function getSecret() {
-  return process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD || "";
+  return (
+    process.env.ADMIN_SECRET?.trim() ||
+    process.env.ADMIN_PASSWORD?.trim() ||
+    ""
+  );
 }
 
 function getPassword() {
-  return process.env.ADMIN_PASSWORD || "";
+  return process.env.ADMIN_PASSWORD?.trim() || "";
+}
+
+export function isAdminConfigured(): boolean {
+  return Boolean(getPassword() && getSecret());
 }
 
 export function createAdminToken(): string {
