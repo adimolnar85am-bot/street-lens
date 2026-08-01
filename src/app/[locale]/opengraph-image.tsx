@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
+import { BrandMark } from "@/lib/brand-mark";
 import { defaultOgPhoto, siteUrl } from "@/lib/site";
 
 export const runtime = "edge";
@@ -64,27 +65,19 @@ export default async function OgImage({
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "12px",
+              gap: "20px",
             }}
           >
-            <div
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: "50%",
-                background: "#e20612",
-              }}
-            />
+            <BrandMark size={56} />
             <span
               style={{
-                color: "#ffb800",
-                fontSize: 22,
+                color: "#f8f4ef",
+                fontSize: 36,
                 fontWeight: 700,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
+                letterSpacing: "-0.03em",
               }}
             >
-              {dict.brand.name}
+              streetlens
             </span>
           </div>
           <div

@@ -1,41 +1,70 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+const LOGO = {
+  horizontal: { src: "/logo.svg", width: 320, height: 80 },
+  mark: { src: "/logo-mark.svg", width: 100, height: 100 },
+  stacked: { src: "/logo-stacked.svg", width: 512, height: 512 },
+} as const;
+
 type BrandLogoProps = {
-  size?: number;
+  /** Visual height in px; width follows the asset aspect ratio. */
+  height?: number;
   className?: string;
-  showText?: boolean;
-  name?: string;
+  variant?: keyof typeof LOGO;
   tagline?: string;
+  showTagline?: boolean;
+  /** On small screens, show mark-only when variant is horizontal. */
+  responsive?: boolean;
+  priority?: boolean;
+  alt?: string;
 };
 
 export function BrandLogo({
-  size = 40,
+  height = 40,
   className,
-  showText = false,
-  name = "Street Lens",
+  variant = "horizontal",
   tagline,
+  showTagline = false,
+  responsive = false,
+  priority = false,
+  alt = "streetlens",
 }: BrandLogoProps) {
+  const asset = LOGO[variant];
+  const width = Math.round((height * asset.width) / asset.height);
+
+  const logoImage = (src: string, w: number, h: number, extraClass?: string) => (
+    <Image
+      src={src}
+      alt={alt}
+      width={w}
+      height={h}
+      className={cn("shrink-0", extraClass)}
+      priority={priority}
+    />
+  );
+
+  if (variant === "horizontal" && responsive) {
+    const markSize = Math.round(height * 0.9);
+    return (
+      <span className={cn("inline-flex items-center gap-3", className)}>
+        {logoImage(LOGO.mark.src, markSize, markSize, "sm:hidden")}
+        {logoImage(asset.src, width, height, "hidden sm:block")}
+        {showTagline && tagline ? (
+          <span className="hidden lg:block text-xs text-ink-400 tracking-widest uppercase max-w-[12rem] leading-snug">
+            {tagline}
+          </span>
+        ) : null}
+      </span>
+    );
+  }
+
   return (
     <span className={cn("inline-flex items-center gap-3", className)}>
-      <Image
-        src="/logo.svg"
-        alt={name}
-        width={size}
-        height={size}
-        className="shrink-0"
-        priority
-      />
-      {showText ? (
-        <span className="min-w-0">
-          <span className="block font-display text-xl lg:text-2xl text-cream leading-none">
-            {name}
-          </span>
-          {tagline ? (
-            <span className="hidden sm:block text-xs text-ink-400 tracking-widest uppercase mt-1">
-              {tagline}
-            </span>
-          ) : null}
+      {logoImage(asset.src, width, height)}
+      {showTagline && tagline && variant === "horizontal" ? (
+        <span className="hidden lg:block text-xs text-ink-400 tracking-widest uppercase max-w-[12rem] leading-snug">
+          {tagline}
         </span>
       ) : null}
     </span>

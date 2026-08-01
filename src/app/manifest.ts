@@ -4,7 +4,7 @@ import { siteName } from "@/lib/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: siteName,
-    short_name: siteName,
+    short_name: "streetlens",
     description:
       "Comunitate de street photography din România — photowalk-uri, galerie, concursuri.",
     start_url: "/ro",
@@ -12,21 +12,21 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#171717",
-    theme_color: "#171717",
+    background_color: "#0a0a0a",
+    theme_color: "#0a0a0a",
     lang: "ro",
     dir: "ltr",
     categories: ["photography", "social"],
     icons: [
       {
-        src: "/logo.svg",
+        src: "/logo-mark.svg",
         sizes: "any",
         type: "image/svg+xml",
         purpose: "any",
       },
       {
         src: "/icons/icon-maskable.svg",
-        sizes: "any",
+        sizes: "512x512",
         type: "image/svg+xml",
         purpose: "maskable",
       },

@@ -43,10 +43,11 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href={localePath(locale, "/")} className="group">
             <BrandLogo
-              size={40}
-              showText
-              name={dict.brand.name}
+              height={40}
+              responsive
+              showTagline
               tagline={dict.brand.tagline}
+              priority
             />
           </Link>
 
@@ -208,7 +209,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <BrandLogo size={40} name={dict.brand.name} />
+              <BrandLogo height={36} />
             </div>
             <p className="text-ink-400 text-sm leading-relaxed">{dict.footer.about}</p>
             <div className="flex gap-4 mt-6">

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <!-- Viewfinder corners -->
+  <path d="M22 34V22H34" stroke="#f8f4ef" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66 22H78V34" stroke="#f8f4ef" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 66V78H34" stroke="#f8f4ef" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66 78H78V66" stroke="#f8f4ef" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Tally light -->
+  <rect x="67" y="24" width="7" height="7" rx="1" fill="#FFB800"/>
+  <!-- Lens rings -->
+  <circle cx="50" cy="50" r="19" stroke="#E20612" stroke-width="2.2"/>
+  <circle cx="50" cy="50" r="13.5" stroke="#E20612" stroke-width="1.6"/>
+  <!-- Lens glass -->
+  <circle cx="50" cy="50" r="9" fill="#0a0a0a"/>
+  <path
+    d="M46 44.5a5.5 5.5 0 1 1 2.2 10.8 4 4 0 0 0-1.8-7.2 4 4 0 0 0-2.4 3.4z"
+    fill="#f8f4ef"
+    opacity="0.92"
+  />
+</svg>

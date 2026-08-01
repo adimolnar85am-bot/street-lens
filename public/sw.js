@@ -1,8 +1,16 @@
-const CACHE = "street-lens-v1";
+const CACHE = "street-lens-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(["/logo.svg", "/ro"]))
+    caches.open(CACHE).then((cache) =>
+      cache.addAll([
+        "/logo.svg",
+        "/logo-mark.svg",
+        "/icons/icon-192.png",
+        "/icons/icon-512.png",
+        "/ro",
+      ])
+    )
   );
   self.skipWaiting();
 });

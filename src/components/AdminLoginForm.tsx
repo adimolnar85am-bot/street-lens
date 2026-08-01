@@ -42,12 +42,10 @@ export function AdminLoginForm() {
         onSubmit={onSubmit}
         className="w-full max-w-sm bg-ink-900 border border-ink-700 rounded-xl p-8"
       >
-        <div className="flex items-center gap-3 mb-6">
-          <BrandLogo size={40} name="Street Lens" />
-          <div>
-            <h1 className="font-display text-2xl">Admin</h1>
-            <p className="text-xs text-ink-400">Acces restricționat</p>
-          </div>
+        <div className="flex flex-col items-center text-center mb-6">
+          <BrandLogo variant="stacked" height={88} priority />
+          <h1 className="font-display text-2xl mt-4">Admin</h1>
+          <p className="text-xs text-ink-400">Acces restricționat</p>
         </div>
 
         <label className="block text-sm text-ink-300 mb-2">Parolă</label>
