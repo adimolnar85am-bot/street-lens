@@ -1,0 +1,263 @@
+{
+  "newsletter": {
+    "ro": {
+      "title": "Newsletter",
+      "body": "Primești tema photowalk-ului și noutățile comunității.",
+      "emailPlaceholder": "email@exemplu.ro",
+      "subject": "Street Lens — Newsletter",
+      "contactEmail": "hello@streetlens.ro"
+    },
+    "en": {
+      "title": "Newsletter",
+      "body": "Get the photowalk theme and community news.",
+      "emailPlaceholder": "email@example.com",
+      "subject": "Street Lens — Newsletter",
+      "contactEmail": "hello@streetlens.ro"
+    }
+  },
+  "blog": {
+    "ro": {
+      "pageTitle": "Blog",
+      "pageBody": "Articole, tehnici și povești din comunitatea Street Lens."
+    },
+    "en": {
+      "pageTitle": "Blog",
+      "pageBody": "Articles, techniques, and stories from the Street Lens community."
+    }
+  },
+  "hero": {
+    "ro": {
+      "body": "Ne vedem sâmbăta pe stradă — cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
+      "ctaWalk": "Photowalk #1",
+      "ctaContest": "Tema #1 · Reflexii"
+    },
+    "en": {
+      "body": "We meet on the street every Saturday — with a theme, a route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what matters is what you see, not what's in your bag.",
+      "ctaWalk": "Photowalk #1",
+      "ctaContest": "Theme #1 · Reflections"
+    }
+  },
+  "about": {
+    "ro": {
+      "pageBody": "Street Lens e comunitatea de street photography din România — un loc unde ne întâlnim, învățăm și documentăm orașul împreună.",
+      "missionBody": "Credem că strada e cel mai bun atelier foto. Digital, analog sau telefon — fiecare format are loc. Ne propunem să construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri săptămânale, concursuri și resurse pentru toți nivelurile.",
+      "howBody": "În fiecare sâmbătă organizăm un photowalk cu temă aleasă de comunitate. După walk, pin-urile și pozele apar pe harta interactivă. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor."
+    },
+    "en": {
+      "pageBody": "Street Lens is Romania's street photography community — a place to meet, learn, and document the city together.",
+      "missionBody": "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We aim to build an active, accessible, inspired community with weekly photowalks, contests, and resources for all levels.",
+      "howBody": "Every Saturday we run a photowalk with a community-chosen theme. After the walk, pins and photos appear on the interactive map. Each month we launch a numbered contest theme — from #1 upward. Gallery, blog, and guides are open to everyone."
+    }
+  },
+  "contest": {
+    "active": {
+      "id": "c-1",
+      "themeNumber": 1,
+      "deadline": "2026-08-31",
+      "submissions": 47,
+      "uploadSubject": "Street Lens — Concurs Tema #1",
+      "ro": {
+        "title": "Tema #1: Reflexii",
+        "theme": "Orice reflexie — geamuri, bălți, oglinzi, ecrane, lumină de seară",
+        "prize": "Feature în galerie + print exclusiv",
+        "pageBody": "Provocări lunare cu teme alese de comunitate. Trimite fotografia ta și ai șansa să fii featured în galerie și pe rețelele sociale."
+      },
+      "en": {
+        "title": "Theme #1: Reflections",
+        "theme": "Any reflection — windows, puddles, mirrors, screens, evening light",
+        "prize": "Gallery feature + exclusive print",
+        "pageBody": "Monthly challenges with community themes. Submit your photo for a chance to be featured in the gallery and on socials."
+      }
+    }
+  },
+  "contestRules": {
+    "ro": {
+      "pageTitle": "Regulament concurs",
+      "pageBody": "Regulile oficiale pentru concursurile Street Lens. Tema activă este #1 — Reflexii.",
+      "sections": [
+        {
+          "title": "1. Eligibilitate",
+          "body": "Pot participa toți membrii comunității Street Lens, indiferent de format (digital, analog, telefon). Fotografia trebuie să fie realizată de participant și să respecte tema activă."
+        },
+        {
+          "title": "2. Trimitere",
+          "body": "Trimite o singură fotografie per temă, la rezoluție maximă, prin email la hello@streetlens.ro cu subiectul „Concurs Tema #X”. Include numele tău și locația (oraș). Deadline-ul este afișat pe pagina concursului."
+        },
+        {
+          "title": "3. Jurizare",
+          "body": "Juriul comunității evaluează compoziția, relevanța temei, originalitatea și impactul emoțional. Decizia juriului este finală."
+        },
+        {
+          "title": "4. Premii",
+          "body": "Câștigătorul primește feature în galerie, promovare pe rețelele Street Lens și un print exclusiv numerotat. Premiile nu pot fi schimbate în bani."
+        },
+        {
+          "title": "5. Drepturi de autor",
+          "body": "Participantul păstrează drepturile de autor. Prin trimitere, acordă Street Lens dreptul de a afișa fotografia pe site și social media, cu credit. Redistribuirea de către terți este interzisă."
+        }
+      ]
+    },
+    "en": {
+      "pageTitle": "Contest rules",
+      "pageBody": "Official rules for Street Lens contests. The active theme is #1 — Reflections.",
+      "sections": [
+        {
+          "title": "1. Eligibility",
+          "body": "All Street Lens community members may enter, any format (digital, analog, phone). The photo must be your own work and match the active theme."
+        },
+        {
+          "title": "2. Submission",
+          "body": "Submit one photo per theme at maximum resolution by email to hello@streetlens.ro with subject \"Contest Theme #X\". Include your name and city. The deadline is shown on the contest page."
+        },
+        {
+          "title": "3. Judging",
+          "body": "The community jury evaluates composition, theme relevance, originality, and emotional impact. The jury's decision is final."
+        },
+        {
+          "title": "4. Prizes",
+          "body": "The winner receives a gallery feature, promotion on Street Lens socials, and a numbered exclusive print. Prizes cannot be exchanged for cash."
+        },
+        {
+          "title": "5. Copyright",
+          "body": "You keep copyright. By submitting, you grant Street Lens the right to display the photo on the site and social media with credit. Third-party redistribution is prohibited."
+        }
+      ]
+    }
+  },
+  "articles": [
+    {
+      "id": "digital-1",
+      "categorySlug": "digital",
+      "date": "2026-07-15",
+      "published": true,
+      "ro": {
+        "title": "Setări ideale pentru street photography digital",
+        "excerpt": "Aperture priority, zone focus, și de ce ISO auto salvează momentul pe stradă.",
+        "body": ""
+      },
+      "en": {
+        "title": "Ideal settings for digital street photography",
+        "excerpt": "Aperture priority, zone focus, and why auto ISO saves the moment on the street.",
+        "body": ""
+      }
+    },
+    {
+      "id": "digital-2",
+      "categorySlug": "digital",
+      "date": "2026-07-08",
+      "published": true,
+      "ro": {
+        "title": "Portret candid în mulțime",
+        "excerpt": "Cum izolezi subiectul pe o stradă aglomerată — telephoto scurt și adâncime de câmp.",
+        "body": ""
+      },
+      "en": {
+        "title": "Candid portrait in a crowd",
+        "excerpt": "How to isolate a subject on a busy street — short telephoto and depth of field.",
+        "body": ""
+      }
+    },
+    {
+      "id": "analog-1",
+      "categorySlug": "analog",
+      "date": "2026-07-10",
+      "published": true,
+      "ro": {
+        "title": "Ghid pentru începători: primul tău roll de street",
+        "excerpt": "Ce film alegi, cum expui, unde developi.",
+        "body": ""
+      },
+      "en": {
+        "title": "Beginner guide: your first street film roll",
+        "excerpt": "Which film to pick, how to expose, where to develop.",
+        "body": ""
+      }
+    },
+    {
+      "id": "analog-2",
+      "categorySlug": "analog",
+      "date": "2026-06-28",
+      "published": true,
+      "ro": {
+        "title": "Alb-negru pe ploaie",
+        "excerpt": "Cum funcționează grain-ul și contrastul când vremea lucrează pentru tine.",
+        "body": ""
+      },
+      "en": {
+        "title": "Black & white in the rain",
+        "excerpt": "How grain and contrast work when the weather is on your side.",
+        "body": ""
+      }
+    },
+    {
+      "id": "telefon-1",
+      "categorySlug": "telefon",
+      "date": "2026-07-20",
+      "published": true,
+      "ro": {
+        "title": "Street pe telefon noaptea",
+        "excerpt": "Lumină artificială, ISO și cum eviți zgomotul excesiv pe mobil.",
+        "body": ""
+      },
+      "en": {
+        "title": "Street on phone at night",
+        "excerpt": "Artificial light, ISO, and how to keep noise under control on mobile.",
+        "body": ""
+      }
+    },
+    {
+      "id": "telefon-2",
+      "categorySlug": "telefon",
+      "date": "2026-07-05",
+      "published": true,
+      "ro": {
+        "title": "Vitrine și reflexii",
+        "excerpt": "Cum folosești geamurile ca aliat în street photography mobil.",
+        "body": ""
+      },
+      "en": {
+        "title": "Windows and reflections",
+        "excerpt": "How to use glass as an ally in mobile street photography.",
+        "body": ""
+      }
+    }
+  ],
+  "photowalks": [
+    {
+      "id": "pw-1",
+      "date": "2026-07-26",
+      "participantCount": 18,
+      "center": [44.4268, 26.1025],
+      "ro": {
+        "title": "Photowalk #1 — Umbra & Lumină",
+        "theme": "Contrast urban",
+        "location": "Centrul Vechi, București",
+        "description": "Am explorat străzile înguste unde lumina se filtrează printre clădiri, creând scene dramatice de contrast."
+      },
+      "en": {
+        "title": "Photowalk #1 — Shadow & Light",
+        "theme": "Urban contrast",
+        "location": "Old Town, Bucharest",
+        "description": "We explored narrow streets where light filters between buildings, creating dramatic contrast scenes."
+      }
+    },
+    {
+      "id": "pw-2",
+      "date": "2026-07-19",
+      "participantCount": 22,
+      "center": [44.4271, 26.1026],
+      "ro": {
+        "title": "Photowalk #2 — Oamenii orașului",
+        "theme": "Portret de stradă",
+        "location": "Piața Unirii · stradă",
+        "description": "O sesiune dedicată oamenilor — expresii, gesturi și momente candid surprinse în fluxul urban."
+      },
+      "en": {
+        "title": "Photowalk #2 — People of the city",
+        "theme": "Street portrait",
+        "location": "Unirii Square · street",
+        "description": "A session dedicated to people — expressions, gestures, and candid moments caught in the urban flow."
+      }
+    }
+  ]
+}

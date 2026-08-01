@@ -8,6 +8,8 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 
+import { getSiteContent } from "@/lib/content-server";
+
 export const dynamic = "force-dynamic";
 
 export default async function ConcursuriPage({
@@ -19,7 +21,8 @@ export default async function ConcursuriPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const activeContest = getActiveContest(dict);
+  const activeContest = getActiveContest(dict, locale);
+  const contestCopy = getSiteContent().contest.active[locale];
 
   return (
     <div>
@@ -39,7 +42,7 @@ export default async function ConcursuriPage({
             </h1>
           </div>
           <p className="text-ink-300 max-w-2xl leading-relaxed">
-            {dict.contest.pageBody}
+            {contestCopy.pageBody}
           </p>
         </div>
       </div>
@@ -87,7 +90,7 @@ export default async function ConcursuriPage({
 
             <div className="flex flex-col sm:flex-row flex-wrap gap-4">
               <a
-                href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.contest.uploadSubject)}`}
+                href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(getSiteContent().contest.active.uploadSubject)}`}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-signal hover:bg-signal-light text-ink font-medium rounded-sm transition-colors justify-center"
               >
                 <Upload className="w-5 h-5" />

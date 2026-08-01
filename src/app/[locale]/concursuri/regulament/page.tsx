@@ -3,7 +3,10 @@ import { ArrowLeft, FileText } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
+import { getContestRulesContent } from "@/lib/content-server";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function RegulamentPage({
   params,
@@ -14,14 +17,7 @@ export default async function RegulamentPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-
-  const sections = [
-    { title: dict.contestRules.eligibilityTitle, body: dict.contestRules.eligibilityBody },
-    { title: dict.contestRules.submissionTitle, body: dict.contestRules.submissionBody },
-    { title: dict.contestRules.judgingTitle, body: dict.contestRules.judgingBody },
-    { title: dict.contestRules.prizesTitle, body: dict.contestRules.prizesBody },
-    { title: dict.contestRules.copyrightTitle, body: dict.contestRules.copyrightBody },
-  ];
+  const rules = getContestRulesContent(locale);
 
   return (
     <div>
@@ -37,15 +33,15 @@ export default async function RegulamentPage({
           <div className="flex items-center gap-3 mb-4">
             <FileText className="w-8 h-8 text-signal/80" />
             <h1 className="font-display text-4xl lg:text-5xl text-cream">
-              {dict.contestRules.pageTitle}
+              {rules.pageTitle}
             </h1>
           </div>
-          <p className="text-ink-300 leading-relaxed">{dict.contestRules.pageBody}</p>
+          <p className="text-ink-300 leading-relaxed">{rules.pageBody}</p>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
-        {sections.map((section) => (
+        {rules.sections.map((section) => (
           <section key={section.title}>
             <h2 className="font-display text-xl text-cream mb-3">{section.title}</h2>
             <p className="text-ink-300 leading-relaxed">{section.body}</p>

@@ -14,7 +14,7 @@ export function ContestSection({
   locale: Locale;
   dict: Dictionary;
 }) {
-  const activeContest = getActiveContest(dict);
+  const activeContest = getActiveContest(dict, locale);
 
   return (
     <section className="py-20 lg:py-28 bg-ink">

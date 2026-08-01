@@ -5,6 +5,10 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 
+import { getAboutContent } from "@/lib/content-server";
+
+export const dynamic = "force-dynamic";
+
 export default async function DesprePage({
   params,
 }: {
@@ -14,6 +18,7 @@ export default async function DesprePage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
+  const about = getAboutContent(locale);
 
   const values = [
     { icon: Heart, title: dict.about.value1Title, body: dict.about.value1Body },
@@ -35,7 +40,7 @@ export default async function DesprePage({
           <h1 className="font-display text-4xl lg:text-6xl text-cream mb-6">
             {dict.about.pageTitle}
           </h1>
-          <p className="text-ink-300 text-lg leading-relaxed">{dict.about.pageBody}</p>
+          <p className="text-ink-300 text-lg leading-relaxed">{about.pageBody}</p>
         </div>
       </div>
 
@@ -44,14 +49,14 @@ export default async function DesprePage({
           <h2 className="font-display text-2xl lg:text-3xl text-cream mb-4">
             {dict.about.missionTitle}
           </h2>
-          <p className="text-ink-300 leading-relaxed">{dict.about.missionBody}</p>
+          <p className="text-ink-300 leading-relaxed">{about.missionBody}</p>
         </section>
 
         <section>
           <h2 className="font-display text-2xl lg:text-3xl text-cream mb-4">
             {dict.about.howTitle}
           </h2>
-          <p className="text-ink-300 leading-relaxed">{dict.about.howBody}</p>
+          <p className="text-ink-300 leading-relaxed">{about.howBody}</p>
         </section>
 
         <section>

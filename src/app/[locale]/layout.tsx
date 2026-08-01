@@ -6,6 +6,7 @@ import { HtmlLang } from "@/components/HtmlLang";
 import { Header, Footer } from "@/components/Header";
 import { OrganizationJsonLd } from "@/components/JsonLd";
 import { buildPageMetadata } from "@/lib/metadata";
+import { getSiteContent } from "@/lib/content-server";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -40,9 +41,14 @@ export default async function LocaleLayout({
 
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
+  const site = getSiteContent();
+  const content = {
+    newsletter: site.newsletter[locale],
+    hero: site.hero[locale],
+  };
 
   return (
-    <LocaleProvider locale={locale} dict={dict}>
+    <LocaleProvider locale={locale} dict={dict} content={content}>
       <OrganizationJsonLd />
       <HtmlLang />
       <Header />

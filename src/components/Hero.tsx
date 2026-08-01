@@ -21,7 +21,7 @@ interface HeroProps {
 }
 
 export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
-  const { locale, dict } = useLocale();
+  const { locale, dict, content } = useLocale();
   const [active, setActive] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -90,7 +90,7 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
             <span className="text-signal">{dict.hero.title2}</span>
           </h1>
           <p className="text-base sm:text-lg text-ink-200/95 leading-relaxed mb-8 max-w-xl">
-            {dict.hero.body}
+            {content.hero.body}
           </p>
 
           <div className="flex flex-wrap gap-3 sm:gap-4 mb-8">
@@ -98,7 +98,7 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
               href={localePath(locale, `/photowalks/${nextWalk.id}`)}
               className="inline-flex items-center gap-2 px-6 py-3.5 bg-signal hover:bg-signal-light text-ink font-bold rounded-sm transition-colors text-sm"
             >
-              {dict.hero.ctaWalk}
+              {content.hero.ctaWalk}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
@@ -113,7 +113,7 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
               className="inline-flex items-center gap-2 px-5 py-3.5 text-cream/75 hover:text-cream text-sm font-medium transition-colors"
             >
               <Trophy className="w-4 h-4 text-signal/80" />
-              {dict.hero.ctaContest}
+              {content.hero.ctaContest}
             </Link>
           </div>
 

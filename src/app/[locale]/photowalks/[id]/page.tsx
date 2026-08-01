@@ -9,12 +9,14 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
 
+import { getSiteContent } from "@/lib/content-server";
+
 interface Props {
   params: Promise<{ locale: string; id: string }>;
 }
 
 export async function generateStaticParams() {
-  const ids = ["pw-1", "pw-2"];
+  const ids = getSiteContent().photowalks.map((w) => w.id);
   return locales.flatMap((locale) => ids.map((id) => ({ locale, id })));
 }
 
@@ -23,7 +25,7 @@ export default async function PhotowalkDetailPage({ params }: Props) {
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const photowalks = getPhotowalks(dict);
+  const photowalks = getPhotowalks(dict, locale);
   const walk = photowalks.find((w) => w.id === id);
   if (!walk) notFound();
 

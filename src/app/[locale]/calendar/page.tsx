@@ -18,8 +18,8 @@ export default async function CalendarPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const walks = getPhotowalks(dict);
-  const contest = getActiveContest(dict);
+  const walks = getPhotowalks(dict, locale);
+  const contest = getActiveContest(dict, locale);
   const nextWalk = walks[0];
 
   return (

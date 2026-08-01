@@ -19,7 +19,7 @@ export default async function PhotowalksPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const photowalks = getPhotowalks(dict);
+  const photowalks = getPhotowalks(dict, locale);
 
   return (
     <div className="min-h-screen">

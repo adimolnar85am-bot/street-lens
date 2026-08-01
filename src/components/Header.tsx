@@ -188,7 +188,7 @@ export function Header() {
 
 export function Footer() {
   const pathname = usePathname();
-  const { locale, dict } = useLocale();
+  const { locale, dict, content } = useLocale();
 
   if (pathname?.startsWith("/admin")) return null;
 
@@ -273,18 +273,18 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-cream font-medium mb-4">{dict.footer.newsletter}</h4>
-            <p className="text-sm text-ink-400 mb-4">{dict.footer.newsletterBody}</p>
+            <h4 className="text-cream font-medium mb-4">{content.newsletter.title}</h4>
+            <p className="text-sm text-ink-400 mb-4">{content.newsletter.body}</p>
             <form
               className="flex gap-2"
-              action={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.common.newsletterSubject)}`}
+              action={`mailto:${content.newsletter.contactEmail}?subject=${encodeURIComponent(content.newsletter.subject)}`}
               method="POST"
               encType="text/plain"
             >
               <input
                 type="email"
                 name="email"
-                placeholder={dict.footer.emailPlaceholder}
+                placeholder={content.newsletter.emailPlaceholder}
                 className="flex-1 px-4 py-2.5 bg-ink-800 border border-ink-700 rounded-sm text-sm text-cream placeholder:text-ink-500 focus:outline-none focus:border-signal"
               />
               <button

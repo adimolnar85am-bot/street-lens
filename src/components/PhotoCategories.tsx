@@ -19,7 +19,7 @@ export function PhotoCategories({
   locale: Locale;
   dict: Dictionary;
 }) {
-  const photoCategories = getPhotoCategories(dict);
+  const photoCategories = getPhotoCategories(dict, locale);
 
   return (
     <section className="py-20 lg:py-28 bg-cream section-accent">

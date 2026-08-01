@@ -24,8 +24,8 @@ export default async function HomePage({
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
   const slides = getHeroSlides();
-  const walks = getPhotowalks(dict);
-  const contest = getActiveContest(dict);
+  const walks = getPhotowalks(dict, locale);
+  const contest = getActiveContest(dict, locale);
   const photoCount = getPhotoCount();
 
   return (

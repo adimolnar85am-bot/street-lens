@@ -14,7 +14,7 @@ export function PhotowalksSection({
   locale: Locale;
   dict: Dictionary;
 }) {
-  const photowalks = getPhotowalks(dict);
+  const photowalks = getPhotowalks(dict, locale);
   const latest = photowalks[0];
 
   return (
