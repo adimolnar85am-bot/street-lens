@@ -107,19 +107,23 @@ body {
 }
 
 .logo-mark-focus {
-  animation: logoMarkFocus 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: logoMarkFocus 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transform-origin: center;
 }
 
-/* Text slides out from behind the mark — always ends visible */
+/* Visible by default; animation is a progressive enhancement */
 .logo-word-reveal {
   display: inline-flex;
-  animation: logoWordReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  opacity: 1;
+  transform: translateX(0);
+  animation: logoWordReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
 }
 
 .logo-word-reveal-down {
   display: inline-flex;
-  animation: logoWordRevealDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  opacity: 1;
+  transform: translateY(0);
+  animation: logoWordRevealDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

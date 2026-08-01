@@ -56,7 +56,7 @@ export function BrandLogo({
         animate={animate}
         className="shrink-0"
       />
-      <span className="min-w-0 overflow-hidden inline-flex">
+      <span className="min-w-0 inline-flex">
         <StreetlensWordmark animate={animate} size="header" />
       </span>
     </span>

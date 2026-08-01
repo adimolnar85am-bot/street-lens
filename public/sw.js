@@ -1,4 +1,4 @@
-const CACHE = "street-lens-v5";
+const CACHE = "street-lens-v6";
 
 const PRECACHE = [
   "/icons/icon-192.png",

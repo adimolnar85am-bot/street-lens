@@ -103,9 +103,8 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
             {dict.hero.locationBadge} · {dict.hero.eyebrow}
           </p>
 
-          <h1 className="font-display text-[2.75rem] leading-[0.92] sm:text-6xl lg:text-8xl text-cream mb-5 sm:mb-6 tracking-tight">
-            {dict.hero.title1}
-            <br />
+          <h1 className="font-display text-[2.75rem] leading-[0.92] sm:text-6xl lg:text-8xl text-cream mb-5 sm:mb-6 tracking-tight text-balance">
+            {dict.hero.title1}{" "}
             <span className="text-signal">{dict.hero.title2}</span>
           </h1>
 

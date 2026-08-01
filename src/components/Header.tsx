@@ -43,7 +43,7 @@ export function Header() {
         <div className="flex items-center justify-between gap-2 sm:gap-4 h-16 lg:h-20">
           <Link
             href={localePath(locale, "/")}
-            className="group min-w-0 flex-1 overflow-hidden pr-1"
+            className="group min-w-0 flex-1 pr-1"
           >
             <BrandLogo height={44} animate />
           </Link>
