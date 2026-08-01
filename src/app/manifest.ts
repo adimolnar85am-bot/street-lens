@@ -11,25 +11,13 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     id: "/",
     display: "standalone",
-    orientation: "portrait",
+    orientation: "any",
     background_color: "#0a0a0a",
     theme_color: "#0a0a0a",
     lang: "ro",
     dir: "ltr",
     categories: ["photography", "social"],
     icons: [
-      {
-        src: "/logo-mark.svg",
-        sizes: "any",
-        type: "image/svg+xml",
-        purpose: "any",
-      },
-      {
-        src: "/icons/icon-maskable.svg",
-        sizes: "512x512",
-        type: "image/svg+xml",
-        purpose: "maskable",
-      },
       {
         src: "/icons/icon-192.png",
         sizes: "192x192",
@@ -43,10 +31,50 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: "/icons/icon-any.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+        purpose: "any",
+      },
+      {
+        src: "/icons/icon-maskable-512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
+      },
+      {
+        src: "/icons/icon-maskable.svg",
+        sizes: "512x512",
+        type: "image/svg+xml",
+        purpose: "maskable",
+      },
+    ],
+    shortcuts: [
+      {
+        name: "Galerie",
+        short_name: "Galerie",
+        description: "Vezi galeria streetlens",
+        url: "/ro/galerie",
+        icons: [
+          {
+            src: "/icons/icon-192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+        ],
+      },
+      {
+        name: "Photowalks",
+        short_name: "Walks",
+        description: "Următoarele photowalk-uri",
+        url: "/ro/photowalks",
+        icons: [
+          {
+            src: "/icons/icon-192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+        ],
       },
     ],
     screenshots: [],

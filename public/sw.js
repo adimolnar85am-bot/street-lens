@@ -1,22 +1,29 @@
-const CACHE = "street-lens-v4";
+const CACHE = "street-lens-v5";
+
+const PRECACHE = [
+  "/icons/icon-192.png",
+  "/icons/icon-512.png",
+  "/icons/icon-any.svg",
+  "/apple-touch-icon.png",
+  "/logo-mark.svg",
+  "/ro",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) =>
-      cache.addAll([
-        "/logo.svg",
-        "/logo-mark.svg",
-        "/icons/icon-192.png",
-        "/icons/icon-512.png",
-        "/ro",
-      ])
-    )
+    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      )
+      .then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener("fetch", (event) => {
