@@ -3,12 +3,23 @@ import {
   ADMIN_COOKIE,
   checkPassword,
   createAdminToken,
+  isAdminConfigured,
 } from "@/lib/admin-auth";
 
 export async function POST(request: Request) {
   try {
+    if (!isAdminConfigured()) {
+      return NextResponse.json(
+        {
+          error:
+            "Admin neconfigurat pe server. Setează ADMIN_PASSWORD și ADMIN_SECRET (Production pe Vercel).",
+        },
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
-    const password = String(body?.password || "");
+    const password = String(body?.password || "").trim();
 
     if (!checkPassword(password)) {
       return NextResponse.json(

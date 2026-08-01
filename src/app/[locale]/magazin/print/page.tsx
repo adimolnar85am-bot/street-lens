@@ -2,6 +2,7 @@ import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { getPrintItems } from "@/lib/data-server";
+import { getShopContent, getSiteContent } from "@/lib/content-server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
@@ -18,7 +19,9 @@ export default async function PrintPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const printItems = getPrintItems(dict);
+  const shop = getShopContent(locale);
+  const contactEmail = getSiteContent().newsletter[locale].contactEmail;
+  const printItems = getPrintItems(dict, locale);
 
   return (
     <div>
@@ -29,15 +32,15 @@ export default async function PrintPage({
             className="inline-flex items-center gap-2 text-ink-500 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            {dict.shop.pageTitle}
+            {shop.pageTitle}
           </Link>
           <div className="flex items-center gap-3 mb-4">
             <ShoppingBag className="w-8 h-8 text-signal" />
             <h1 className="font-display text-4xl lg:text-6xl text-ink">
-              {dict.shop.printPageTitle}
+              {shop.printPageTitle}
             </h1>
           </div>
-          <p className="text-ink-500 max-w-2xl leading-relaxed">{dict.shop.printPageBody}</p>
+          <p className="text-ink-500 max-w-2xl leading-relaxed">{shop.printPageBody}</p>
         </div>
       </div>
 
@@ -57,22 +60,22 @@ export default async function PrintPage({
                 <h2 className="text-ink font-medium">{item.name}</h2>
                 <p className="text-ink-700 font-display text-xl mt-2">{item.price} RON</p>
                 <a
-                  href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
+                  href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
                   className="mt-4 inline-block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
                 >
-                  {dict.shop.addToCart}
+                  {shop.addToCart}
                 </a>
               </div>
             ))}
           </div>
 
           <div className="mt-16 p-10 bg-ink rounded-2xl text-center">
-            <p className="text-ink-400 max-w-lg mx-auto mb-6">{dict.shop.printSectionBody}</p>
+            <p className="text-ink-400 max-w-lg mx-auto mb-6">{shop.printSectionBody}</p>
             <a
-              href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.shop.orderSubject)}&body=${encodeURIComponent(dict.shop.customPrint)}`}
+              href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(shop.customPrint)}`}
               className="inline-block px-6 py-3 bg-signal hover:bg-signal-light text-ink text-sm font-bold rounded-sm transition-colors"
             >
-              {dict.shop.customPrint}
+              {shop.customPrint}
             </a>
           </div>
         </div>

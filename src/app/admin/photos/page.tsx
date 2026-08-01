@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { EyeOff, RotateCcw, Trash2, LogOut, RefreshCw } from "lucide-react";
+import { EyeOff, RotateCcw, Trash2, RefreshCw } from "lucide-react";
 import { ProtectedImage } from "@/components/ProtectedImage";
+import { AdminNav } from "@/components/AdminShell";
 import { cn } from "@/lib/utils";
 
 type AdminPhoto = {
@@ -74,44 +74,22 @@ export default function AdminPhotosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-20 bg-ink/95 backdrop-blur border-b border-ink-800">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs text-signal/80 font-semibold tracking-widest uppercase">
-              Admin
-            </p>
-            <h1 className="font-display text-2xl">Curățare poze</h1>
-            <p className="text-xs text-ink-400 mt-1">
-              {visible} vizibile pe site · {hidden} eliminate · {photos.length} total
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={load}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-ink-700 rounded-sm hover:border-ink-500"
-            >
-              <RefreshCw className="w-4 h-4" />
-              Reîncarcă
-            </button>
-            <Link
-              href="/"
-              className="px-3 py-2 text-sm text-ink-300 hover:text-cream"
-            >
-              Site
-            </Link>
-            <button
-              type="button"
-              onClick={logout}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-ink-800 rounded-sm hover:bg-ink-700"
-            >
-              <LogOut className="w-4 h-4" />
-              Ieșire
-            </button>
-          </div>
-        </div>
+      <AdminNav
+        title="Curățare poze"
+        subtitle={`${visible} vizibile · ${hidden} eliminate · ${photos.length} total`}
+        onLogout={logout}
+      />
 
-        <div className="max-w-7xl mx-auto px-4 pb-4 flex gap-2">
+      <div className="max-w-7xl mx-auto px-4 pb-4 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={load}
+          className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-ink-700 rounded-sm hover:border-ink-500"
+        >
+          <RefreshCw className="w-4 h-4" />
+          Reîncarcă
+        </button>
+        <div className="flex gap-2">
           {(
             [
               ["all", "Toate"],
@@ -134,7 +112,7 @@ export default function AdminPhotosPage() {
             </button>
           ))}
         </div>
-      </header>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {loading ? (

@@ -1,165 +1,138 @@
 import "server-only";
 import { photoForFrame, getGalleryPreview } from "./photos-server";
+import {
+  getPublishedArticles,
+  getSiteContent,
+} from "./content-server";
 import type { Contest, MerchItem, PhotoCategory, Photowalk } from "./data";
 import type { Dictionary } from "@/i18n/dictionaries";
+import type { Locale } from "@/i18n/config";
 
-export function getPhotowalks(dict: Dictionary): Photowalk[] {
-  return [
-    {
-      id: "pw-1",
-      title: dict.photowalks.pw1Title,
-      theme: dict.photowalks.pw1Theme,
-      date: "2026-07-26",
-      location: dict.photowalks.pw1Location,
-      coverImage: photoForFrame("landscape", 0),
-      description: dict.photowalks.pw1Desc,
-      participantCount: 18,
-      center: [44.4268, 26.1025],
-      pins: [
-        {
-          id: "pin-1",
-          lat: 44.4289,
-          lng: 26.1011,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 1),
-          theme: dict.photowalks.pw1Theme,
-          date: "2026-07-26",
-        },
-        {
-          id: "pin-2",
-          lat: 44.4255,
-          lng: 26.1042,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 2),
-          theme: dict.photowalks.pw1Theme,
-          date: "2026-07-26",
-        },
-        {
-          id: "pin-3",
-          lat: 44.4272,
-          lng: 26.0998,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 3),
-          theme: dict.photowalks.pw1Theme,
-          date: "2026-07-26",
-        },
-      ],
-    },
-    {
-      id: "pw-2",
-      title: dict.photowalks.pw2Title,
-      theme: dict.photowalks.pw2Theme,
-      date: "2026-07-19",
-      location: dict.photowalks.pw2Location,
-      coverImage: photoForFrame("landscape", 4),
-      description: dict.photowalks.pw2Desc,
-      participantCount: 22,
-      center: [44.4271, 26.1026],
-      pins: [
-        {
-          id: "pin-4",
-          lat: 44.4265,
-          lng: 26.103,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 5),
-          theme: dict.photowalks.pw2Theme,
-          date: "2026-07-19",
-        },
-        {
-          id: "pin-5",
-          lat: 44.428,
-          lng: 26.1015,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 6),
-          theme: dict.photowalks.pw2Theme,
-          date: "2026-07-19",
-        },
-        {
-          id: "pin-6",
-          lat: 44.4275,
-          lng: 26.1005,
-          title: dict.photowalks.trailFrame,
-          photographer: dict.gallery.photographer,
-          image: photoForFrame("landscape", 7),
-          theme: dict.photowalks.pw2Theme,
-          date: "2026-07-19",
-        },
-      ],
-    },
-  ];
+const PHOTOWALK_PINS: Record<
+  string,
+  { id: string; lat: number; lng: number; photoIndex: number }[]
+> = {
+  "pw-1": [
+    { id: "pin-1", lat: 44.4289, lng: 26.1011, photoIndex: 1 },
+    { id: "pin-2", lat: 44.4255, lng: 26.1042, photoIndex: 2 },
+    { id: "pin-3", lat: 44.4272, lng: 26.0998, photoIndex: 3 },
+  ],
+  "pw-2": [
+    { id: "pin-4", lat: 44.4265, lng: 26.103, photoIndex: 5 },
+    { id: "pin-5", lat: 44.428, lng: 26.1015, photoIndex: 6 },
+    { id: "pin-6", lat: 44.4275, lng: 26.1005, photoIndex: 7 },
+  ],
+};
+
+export function getPhotowalks(dict: Dictionary, locale: Locale = "ro"): Photowalk[] {
+  const content = getSiteContent();
+  return content.photowalks.map((walk, index) => {
+    const copy = walk[locale];
+    const pinDefs = PHOTOWALK_PINS[walk.id] ?? [];
+    return {
+      id: walk.id,
+      title: copy.title,
+      theme: copy.theme,
+      date: walk.date,
+      location: copy.location,
+      coverImage: photoForFrame("landscape", index * 4),
+      description: copy.description,
+      participantCount: walk.participantCount,
+      center: walk.center,
+      pins: pinDefs.map((pin) => ({
+        id: pin.id,
+        lat: pin.lat,
+        lng: pin.lng,
+        title: dict.photowalks.trailFrame,
+        photographer: dict.gallery.photographer,
+        image: photoForFrame("landscape", pin.photoIndex),
+        theme: copy.theme,
+        date: walk.date,
+      })),
+    };
+  });
 }
 
-export function getActiveContest(dict: Dictionary): Contest {
+export function getActiveContest(dict: Dictionary, locale: Locale = "ro"): Contest {
+  const { active } = getSiteContent().contest;
+  const copy = active[locale];
   return {
-    id: "c-1",
-    title: dict.contest.title,
-    theme: dict.contest.theme,
-    themeNumber: 1,
-    deadline: "2026-08-31",
-    prize: dict.contest.prizeText,
+    id: active.id,
+    title: copy.title,
+    theme: copy.theme,
+    themeNumber: active.themeNumber,
+    deadline: active.deadline,
+    prize: copy.prize,
     image: photoForFrame("portrait", 0),
-    submissions: 47,
+    submissions: active.submissions,
   };
 }
 
-export function getPrintItems(dict: Dictionary): MerchItem[] {
-  return getMerchItems(dict).filter((item) => item.category === dict.shop.catPrint);
+export function getPrintItems(dict: Dictionary, locale: Locale = "ro"): MerchItem[] {
+  return getMerchItems(dict, locale).filter((item) => {
+    const { shop } = getSiteContent();
+    const copy = shop[locale];
+    return item.category === copy.catPrint;
+  });
 }
 
-export function getBlogArticles(dict: Dictionary) {
-  const categories = getPhotoCategories(dict);
-  return categories.flatMap((cat) =>
-    cat.articles.map((article, index) => ({
-      id: `${cat.slug}-${index + 1}`,
-      title: article.title,
-      excerpt: article.excerpt,
-      image: article.image,
-      date: article.date,
-      category: cat.title,
-      categorySlug: cat.slug,
-    }))
-  );
+export function getBlogArticles(dict: Dictionary, locale: Locale = "ro") {
+  const articles = getPublishedArticles(locale);
+  const categoryTitles: Record<string, string> = {
+    digital: dict.formats.digital.title,
+    analog: dict.formats.analog.title,
+    telefon: dict.formats.phone.title,
+  };
+  const photoOffsets: Record<string, number> = {
+    digital: 8,
+    analog: 10,
+    telefon: 12,
+  };
+
+  return articles.map((article, index) => ({
+    id: article.id,
+    title: article[locale].title,
+    excerpt: article[locale].excerpt,
+    body: article[locale].body,
+    image: photoForFrame(
+      "landscape",
+      (photoOffsets[article.categorySlug] ?? 8) + index % 2
+    ),
+    date: article.date,
+    category: categoryTitles[article.categorySlug] ?? article.categorySlug,
+    categorySlug: article.categorySlug,
+  }));
 }
 
-export function getMerchItems(dict: Dictionary): MerchItem[] {
-  return [
-    {
-      id: "m1",
-      name: dict.shop.tee,
-      price: 89,
-      image: photoForFrame("square", 0),
-      category: dict.shop.catTees,
-    },
-    {
-      id: "m2",
-      name: dict.shop.print1,
-      price: 145,
-      image: photoForFrame("square", 1),
-      category: dict.shop.catPrint,
-    },
-    {
-      id: "m3",
-      name: dict.shop.print2,
-      price: 120,
-      image: photoForFrame("square", 2),
-      category: dict.shop.catPrint,
-    },
-    {
-      id: "m4",
-      name: dict.shop.poster,
-      price: 95,
-      image: photoForFrame("square", 3),
-      category: dict.shop.catPrint,
-    },
-  ];
+export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchItem[] {
+  const { shop } = getSiteContent();
+  const copy = shop[locale];
+  const categoryLabels = { tees: copy.catTees, print: copy.catPrint };
+
+  return shop.items.map((item, index) => ({
+    id: item.id,
+    name: item[locale].name,
+    price: item.price,
+    image: photoForFrame("square", index),
+    category: categoryLabels[item.category],
+  }));
 }
 
-export function getPhotoCategories(dict: Dictionary): PhotoCategory[] {
+export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): PhotoCategory[] {
+  const articles = getPublishedArticles(locale);
+  const byCategory = (slug: string) =>
+    articles
+      .filter((a) => a.categorySlug === slug)
+      .map((a, i) => ({
+        title: a[locale].title,
+        excerpt: a[locale].excerpt,
+        image: photoForFrame(
+          "landscape",
+          slug === "digital" ? 8 + i : slug === "analog" ? 10 + i : 12 + i
+        ),
+        date: a.date,
+      }));
+
   return [
     {
       id: "digital",
@@ -169,20 +142,7 @@ export function getPhotoCategories(dict: Dictionary): PhotoCategory[] {
       description: dict.formats.digital.description,
       heroImage: photoForFrame("portrait", 1),
       bannerImage: photoForFrame("landscape", 14),
-      articles: [
-        {
-          title: dict.articles.digital1Title,
-          excerpt: dict.articles.digital1Excerpt,
-          image: photoForFrame("landscape", 8),
-          date: "2026-07-15",
-        },
-        {
-          title: dict.articles.digital2Title,
-          excerpt: dict.articles.digital2Excerpt,
-          image: photoForFrame("landscape", 9),
-          date: "2026-07-08",
-        },
-      ],
+      articles: byCategory("digital"),
     },
     {
       id: "analog",
@@ -192,20 +152,7 @@ export function getPhotoCategories(dict: Dictionary): PhotoCategory[] {
       description: dict.formats.analog.description,
       heroImage: photoForFrame("portrait", 2),
       bannerImage: photoForFrame("landscape", 15),
-      articles: [
-        {
-          title: dict.articles.analog1Title,
-          excerpt: dict.articles.analog1Excerpt,
-          image: photoForFrame("landscape", 10),
-          date: "2026-07-10",
-        },
-        {
-          title: dict.articles.analog2Title,
-          excerpt: dict.articles.analog2Excerpt,
-          image: photoForFrame("landscape", 11),
-          date: "2026-06-28",
-        },
-      ],
+      articles: byCategory("analog"),
     },
     {
       id: "telefon",
@@ -215,20 +162,7 @@ export function getPhotoCategories(dict: Dictionary): PhotoCategory[] {
       description: dict.formats.phone.description,
       heroImage: photoForFrame("portrait", 3),
       bannerImage: photoForFrame("landscape", 16),
-      articles: [
-        {
-          title: dict.articles.phone1Title,
-          excerpt: dict.articles.phone1Excerpt,
-          image: photoForFrame("landscape", 12),
-          date: "2026-07-20",
-        },
-        {
-          title: dict.articles.phone2Title,
-          excerpt: dict.articles.phone2Excerpt,
-          image: photoForFrame("landscape", 13),
-          date: "2026-07-05",
-        },
-      ],
+      articles: byCategory("telefon"),
     },
   ];
 }

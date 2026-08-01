@@ -53,11 +53,12 @@ export async function middleware(request: NextRequest) {
     }
 
     const token = request.cookies.get(ADMIN_COOKIE)?.value;
-    const ok = await verifyToken(
-      token,
-      process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD || "",
-      process.env.ADMIN_PASSWORD || ""
-    );
+    const secret =
+      process.env.ADMIN_SECRET?.trim() ||
+      process.env.ADMIN_PASSWORD?.trim() ||
+      "";
+    const password = process.env.ADMIN_PASSWORD?.trim() || "";
+    const ok = await verifyToken(token, secret, password);
 
     if (!ok) {
       if (pathname.startsWith("/api/admin")) {

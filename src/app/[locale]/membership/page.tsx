@@ -3,7 +3,10 @@ import { ArrowLeft, Heart, Check } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
+import { getMembershipContent, getSiteContent } from "@/lib/content-server";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function MembershipPage({
   params,
@@ -14,52 +17,13 @@ export default async function MembershipPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
+  const membership = getMembershipContent(locale);
+  const contactEmail = getSiteContent().newsletter[locale].contactEmail;
 
   const tiers = [
-    {
-      name: dict.membership.tierFree,
-      price: "0 RON",
-      period: dict.membership.forever,
-      features: [
-        dict.membership.freeF1,
-        dict.membership.freeF2,
-        dict.membership.freeF3,
-        dict.membership.freeF4,
-      ],
-      cta: dict.membership.ctaFree,
-      highlighted: false,
-      mailto: false,
-    },
-    {
-      name: dict.membership.tierCommunity,
-      price: "29 RON",
-      period: dict.membership.perMonth,
-      features: [
-        dict.membership.communityF1,
-        dict.membership.communityF2,
-        dict.membership.communityF3,
-        dict.membership.communityF4,
-        dict.membership.communityF5,
-      ],
-      cta: dict.membership.ctaCommunity,
-      highlighted: true,
-      mailto: true,
-    },
-    {
-      name: dict.membership.tierPatron,
-      price: "249 RON",
-      period: dict.membership.perYear,
-      features: [
-        dict.membership.patronF1,
-        dict.membership.patronF2,
-        dict.membership.patronF3,
-        dict.membership.patronF4,
-        dict.membership.patronF5,
-      ],
-      cta: dict.membership.ctaPatron,
-      highlighted: false,
-      mailto: true,
-    },
+    membership.tiers.free,
+    membership.tiers.community,
+    membership.tiers.patron,
   ];
 
   return (
@@ -77,10 +41,10 @@ export default async function MembershipPage({
             <Heart className="w-8 h-8 text-signal" />
           </div>
           <h1 className="font-display text-4xl lg:text-6xl text-ink mb-4">
-            {dict.membership.pageTitle}
+            {membership.pageTitle}
           </h1>
           <p className="text-ink-500 max-w-2xl mx-auto leading-relaxed">
-            {dict.membership.pageBody}
+            {membership.pageBody}
           </p>
         </div>
       </div>
@@ -140,7 +104,7 @@ export default async function MembershipPage({
                 </ul>
                 {tier.mailto ? (
                   <a
-                    href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.membership.joinSubject)}&body=${encodeURIComponent(tier.name)}`}
+                    href={`mailto:${contactEmail}?subject=${encodeURIComponent(membership.joinSubject)}&body=${encodeURIComponent(tier.name)}`}
                     className={`block w-full py-3 text-sm font-bold rounded-sm transition-colors text-center ${
                       tier.highlighted
                         ? "bg-signal hover:bg-signal-light text-ink"

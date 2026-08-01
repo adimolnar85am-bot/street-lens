@@ -19,7 +19,7 @@ export default async function GhiduriPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const categories = getPhotoCategories(dict);
+  const categories = getPhotoCategories(dict, locale);
 
   return (
     <div>

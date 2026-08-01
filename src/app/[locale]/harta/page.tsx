@@ -18,7 +18,7 @@ export default async function HartaPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const walks = getPhotowalks(dict);
+  const walks = getPhotowalks(dict, locale);
 
   return (
     <div>

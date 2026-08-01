@@ -3,7 +3,10 @@ import { ArrowLeft } from "lucide-react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
+import { getPrivacyContent } from "@/lib/content-server";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function ConfidentialitatePage({
   params,
@@ -14,12 +17,7 @@ export default async function ConfidentialitatePage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-
-  const sections = [
-    { title: dict.legal.privacyDataTitle, body: dict.legal.privacyDataBody },
-    { title: dict.legal.privacyCookiesTitle, body: dict.legal.privacyCookiesBody },
-    { title: dict.legal.privacyContactTitle, body: dict.legal.privacyContactBody },
-  ];
+  const privacy = getPrivacyContent(locale);
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
@@ -30,10 +28,10 @@ export default async function ConfidentialitatePage({
         <ArrowLeft className="w-4 h-4" />
         {dict.common.home}
       </Link>
-      <h1 className="font-display text-4xl text-cream mb-10">{dict.legal.privacyTitle}</h1>
-      <p className="text-ink-300 leading-relaxed mb-10">{dict.legal.privacyIntro}</p>
+      <h1 className="font-display text-4xl text-cream mb-10">{privacy.pageTitle}</h1>
+      <p className="text-ink-300 leading-relaxed mb-10">{privacy.intro}</p>
       <div className="space-y-8">
-        {sections.map((s) => (
+        {privacy.sections.map((s) => (
           <section key={s.title}>
             <h2 className="font-display text-xl text-cream mb-3">{s.title}</h2>
             <p className="text-ink-300 leading-relaxed">{s.body}</p>

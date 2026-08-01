@@ -22,7 +22,7 @@ export default async function FotografiePage({ params }: Props) {
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const photoCategories = getPhotoCategories(dict);
+  const photoCategories = getPhotoCategories(dict, locale);
   const category = photoCategories.find((c) => c.slug === slug);
   if (!category) notFound();
 

@@ -2,6 +2,7 @@ import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
 import { ArrowLeft, Newspaper } from "lucide-react";
 import { getBlogArticles } from "@/lib/data-server";
+import { getBlogPageContent } from "@/lib/content-server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
@@ -19,7 +20,8 @@ export default async function BlogPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const articles = getBlogArticles(dict);
+  const blog = getBlogPageContent(locale);
+  const articles = getBlogArticles(dict, locale);
 
   return (
     <div>
@@ -35,10 +37,10 @@ export default async function BlogPage({
           <div className="flex items-center gap-3 mb-4">
             <Newspaper className="w-8 h-8 text-signal/80" />
             <h1 className="font-display text-4xl lg:text-6xl text-cream">
-              {dict.blog.pageTitle}
+              {blog.pageTitle}
             </h1>
           </div>
-          <p className="text-ink-300 max-w-2xl leading-relaxed">{dict.blog.pageBody}</p>
+          <p className="text-ink-300 max-w-2xl leading-relaxed">{blog.pageBody}</p>
         </div>
       </div>
 
@@ -65,6 +67,9 @@ export default async function BlogPage({
                 {article.title}
               </h2>
               <p className="text-sm text-ink-400 mt-2 line-clamp-2">{article.excerpt}</p>
+              {article.body ? (
+                <p className="text-sm text-ink-500 mt-2 line-clamp-3">{article.body}</p>
+              ) : null}
               <p className="text-xs text-ink-500 mt-3">{formatDate(article.date)}</p>
             </Link>
           ))}

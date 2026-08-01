@@ -251,6 +251,10 @@ export function getHeroSlides() {
   }));
 }
 
+export function getPhotoCount() {
+  return getCatalog().total;
+}
+
 export function getGalleryPhotos(): GalleryPhoto[] {
   const categories = ["digital", "analog", "telefon"] as const;
   return getVisiblePhotoSrcs().map((src, i) => {
