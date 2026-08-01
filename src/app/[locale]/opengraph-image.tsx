@@ -69,16 +69,18 @@ export default async function OgImage({
             }}
           >
             <BrandMark size={56} />
-            <span
+            <div
               style={{
+                display: "flex",
+                alignItems: "baseline",
                 color: "#f8f4ef",
                 fontSize: 36,
-                fontWeight: 700,
                 letterSpacing: "-0.03em",
               }}
             >
-              streetlens
-            </span>
+              <span style={{ fontWeight: 400 }}>street</span>
+              <span style={{ fontWeight: 700 }}>lens</span>
+            </div>
           </div>
           <div
             style={{

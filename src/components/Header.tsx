@@ -45,9 +45,9 @@ export function Header() {
             <BrandLogo
               height={40}
               responsive
+              animate
               showTagline
               tagline={dict.brand.tagline}
-              priority
             />
           </Link>
 

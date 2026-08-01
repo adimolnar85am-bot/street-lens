@@ -1,4 +1,4 @@
-const CACHE = "street-lens-v2";
+const CACHE = "street-lens-v3";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

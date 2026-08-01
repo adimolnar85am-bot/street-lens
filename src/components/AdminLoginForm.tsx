@@ -43,7 +43,7 @@ export function AdminLoginForm() {
         className="w-full max-w-sm bg-ink-900 border border-ink-700 rounded-xl p-8"
       >
         <div className="flex flex-col items-center text-center mb-6">
-          <BrandLogo variant="stacked" height={88} priority />
+          <BrandLogo variant="stacked" height={88} animate />
           <h1 className="font-display text-2xl mt-4">Admin</h1>
           <p className="text-xs text-ink-400">Acces restricționat</p>
         </div>

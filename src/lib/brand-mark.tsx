@@ -1,16 +1,15 @@
-/** Satori-compatible viewfinder mark for PWA / favicon generation. */
+/** Satori-compatible red-bracket viewfinder mark for PWA / favicon / OG. */
 export function BrandMark({ size }: { size: number }) {
   const s = size / 100;
   const stroke = Math.max(2, 3.5 * s);
-  const corner = 22 * s;
   const cornerLen = 12 * s;
-  const cx = size / 2;
-  const cy = size / 2;
   const r1 = 19 * s;
   const r2 = 13.5 * s;
   const r3 = 9 * s;
   const tally = 7 * s;
   const pad = size * 0.08;
+  const red = "#E20612";
+  const cream = "#f8f4ef";
 
   const bracket = (flipX: number, flipY: number) => {
     const x = flipX > 0 ? size - pad - cornerLen : pad + cornerLen;
@@ -26,10 +25,10 @@ export function BrandMark({ size }: { size: number }) {
           top: Math.min(y, vy),
           width: Math.abs(hx - x) + stroke,
           height: Math.abs(vy - y) + stroke,
-          borderTop: flipY < 0 ? `${stroke}px solid #f8f4ef` : "none",
-          borderLeft: flipX < 0 ? `${stroke}px solid #f8f4ef` : "none",
-          borderBottom: flipY > 0 ? `${stroke}px solid #f8f4ef` : "none",
-          borderRight: flipX > 0 ? `${stroke}px solid #f8f4ef` : "none",
+          borderTop: flipY < 0 ? `${stroke}px solid ${red}` : "none",
+          borderLeft: flipX < 0 ? `${stroke}px solid ${red}` : "none",
+          borderBottom: flipY > 0 ? `${stroke}px solid ${red}` : "none",
+          borderRight: flipX > 0 ? `${stroke}px solid ${red}` : "none",
           borderRadius: stroke,
         }}
       />
@@ -70,7 +69,7 @@ export function BrandMark({ size }: { size: number }) {
           width: r1 * 2,
           height: r1 * 2,
           borderRadius: "50%",
-          border: `${Math.max(1.5, 2.2 * s)}px solid #E20612`,
+          border: `${Math.max(1.5, 2.2 * s)}px solid ${cream}`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -81,7 +80,7 @@ export function BrandMark({ size }: { size: number }) {
             width: r2 * 2,
             height: r2 * 2,
             borderRadius: "50%",
-            border: `${Math.max(1, 1.6 * s)}px solid #E20612`,
+            border: `${Math.max(1, 1.6 * s)}px solid ${cream}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -93,7 +92,7 @@ export function BrandMark({ size }: { size: number }) {
               width: r3 * 1.2,
               height: r3 * 1.2,
               borderRadius: "50%",
-              background: "#f8f4ef",
+              background: cream,
               opacity: 0.35,
               marginLeft: -r3 * 0.25,
               marginTop: -r3 * 0.25,

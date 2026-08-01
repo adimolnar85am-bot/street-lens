@@ -1,22 +1,18 @@
-import Image from "next/image";
+import { StreetlensMark, StreetlensWordmark } from "@/components/StreetlensMark";
 import { cn } from "@/lib/utils";
 
-const LOGO = {
-  horizontal: { src: "/logo.svg", width: 320, height: 80 },
-  mark: { src: "/logo-mark.svg", width: 100, height: 100 },
-  stacked: { src: "/logo-stacked.svg", width: 512, height: 512 },
-} as const;
-
 type BrandLogoProps = {
-  /** Visual height in px; width follows the asset aspect ratio. */
+  /** Mark size in px. */
   height?: number;
   className?: string;
-  variant?: keyof typeof LOGO;
+  /** horizontal = mark + wordmark side by side; mark = icon only; stacked = mark over wordmark */
+  variant?: "horizontal" | "mark" | "stacked";
   tagline?: string;
   showTagline?: boolean;
-  /** On small screens, show mark-only when variant is horizontal. */
+  /** Animate wordmark emerging from the mark (header). */
+  animate?: boolean;
+  /** On small screens show mark-only for horizontal. */
   responsive?: boolean;
-  priority?: boolean;
   alt?: string;
 };
 
@@ -26,43 +22,53 @@ export function BrandLogo({
   variant = "horizontal",
   tagline,
   showTagline = false,
+  animate = false,
   responsive = false,
-  priority = false,
   alt = "streetlens",
 }: BrandLogoProps) {
-  const asset = LOGO[variant];
-  const width = Math.round((height * asset.width) / asset.height);
-
-  const logoImage = (src: string, w: number, h: number, extraClass?: string) => (
-    <Image
-      src={src}
-      alt={alt}
-      width={w}
-      height={h}
-      className={cn("shrink-0", extraClass)}
-      priority={priority}
-    />
-  );
-
-  if (variant === "horizontal" && responsive) {
-    const markSize = Math.round(height * 0.9);
+  if (variant === "mark") {
     return (
-      <span className={cn("inline-flex items-center gap-3", className)}>
-        {logoImage(LOGO.mark.src, markSize, markSize, "sm:hidden")}
-        {logoImage(asset.src, width, height, "hidden sm:block")}
-        {showTagline && tagline ? (
-          <span className="hidden lg:block text-xs text-ink-400 tracking-widest uppercase max-w-[12rem] leading-snug">
-            {tagline}
-          </span>
-        ) : null}
+      <span className={cn("inline-flex", className)} role="img" aria-label={alt}>
+        <StreetlensMark size={height} animate={animate} />
       </span>
     );
   }
 
+  if (variant === "stacked") {
+    return (
+      <span
+        className={cn("inline-flex flex-col items-center gap-2", className)}
+        role="img"
+        aria-label={alt}
+      >
+        <StreetlensMark size={height} animate={animate} />
+        <span className={cn(animate && "logo-word-reveal-down")}>
+          <StreetlensWordmark size="lg" />
+        </span>
+      </span>
+    );
+  }
+
+  const markSize = Math.round(height * 0.95);
+
   return (
-    <span className={cn("inline-flex items-center gap-3", className)}>
-      {logoImage(asset.src, width, height)}
-      {showTagline && tagline && variant === "horizontal" ? (
+    <span
+      className={cn("inline-flex items-center gap-2.5 sm:gap-3", className)}
+      role="img"
+      aria-label={alt}
+    >
+      <StreetlensMark size={markSize} animate={animate} />
+      <span
+        className={cn(
+          "min-w-0 overflow-hidden",
+          responsive ? "hidden sm:inline-flex" : "inline-flex"
+        )}
+      >
+        <span className={cn(animate && "logo-word-clip")}>
+          <StreetlensWordmark animate={animate} size="md" />
+        </span>
+      </span>
+      {showTagline && tagline ? (
         <span className="hidden lg:block text-xs text-ink-400 tracking-widest uppercase max-w-[12rem] leading-snug">
           {tagline}
         </span>
