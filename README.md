@@ -1,6 +1,7 @@
 # Street Lens — Comunitate de Street Photography
 
-Site modern pentru comunitatea de fotografi de stradă. Inspirat de [Framelines](https://frame-lines.com), cu focus pe photowalk-uri săptămânale, hartă interactivă și secțiuni bine organizate.
+Site modern pentru comunitatea de fotografi de stradă 
+cu focus pe photowalk-uri săptămânale, hartă interactivă și secțiuni bine organizate.
 
 ## Funcționalități
 
