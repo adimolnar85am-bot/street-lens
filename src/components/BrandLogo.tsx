@@ -7,8 +7,6 @@ type BrandLogoProps = {
   className?: string;
   /** horizontal = mark + wordmark side by side; mark = icon only; stacked = mark over wordmark */
   variant?: "horizontal" | "mark" | "stacked";
-  tagline?: string;
-  showTagline?: boolean;
   /** Animate wordmark emerging from the mark (header). */
   animate?: boolean;
   alt?: string;
@@ -18,8 +16,6 @@ export function BrandLogo({
   height = 44,
   className,
   variant = "horizontal",
-  tagline,
-  showTagline = false,
   animate = false,
   alt = "streetlens",
 }: BrandLogoProps) {
@@ -63,11 +59,6 @@ export function BrandLogo({
       <span className="min-w-0 overflow-hidden inline-flex">
         <StreetlensWordmark animate={animate} size="header" />
       </span>
-      {showTagline && tagline ? (
-        <span className="hidden xl:block text-xs text-ink-400 tracking-widest uppercase max-w-[11rem] leading-snug shrink-0">
-          {tagline}
-        </span>
-      ) : null}
     </span>
   );
 }

@@ -45,12 +45,7 @@ export function Header() {
             href={localePath(locale, "/")}
             className="group min-w-0 flex-1 overflow-hidden pr-1"
           >
-            <BrandLogo
-              height={44}
-              animate
-              showTagline
-              tagline={dict.brand.tagline}
-            />
+            <BrandLogo height={44} animate />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
