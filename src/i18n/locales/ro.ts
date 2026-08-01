@@ -3,7 +3,7 @@ const ro = {
     title: "Street Lens — Comunitate de Street Photography",
     description:
       "Comunitate de fotografi de stradă din România. Photowalk-uri săptămânale, hartă interactivă, concursuri și merch.",
-    ogHeadline: "Strada e atelierul.",
+    ogHeadline: "Orașul e scena ta.",
     ogTagline:
       "Photowalk-uri, concursuri și galerie — comunitate de street photography din București.",
   },
@@ -57,8 +57,8 @@ const ro = {
   hero: {
     locationBadge: "București",
     eyebrow: "comunitate foto",
-    title1: "Strada",
-    title2: "e atelierul.",
+    title1: "Orașul",
+    title2: "e scena ta.",
     body: "Ne vedem sâmbăta pe stradă — cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Harta traseelor",
@@ -184,7 +184,7 @@ const ro = {
       "Street Lens e comunitatea de street photography din România — un loc unde ne întâlnim, învățăm și documentăm orașul împreună.",
     missionTitle: "Misiunea noastră",
     missionBody:
-      "Credem că strada e cel mai bun atelier foto. Digital, analog sau telefon — fiecare format are loc. Ne propunem să construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri săptămânale, concursuri și resurse pentru toți nivelurile.",
+      "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri săptămânale, concursuri și resurse pentru toți nivelurile.",
     howTitle: "Cum funcționează",
     howBody:
       "În fiecare sâmbătă organizăm un photowalk cu temă aleasă de comunitate. După walk, pin-urile și pozele apar pe harta interactivă. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor.",
