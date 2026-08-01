@@ -68,31 +68,32 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
                 src={slide.src}
                 alt={slide.alt}
                 fill
-                className="object-cover object-center pointer-events-none"
+                className="object-cover object-center pointer-events-none brightness-[0.58] saturate-[0.92] contrast-[1.05]"
                 priority={i === 0}
                 sizes="100vw"
               />
             </div>
           </div>
         ))}
+        {/* Scrim uniform — expunere mai mică pe tot slide-ul */}
+        <div className="absolute inset-0 z-[1] bg-ink/40 pointer-events-none" aria-hidden />
       </div>
 
       {/*
         Gradient de imbinare: poza sus, fade ușor spre jos unde e textul.
-        Linia de tranziție ~45–55% pe mobil, mai jos pe desktop.
       */}
       <div
-        className="absolute inset-0 z-[2] pointer-events-none"
+        className="absolute inset-0 z-[2] pointer-events-none md:hidden"
         style={{
           background:
-            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.92) 22%, rgba(23,23,23,0.55) 42%, rgba(23,23,23,0.15) 58%, transparent 72%)",
+            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.94) 24%, rgba(23,23,23,0.62) 44%, rgba(23,23,23,0.22) 60%, transparent 78%)",
         }}
       />
       <div
         className="absolute inset-0 z-[2] pointer-events-none hidden md:block"
         style={{
           background:
-            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.75) 35%, rgba(23,23,23,0.2) 55%, transparent 100%)",
+            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.82) 38%, rgba(23,23,23,0.35) 58%, rgba(23,23,23,0.12) 75%, transparent 100%)",
         }}
       />
 
