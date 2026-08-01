@@ -3,7 +3,7 @@ const ro = {
     title: "Street Lens — Comunitate de Street Photography",
     description:
       "Comunitate de fotografi de stradă din România. Photowalk-uri săptămânale, hartă interactivă, concursuri și merch.",
-    ogHeadline: "Fiecare colț, o poveste.",
+    ogHeadline: "Orașul, fără filtru.",
     ogTagline:
       "Photowalk-uri, concursuri și galerie — comunitate de street photography din București.",
   },
@@ -57,8 +57,8 @@ const ro = {
   hero: {
     locationBadge: "București",
     eyebrow: "comunitate foto",
-    title1: "Fiecare colț,",
-    title2: "o poveste.",
+    title1: "Orașul,",
+    title2: "fără filtru.",
     body: "Ne vedem sâmbăta pe stradă — cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Harta traseelor",
