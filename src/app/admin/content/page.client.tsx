@@ -18,7 +18,11 @@ type Tab =
   | "regulament"
   | "hero"
   | "about"
-  | "photowalks";
+  | "photowalks"
+  | "termeni"
+  | "privacy"
+  | "membership"
+  | "shop";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "newsletter", label: "Newsletter" },
@@ -28,6 +32,10 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "hero", label: "Hero" },
   { id: "about", label: "Despre" },
   { id: "photowalks", label: "Photowalks" },
+  { id: "termeni", label: "Termeni" },
+  { id: "privacy", label: "Confidențialitate" },
+  { id: "membership", label: "Membership" },
+  { id: "shop", label: "Magazin" },
 ];
 
 export default function AdminContentPage() {
@@ -128,7 +136,7 @@ export default function AdminContentPage() {
           ))}
         </div>
 
-        {!["contest", "photowalks"].includes(tab) ? (
+        {!["contest", "photowalks", "shop"].includes(tab) ? (
           <LocaleTabs locale={locale} onChange={setLocale} />
         ) : null}
 
@@ -757,6 +765,547 @@ export default function AdminContentPage() {
               saved={saved}
               error={error}
               onSave={() => saveSection("photowalks")}
+            />
+          </section>
+        )}
+
+        {tab === "termeni" && (
+          <section className="space-y-4">
+            <AdminField
+              label="Titlu pagină"
+              value={content.terms[locale].pageTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  terms: {
+                    ...content.terms,
+                    [locale]: { ...content.terms[locale], pageTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Data actualizare"
+              value={content.terms[locale].updated}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  terms: {
+                    ...content.terms,
+                    [locale]: { ...content.terms[locale], updated: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Introducere"
+              value={content.terms[locale].intro}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  terms: {
+                    ...content.terms,
+                    [locale]: { ...content.terms[locale], intro: v },
+                  },
+                })
+              }
+              multiline
+            />
+            {content.terms[locale].sections.map((section, index) => (
+              <div
+                key={`terms-${index}`}
+                className="p-4 bg-ink-900 border border-ink-800 rounded-lg space-y-3"
+              >
+                <AdminField
+                  label={`Secțiune ${index + 1}`}
+                  value={section.title}
+                  onChange={(v) => {
+                    const sections = [...content.terms[locale].sections];
+                    sections[index] = { ...section, title: v };
+                    setContent({
+                      ...content,
+                      terms: {
+                        ...content.terms,
+                        [locale]: { ...content.terms[locale], sections },
+                      },
+                    });
+                  }}
+                />
+                <AdminField
+                  label="Text"
+                  value={section.body}
+                  onChange={(v) => {
+                    const sections = [...content.terms[locale].sections];
+                    sections[index] = { ...section, body: v };
+                    setContent({
+                      ...content,
+                      terms: {
+                        ...content.terms,
+                        [locale]: { ...content.terms[locale], sections },
+                      },
+                    });
+                  }}
+                  multiline
+                  rows={4}
+                />
+              </div>
+            ))}
+            <SaveBar
+              saving={saving}
+              saved={saved}
+              error={error}
+              onSave={() => saveSection("terms")}
+            />
+          </section>
+        )}
+
+        {tab === "privacy" && (
+          <section className="space-y-4">
+            <AdminField
+              label="Titlu pagină"
+              value={content.privacy[locale].pageTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  privacy: {
+                    ...content.privacy,
+                    [locale]: { ...content.privacy[locale], pageTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Introducere"
+              value={content.privacy[locale].intro}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  privacy: {
+                    ...content.privacy,
+                    [locale]: { ...content.privacy[locale], intro: v },
+                  },
+                })
+              }
+              multiline
+            />
+            {content.privacy[locale].sections.map((section, index) => (
+              <div
+                key={`privacy-${index}`}
+                className="p-4 bg-ink-900 border border-ink-800 rounded-lg space-y-3"
+              >
+                <AdminField
+                  label={`Secțiune ${index + 1}`}
+                  value={section.title}
+                  onChange={(v) => {
+                    const sections = [...content.privacy[locale].sections];
+                    sections[index] = { ...section, title: v };
+                    setContent({
+                      ...content,
+                      privacy: {
+                        ...content.privacy,
+                        [locale]: { ...content.privacy[locale], sections },
+                      },
+                    });
+                  }}
+                />
+                <AdminField
+                  label="Text"
+                  value={section.body}
+                  onChange={(v) => {
+                    const sections = [...content.privacy[locale].sections];
+                    sections[index] = { ...section, body: v };
+                    setContent({
+                      ...content,
+                      privacy: {
+                        ...content.privacy,
+                        [locale]: { ...content.privacy[locale], sections },
+                      },
+                    });
+                  }}
+                  multiline
+                  rows={4}
+                />
+              </div>
+            ))}
+            <SaveBar
+              saving={saving}
+              saved={saved}
+              error={error}
+              onSave={() => saveSection("privacy")}
+            />
+          </section>
+        )}
+
+        {tab === "membership" && (
+          <section className="space-y-6">
+            <AdminField
+              label="Titlu pagină"
+              value={content.membership[locale].pageTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  membership: {
+                    ...content.membership,
+                    [locale]: { ...content.membership[locale], pageTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Text pagină"
+              value={content.membership[locale].pageBody}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  membership: {
+                    ...content.membership,
+                    [locale]: { ...content.membership[locale], pageBody: v },
+                  },
+                })
+              }
+              multiline
+            />
+            <AdminField
+              label="Titlu secțiune homepage"
+              value={content.membership[locale].sectionTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  membership: {
+                    ...content.membership,
+                    [locale]: { ...content.membership[locale], sectionTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Text secțiune homepage"
+              value={content.membership[locale].sectionBody}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  membership: {
+                    ...content.membership,
+                    [locale]: { ...content.membership[locale], sectionBody: v },
+                  },
+                })
+              }
+              multiline
+            />
+            <AdminField
+              label="Subiect email înscriere"
+              value={content.membership[locale].joinSubject}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  membership: {
+                    ...content.membership,
+                    [locale]: { ...content.membership[locale], joinSubject: v },
+                  },
+                })
+              }
+            />
+            <div className="space-y-3">
+              <p className="text-sm text-ink-400">Carduri homepage</p>
+              {content.membership[locale].homepageCards.map((card, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-ink-900 border border-ink-800 rounded-lg grid gap-3 sm:grid-cols-2"
+                >
+                  <AdminField
+                    label="Preț"
+                    value={card.price}
+                    onChange={(v) => {
+                      const homepageCards = [...content.membership[locale].homepageCards];
+                      homepageCards[index] = { ...card, price: v };
+                      setContent({
+                        ...content,
+                        membership: {
+                          ...content.membership,
+                          [locale]: { ...content.membership[locale], homepageCards },
+                        },
+                      });
+                    }}
+                  />
+                  <AdminField
+                    label="Beneficii"
+                    value={card.features}
+                    onChange={(v) => {
+                      const homepageCards = [...content.membership[locale].homepageCards];
+                      homepageCards[index] = { ...card, features: v };
+                      setContent({
+                        ...content,
+                        membership: {
+                          ...content.membership,
+                          [locale]: { ...content.membership[locale], homepageCards },
+                        },
+                      });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            {(["free", "community", "patron"] as const).map((tierKey) => {
+              const tier = content.membership[locale].tiers[tierKey];
+              return (
+                <div
+                  key={tierKey}
+                  className="p-4 bg-ink-900 border border-ink-800 rounded-lg space-y-3"
+                >
+                  <p className="text-sm text-signal/80 font-medium uppercase">{tierKey}</p>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <AdminField
+                      label="Nume plan"
+                      value={tier.name}
+                      onChange={(v) =>
+                        setContent({
+                          ...content,
+                          membership: {
+                            ...content.membership,
+                            [locale]: {
+                              ...content.membership[locale],
+                              tiers: {
+                                ...content.membership[locale].tiers,
+                                [tierKey]: { ...tier, name: v },
+                              },
+                            },
+                          },
+                        })
+                      }
+                    />
+                    <AdminField
+                      label="Preț"
+                      value={tier.price}
+                      onChange={(v) =>
+                        setContent({
+                          ...content,
+                          membership: {
+                            ...content.membership,
+                            [locale]: {
+                              ...content.membership[locale],
+                              tiers: {
+                                ...content.membership[locale].tiers,
+                                [tierKey]: { ...tier, price: v },
+                              },
+                            },
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                  <AdminField
+                    label="Perioadă"
+                    value={tier.period}
+                    onChange={(v) =>
+                      setContent({
+                        ...content,
+                        membership: {
+                          ...content.membership,
+                          [locale]: {
+                            ...content.membership[locale],
+                            tiers: {
+                              ...content.membership[locale].tiers,
+                              [tierKey]: { ...tier, period: v },
+                            },
+                          },
+                        },
+                      })
+                    }
+                  />
+                  <AdminField
+                    label="CTA"
+                    value={tier.cta}
+                    onChange={(v) =>
+                      setContent({
+                        ...content,
+                        membership: {
+                          ...content.membership,
+                          [locale]: {
+                            ...content.membership[locale],
+                            tiers: {
+                              ...content.membership[locale].tiers,
+                              [tierKey]: { ...tier, cta: v },
+                            },
+                          },
+                        },
+                      })
+                    }
+                  />
+                  <AdminField
+                    label="Beneficii (câte unul pe linie)"
+                    value={tier.features.join("\n")}
+                    onChange={(v) =>
+                      setContent({
+                        ...content,
+                        membership: {
+                          ...content.membership,
+                          [locale]: {
+                            ...content.membership[locale],
+                            tiers: {
+                              ...content.membership[locale].tiers,
+                              [tierKey]: {
+                                ...tier,
+                                features: v.split("\n").filter(Boolean),
+                              },
+                            },
+                          },
+                        },
+                      })
+                    }
+                    multiline
+                    rows={5}
+                  />
+                </div>
+              );
+            })}
+            <SaveBar
+              saving={saving}
+              saved={saved}
+              error={error}
+              onSave={() => saveSection("membership")}
+            />
+          </section>
+        )}
+
+        {tab === "shop" && (
+          <section className="space-y-6">
+            <LocaleTabs locale={locale} onChange={setLocale} />
+            <AdminField
+              label="Subiect email comandă"
+              value={content.shop.orderSubject}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: { ...content.shop, orderSubject: v },
+                })
+              }
+            />
+            <AdminField
+              label="Titlu pagină magazin"
+              value={content.shop[locale].pageTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], pageTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Text pagină magazin"
+              value={content.shop[locale].pageBody}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], pageBody: v },
+                  },
+                })
+              }
+              multiline
+            />
+            <AdminField
+              label="Titlu pagină print"
+              value={content.shop[locale].printPageTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], printPageTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Text pagină print"
+              value={content.shop[locale].printPageBody}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], printPageBody: v },
+                  },
+                })
+              }
+              multiline
+            />
+            <AdminField
+              label="Titlu secțiune print (magazin)"
+              value={content.shop[locale].printSectionTitle}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], printSectionTitle: v },
+                  },
+                })
+              }
+            />
+            <AdminField
+              label="Text secțiune print"
+              value={content.shop[locale].printSectionBody}
+              onChange={(v) =>
+                setContent({
+                  ...content,
+                  shop: {
+                    ...content.shop,
+                    [locale]: { ...content.shop[locale], printSectionBody: v },
+                  },
+                })
+              }
+              multiline
+            />
+            <div className="border-t border-ink-800 pt-6 space-y-4">
+              <p className="text-sm text-ink-400">Produse</p>
+              {content.shop.items.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="p-4 bg-ink-900 border border-ink-800 rounded-lg space-y-3"
+                >
+                  <p className="text-sm text-signal/80">{item.id} · {item.category}</p>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <AdminField
+                      label="Nume RO"
+                      value={item.ro.name}
+                      onChange={(v) => {
+                        const items = [...content.shop.items];
+                        items[index] = { ...item, ro: { name: v } };
+                        setContent({ ...content, shop: { ...content.shop, items } });
+                      }}
+                    />
+                    <AdminField
+                      label="Nume EN"
+                      value={item.en.name}
+                      onChange={(v) => {
+                        const items = [...content.shop.items];
+                        items[index] = { ...item, en: { name: v } };
+                        setContent({ ...content, shop: { ...content.shop, items } });
+                      }}
+                    />
+                  </div>
+                  <AdminField
+                    label="Preț (RON)"
+                    value={String(item.price)}
+                    onChange={(v) => {
+                      const items = [...content.shop.items];
+                      items[index] = { ...item, price: Number(v) || 0 };
+                      setContent({ ...content, shop: { ...content.shop, items } });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <SaveBar
+              saving={saving}
+              saved={saved}
+              error={error}
+              onSave={() => saveSection("shop")}
             />
           </section>
         )}

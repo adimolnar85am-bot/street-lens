@@ -17,6 +17,10 @@ const SECTIONS: ContentSectionKey[] = [
   "contestRules",
   "articles",
   "photowalks",
+  "terms",
+  "privacy",
+  "membership",
+  "shop",
 ];
 
 function revalidateContentPaths() {
@@ -31,6 +35,11 @@ function revalidateContentPaths() {
     "/fotografie/digital",
     "/fotografie/analog",
     "/fotografie/telefon",
+    "/termeni",
+    "/confidentialitate",
+    "/membership",
+    "/magazin",
+    "/magazin/print",
     "/admin/content",
   ];
   for (const locale of ["ro", "en"]) {

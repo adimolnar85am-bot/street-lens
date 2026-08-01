@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Camera, FileText, Newspaper, Trophy } from "lucide-react";
+import { Camera, FileText, Heart, Newspaper, ShoppingBag, Trophy } from "lucide-react";
 import { AdminNav } from "@/components/AdminShell";
 
 const cards = [
@@ -38,6 +38,24 @@ const cards = [
     title: "Photowalk-uri",
     body: "Titluri, teme, locații și descrieri walk-uri.",
     icon: Camera,
+  },
+  {
+    href: "/admin/content?tab=termeni",
+    title: "Termeni & confidențialitate",
+    body: "Pagini legale — termeni, politică de confidențialitate.",
+    icon: FileText,
+  },
+  {
+    href: "/admin/content?tab=membership",
+    title: "Membership",
+    body: "Planuri, prețuri, beneficii și text homepage.",
+    icon: Heart,
+  },
+  {
+    href: "/admin/content?tab=shop",
+    title: "Magazin",
+    body: "Produse merch, prețuri, text pagini magazin și print.",
+    icon: ShoppingBag,
   },
 ];
 

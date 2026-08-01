@@ -2,6 +2,7 @@ import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { getMerchItems } from "@/lib/data-server";
+import { getShopContent, getSiteContent } from "@/lib/content-server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
@@ -18,7 +19,9 @@ export default async function MagazinPage({
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = await getDictionary(locale);
-  const merchItems = getMerchItems(dict);
+  const shop = getShopContent(locale);
+  const contactEmail = getSiteContent().newsletter[locale].contactEmail;
+  const merchItems = getMerchItems(dict, locale);
 
   return (
     <div>
@@ -34,10 +37,10 @@ export default async function MagazinPage({
           <div className="flex items-center gap-3 mb-4">
             <ShoppingBag className="w-8 h-8 text-signal" />
             <h1 className="font-display text-4xl lg:text-6xl text-ink">
-              {dict.shop.pageTitle}
+              {shop.pageTitle}
             </h1>
           </div>
-          <p className="text-ink-500 max-w-2xl leading-relaxed">{dict.shop.pageBody}</p>
+          <p className="text-ink-500 max-w-2xl leading-relaxed">{shop.pageBody}</p>
         </div>
       </div>
 
@@ -62,10 +65,10 @@ export default async function MagazinPage({
                   {item.price} RON
                 </p>
                 <a
-                  href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
+                  href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
                   className="mt-4 block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
                 >
-                  {dict.shop.addToCart}
+                  {shop.addToCart}
                 </a>
               </div>
             ))}
@@ -73,22 +76,22 @@ export default async function MagazinPage({
 
           <div className="mt-20 p-10 lg:p-16 bg-ink rounded-2xl text-center">
             <h2 className="font-display text-3xl text-cream mb-4">
-              {dict.shop.printSectionTitle}
+              {shop.printSectionTitle}
             </h2>
             <p className="text-ink-400 max-w-lg mx-auto mb-8">
-              {dict.shop.printSectionBody}
+              {shop.printSectionBody}
             </p>
             <a
-              href={`mailto:${dict.contact.email}?subject=${encodeURIComponent(dict.shop.orderSubject)}&body=${encodeURIComponent(dict.shop.customPrint)}`}
+              href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(shop.customPrint)}`}
               className="inline-block px-6 py-3 bg-signal hover:bg-signal-light text-ink text-sm font-bold rounded-sm transition-colors"
             >
-              {dict.shop.customPrint}
+              {shop.customPrint}
             </a>
             <Link
               href={localePath(locale, "/magazin/print")}
               className="ml-4 inline-block px-6 py-3 text-cream/70 hover:text-cream text-sm font-medium transition-colors"
             >
-              {dict.shop.seePrints}
+              {shop.sectionSeePrints}
             </Link>
           </div>
         </div>

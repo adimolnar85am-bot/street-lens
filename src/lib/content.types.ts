@@ -25,6 +25,24 @@ export interface ContentPhotowalk {
   en: { title: string; theme: string; location: string; description: string };
 }
 
+export interface MembershipTier {
+  name: string;
+  price: string;
+  period: string;
+  cta: string;
+  features: string[];
+  highlighted: boolean;
+  mailto: boolean;
+}
+
+export interface ContentMerchItem {
+  id: string;
+  price: number;
+  category: "tees" | "print";
+  ro: { name: string };
+  en: { name: string };
+}
+
 export interface SiteContent {
   newsletter: LocaleFields<{
     title: string;
@@ -65,6 +83,71 @@ export interface SiteContent {
   }>;
   articles: ContentArticle[];
   photowalks: ContentPhotowalk[];
+  terms: LocaleFields<{
+    pageTitle: string;
+    updated: string;
+    intro: string;
+    sections: ContentSection[];
+  }>;
+  privacy: LocaleFields<{
+    pageTitle: string;
+    intro: string;
+    sections: ContentSection[];
+  }>;
+  membership: LocaleFields<{
+    pageTitle: string;
+    pageBody: string;
+    sectionTitle: string;
+    sectionBody: string;
+    learnMore: string;
+    joinSubject: string;
+    homepageCards: { price: string; features: string }[];
+    tiers: {
+      free: MembershipTier;
+      community: MembershipTier;
+      patron: MembershipTier;
+    };
+  }>;
+  shop: {
+    orderSubject: string;
+    ro: {
+      pageTitle: string;
+      pageBody: string;
+      printPageTitle: string;
+      printPageBody: string;
+      printSectionTitle: string;
+      printSectionBody: string;
+      customPrint: string;
+      addToCart: string;
+      sectionEyebrow: string;
+      sectionTitle: string;
+      sectionSeeAll: string;
+      sectionPrintTitle: string;
+      sectionPrintBody: string;
+      sectionSeePrints: string;
+      catTees: string;
+      catPrint: string;
+    };
+    en: {
+      pageTitle: string;
+      pageBody: string;
+      printPageTitle: string;
+      printPageBody: string;
+      printSectionTitle: string;
+      printSectionBody: string;
+      customPrint: string;
+      addToCart: string;
+      sectionEyebrow: string;
+      sectionTitle: string;
+      sectionSeeAll: string;
+      sectionPrintTitle: string;
+      sectionPrintBody: string;
+      sectionSeePrints: string;
+      catTees: string;
+      catPrint: string;
+    };
+    items: ContentMerchItem[];
+  };
 }
 
 export type ContentSectionKey = keyof SiteContent;

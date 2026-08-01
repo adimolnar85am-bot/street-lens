@@ -58,3 +58,20 @@ export function getPublishedArticles(locale: Locale) {
 export function getArticleById(id: string) {
   return getSiteContent().articles.find((a) => a.id === id);
 }
+
+export function getTermsContent(locale: Locale) {
+  return getSiteContent().terms[locale];
+}
+
+export function getPrivacyContent(locale: Locale) {
+  return getSiteContent().privacy[locale];
+}
+
+export function getMembershipContent(locale: Locale) {
+  return getSiteContent().membership[locale];
+}
+
+export function getShopContent(locale: Locale) {
+  const { shop } = getSiteContent();
+  return { ...shop[locale], orderSubject: shop.orderSubject, items: shop.items };
+}

@@ -5,15 +5,22 @@ import { getMerchItems } from "@/lib/data-server";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
+import type { SiteContent } from "@/lib/content.types";
+
+type ShopContent = ReturnType<
+  typeof import("@/lib/content-server").getShopContent
+>;
 
 export function MerchSection({
   locale,
   dict,
+  shop,
 }: {
   locale: Locale;
   dict: Dictionary;
+  shop: ShopContent;
 }) {
-  const merchItems = getMerchItems(dict);
+  const merchItems = getMerchItems(dict, locale);
 
   return (
     <section className="py-20 lg:py-28 bg-cream section-accent">
@@ -21,17 +28,17 @@ export function MerchSection({
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
           <div>
             <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
-              {dict.shop.eyebrow}
+              {shop.sectionEyebrow}
             </p>
             <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight">
-              {dict.shop.title}
+              {shop.sectionTitle}
             </h2>
           </div>
           <Link
             href={localePath(locale, "/magazin")}
             className="mt-4 lg:mt-0 inline-flex items-center gap-2 text-ink-600 hover:text-signal text-sm font-medium transition-colors"
           >
-            {dict.shop.seeAll}
+            {shop.sectionSeeAll}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -65,15 +72,15 @@ export function MerchSection({
               <ShoppingBag className="w-7 h-7 text-signal/80" />
             </div>
             <div>
-              <h3 className="font-display text-xl text-cream">{dict.shop.printTitle}</h3>
-              <p className="text-ink-400 text-sm mt-1">{dict.shop.printBody}</p>
+              <h3 className="font-display text-xl text-cream">{shop.sectionPrintTitle}</h3>
+              <p className="text-ink-400 text-sm mt-1">{shop.sectionPrintBody}</p>
             </div>
           </div>
           <Link
             href={localePath(locale, "/magazin/print")}
             className="px-6 py-3 bg-signal hover:bg-signal-light text-ink text-sm font-bold rounded-sm transition-colors whitespace-nowrap"
           >
-            {dict.shop.seePrints}
+            {shop.sectionSeePrints}
           </Link>
         </div>
       </div>

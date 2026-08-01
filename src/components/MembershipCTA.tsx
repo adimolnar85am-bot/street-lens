@@ -1,22 +1,18 @@
 import Link from "next/link";
 import { ArrowRight, Heart } from "lucide-react";
-import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
+import type { SiteContent } from "@/lib/content.types";
+
+type MembershipContent = SiteContent["membership"]["ro"];
 
 export function MembershipCTA({
   locale,
-  dict,
+  membership,
 }: {
   locale: Locale;
-  dict: Dictionary;
+  membership: MembershipContent;
 }) {
-  const tiers = [
-    { price: dict.membership.free, features: dict.membership.freeFeatures },
-    { price: dict.membership.monthly, features: dict.membership.monthlyFeatures },
-    { price: dict.membership.yearly, features: dict.membership.yearlyFeatures },
-  ];
-
   return (
     <section className="py-20 lg:py-28 bg-warm section-accent relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
@@ -33,14 +29,14 @@ export function MembershipCTA({
           <Heart className="w-8 h-8 text-signal" />
         </div>
         <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight mb-6">
-          {dict.membership.title}
+          {membership.sectionTitle}
         </h2>
         <p className="text-ink-500 leading-relaxed mb-8 max-w-2xl mx-auto">
-          {dict.membership.body}
+          {membership.sectionBody}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 max-w-2xl mx-auto">
-          {tiers.map((tier) => (
+          {membership.homepageCards.map((tier) => (
             <div
               key={tier.price}
               className="p-5 bg-cream rounded-lg border border-ink-200 text-left"
@@ -55,7 +51,7 @@ export function MembershipCTA({
           href={localePath(locale, "/membership")}
           className="inline-flex items-center gap-2 px-8 py-4 bg-ink hover:bg-ink-800 text-cream font-medium rounded-sm transition-colors"
         >
-          {dict.membership.learnMore}
+          {membership.learnMore}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

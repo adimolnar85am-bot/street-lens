@@ -260,4 +260,214 @@
       }
     }
   ]
+,
+  "terms": {
+    "ro": {
+      "pageTitle": "Termeni și condiții",
+      "updated": "Ultima actualizare: august 2026",
+      "intro": "Prin accesarea site-ului Street Lens, accepți termenii de mai jos.",
+      "sections": [
+        {
+          "title": "Utilizarea site-ului",
+          "body": "Conținutul site-ului este destinat comunității de street photography. Nu este permisă utilizarea automată (scraping), copierea în masă a imaginilor sau orice activitate care afectează funcționarea platformei."
+        },
+        {
+          "title": "Conținut și copyright",
+          "body": "Fotografiile din galerie aparțin comunității Street Lens și sunt protejate. Redistribuirea, descărcarea sau utilizarea comercială fără acord scris este interzisă."
+        },
+        {
+          "title": "Limitarea răspunderii",
+          "body": "Street Lens nu garantează disponibilitatea continuă a site-ului. Nu suntem răspunzători pentru conținutul link-urilor externe."
+        }
+      ]
+    },
+    "en": {
+      "pageTitle": "Terms & conditions",
+      "updated": "Last updated: August 2026",
+      "intro": "By accessing Street Lens, you accept the terms below.",
+      "sections": [
+        {
+          "title": "Use of the site",
+          "body": "Site content is for the street photography community. Automated scraping, bulk image copying, or activity that harms the platform is not allowed."
+        },
+        {
+          "title": "Content and copyright",
+          "body": "Gallery photos belong to the Street Lens community and are protected. Redistribution, downloading, or commercial use without written permission is prohibited."
+        },
+        {
+          "title": "Limitation of liability",
+          "body": "Street Lens does not guarantee uninterrupted availability. We are not responsible for external links."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "ro": {
+      "pageTitle": "Politica de confidențialitate",
+      "intro": "Respectăm confidențialitatea membrilor comunității Street Lens.",
+      "sections": [
+        {
+          "title": "Date colectate",
+          "body": "Colectăm adresa de email doar dacă te abonezi la newsletter sau ne contactezi. Nu vindem date către terți."
+        },
+        {
+          "title": "Cookie-uri",
+          "body": "Folosim cookie-uri esențiale pentru funcționarea site-ului și sesiunea admin. Nu folosim tracking publicitar."
+        },
+        {
+          "title": "Contact",
+          "body": "Pentru întrebări despre date personale, scrie-ne la hello@streetlens.ro."
+        }
+      ]
+    },
+    "en": {
+      "pageTitle": "Privacy policy",
+      "intro": "We respect the privacy of Street Lens community members.",
+      "sections": [
+        {
+          "title": "Data collected",
+          "body": "We collect email only if you subscribe to the newsletter or contact us. We do not sell data to third parties."
+        },
+        {
+          "title": "Cookies",
+          "body": "We use essential cookies for site operation and admin sessions. No advertising tracking."
+        },
+        {
+          "title": "Contact",
+          "body": "For privacy questions, email hello@streetlens.ro."
+        }
+      ]
+    }
+  },
+  "membership": {
+    "ro": {
+      "pageTitle": "Membership",
+      "pageBody": "Susține comunitatea și deblochează beneficii exclusive. Membership-ul ne ajută să menținem site-ul, să organizăm evenimente și să dezvoltăm noi funcționalități.",
+      "sectionTitle": "Susține comunitatea",
+      "sectionBody": "Membership-ul ne ajută să menținem site-ul, să organizăm photowalk-uri și să dezvoltăm secțiuni noi — print, workshop-uri, și evenimente speciale.",
+      "learnMore": "Află mai multe",
+      "joinSubject": "Street Lens — Membership",
+      "homepageCards": [
+        { "price": "Gratuit", "features": "Galerie, hartă, newsletter" },
+        { "price": "29 RON/lună", "features": "Concursuri, forum, discount merch" },
+        { "price": "249 RON/an", "features": "Tot de sus + print exclusiv" }
+      ],
+      "tiers": {
+        "free": {
+          "name": "Gratuit",
+          "price": "0 RON",
+          "period": "pentru totdeauna",
+          "cta": "Ești deja membru",
+          "features": ["Acces galerie publică", "Hartă photowalk-uri", "Newsletter săptămânal", "Calendar evenimente"],
+          "highlighted": false,
+          "mailto": false
+        },
+        "community": {
+          "name": "Community",
+          "price": "29 RON",
+          "period": "pe lună",
+          "cta": "Alege Community",
+          "features": ["Tot din planul gratuit", "Participare la concursuri", "Forum membri", "15% discount merch", "Votezi tema photowalk-ului"],
+          "highlighted": true,
+          "mailto": true
+        },
+        "patron": {
+          "name": "Patron",
+          "price": "249 RON",
+          "period": "pe an",
+          "cta": "Alege Patron",
+          "features": ["Tot din Community", "Print exclusiv anual", "Prioritate la workshop-uri", "25% discount merch", "Numele tău pe site"],
+          "highlighted": false,
+          "mailto": true
+        }
+      }
+    },
+    "en": {
+      "pageTitle": "Membership",
+      "pageBody": "Support the community and unlock exclusive benefits. Membership helps us maintain the site, host events, and ship new features.",
+      "sectionTitle": "Support the community",
+      "sectionBody": "Membership helps us maintain the site, run photowalks, and build new sections — print, workshops, and special events.",
+      "learnMore": "Learn more",
+      "joinSubject": "Street Lens — Membership",
+      "homepageCards": [
+        { "price": "Free", "features": "Gallery, map, newsletter" },
+        { "price": "29 RON/month", "features": "Contests, forum, merch discount" },
+        { "price": "249 RON/year", "features": "Everything above + exclusive print" }
+      ],
+      "tiers": {
+        "free": {
+          "name": "Free",
+          "price": "0 RON",
+          "period": "forever",
+          "cta": "You're already a member",
+          "features": ["Public gallery access", "Photowalk map", "Weekly newsletter", "Events calendar"],
+          "highlighted": false,
+          "mailto": false
+        },
+        "community": {
+          "name": "Community",
+          "price": "29 RON",
+          "period": "per month",
+          "cta": "Choose Community",
+          "features": ["Everything in Free", "Contest participation", "Members forum", "15% merch discount", "Vote on photowalk themes"],
+          "highlighted": true,
+          "mailto": true
+        },
+        "patron": {
+          "name": "Patron",
+          "price": "249 RON",
+          "period": "per year",
+          "cta": "Choose Patron",
+          "features": ["Everything in Community", "Annual exclusive print", "Workshop priority", "25% merch discount", "Your name on the site"],
+          "highlighted": false,
+          "mailto": true
+        }
+      }
+    }
+  },
+  "shop": {
+    "orderSubject": "Comandă Street Lens",
+    "ro": {
+      "pageTitle": "Magazin",
+      "pageBody": "Merch oficial al comunității Street Lens. Fiecare achiziție susține photowalk-urile și dezvoltarea platformei.",
+      "printPageTitle": "Printuri tiraj limitat",
+      "printPageBody": "Tiraje numerotate din photowalk-uri și galeria comunității. Fiecare print e semnat.",
+      "printSectionTitle": "Printuri tiraj limitat",
+      "printSectionBody": "Fiecare print e semnat și numerotat — selecție din photowalk-uri și galeria comunității.",
+      "customPrint": "Cere un print personalizat",
+      "addToCart": "Adaugă în coș",
+      "sectionEyebrow": "Magazin",
+      "sectionTitle": "Merch comunitate",
+      "sectionSeeAll": "Vezi tot magazinul",
+      "sectionPrintTitle": "Printuri din comunitate",
+      "sectionPrintBody": "Tiraje limitate — fotografiile care au definit walk-urile noastre",
+      "sectionSeePrints": "Vezi printurile",
+      "catTees": "Tricouri",
+      "catPrint": "Print"
+    },
+    "en": {
+      "pageTitle": "Shop",
+      "pageBody": "Official Street Lens merch. Every purchase supports photowalks and the platform.",
+      "printPageTitle": "Limited edition prints",
+      "printPageBody": "Numbered editions from photowalks and the community gallery. Each print is signed.",
+      "printSectionTitle": "Limited edition prints",
+      "printSectionBody": "Each print is signed and numbered — selected from photowalks and the community gallery.",
+      "customPrint": "Request a custom print",
+      "addToCart": "Add to cart",
+      "sectionEyebrow": "Shop",
+      "sectionTitle": "Community merch",
+      "sectionSeeAll": "See full shop",
+      "sectionPrintTitle": "Community prints",
+      "sectionPrintBody": "Limited editions — photos that defined our walks",
+      "sectionSeePrints": "See prints",
+      "catTees": "Tees",
+      "catPrint": "Print"
+    },
+    "items": [
+      { "id": "m1", "price": 89, "category": "tees", "ro": { "name": "Tricou „Walk & Shoot”" }, "en": { "name": "\"Walk & Shoot\" tee" } },
+      { "id": "m2", "price": 145, "category": "print", "ro": { "name": "Print tiraj limitat I" }, "en": { "name": "Limited print I" } },
+      { "id": "m3", "price": 120, "category": "print", "ro": { "name": "Print tiraj limitat II" }, "en": { "name": "Limited print II" } },
+      { "id": "m4", "price": 95, "category": "print", "ro": { "name": "Poster comunitate" }, "en": { "name": "Community poster" } }
+    ]
+  }
 }

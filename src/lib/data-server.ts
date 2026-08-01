@@ -68,8 +68,12 @@ export function getActiveContest(dict: Dictionary, locale: Locale = "ro"): Conte
   };
 }
 
-export function getPrintItems(dict: Dictionary): MerchItem[] {
-  return getMerchItems(dict).filter((item) => item.category === dict.shop.catPrint);
+export function getPrintItems(dict: Dictionary, locale: Locale = "ro"): MerchItem[] {
+  return getMerchItems(dict, locale).filter((item) => {
+    const { shop } = getSiteContent();
+    const copy = shop[locale];
+    return item.category === copy.catPrint;
+  });
 }
 
 export function getBlogArticles(dict: Dictionary, locale: Locale = "ro") {
@@ -100,37 +104,18 @@ export function getBlogArticles(dict: Dictionary, locale: Locale = "ro") {
   }));
 }
 
-export function getMerchItems(dict: Dictionary): MerchItem[] {
-  return [
-    {
-      id: "m1",
-      name: dict.shop.tee,
-      price: 89,
-      image: photoForFrame("square", 0),
-      category: dict.shop.catTees,
-    },
-    {
-      id: "m2",
-      name: dict.shop.print1,
-      price: 145,
-      image: photoForFrame("square", 1),
-      category: dict.shop.catPrint,
-    },
-    {
-      id: "m3",
-      name: dict.shop.print2,
-      price: 120,
-      image: photoForFrame("square", 2),
-      category: dict.shop.catPrint,
-    },
-    {
-      id: "m4",
-      name: dict.shop.poster,
-      price: 95,
-      image: photoForFrame("square", 3),
-      category: dict.shop.catPrint,
-    },
-  ];
+export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchItem[] {
+  const { shop } = getSiteContent();
+  const copy = shop[locale];
+  const categoryLabels = { tees: copy.catTees, print: copy.catPrint };
+
+  return shop.items.map((item, index) => ({
+    id: item.id,
+    name: item[locale].name,
+    price: item.price,
+    image: photoForFrame("square", index),
+    category: categoryLabels[item.category],
+  }));
 }
 
 export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): PhotoCategory[] {
