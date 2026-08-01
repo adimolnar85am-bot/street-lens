@@ -41,7 +41,8 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
   }, [prefersReducedMotion, slides.length]);
 
   return (
-    <section className="relative min-h-[88svh] flex items-end overflow-hidden protect-media">
+    <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden protect-media">
+      {/* Slideshow — full viewport */}
       <div className="absolute inset-0" data-protect-media>
         {slides.map((slide, i) => (
           <div
@@ -76,81 +77,91 @@ export function Hero({ slides, nextWalk, contest, photoCount }: HeroProps) {
         ))}
       </div>
 
-      {/* Soft vignette + gradient — stronger on mobile, lighter on desktop */}
+      {/*
+        Gradient de imbinare: poza sus, fade ușor spre jos unde e textul.
+        Linia de tranziție ~45–55% pe mobil, mai jos pe desktop.
+      */}
       <div
-        className="absolute inset-0 z-[2] pointer-events-none bg-[radial-gradient(ellipse_120%_80%_at_50%_20%,transparent_0%,rgba(23,23,23,0.35)_55%,rgba(23,23,23,0.75)_100%)] md:bg-none"
-        aria-hidden
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.92) 22%, rgba(23,23,23,0.55) 42%, rgba(23,23,23,0.15) 58%, transparent 72%)",
+        }}
       />
-      <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t from-ink/95 from-[18%] via-ink/75 via-[48%] to-transparent md:from-ink md:via-ink/55 md:to-ink/15 md:from-0% md:via-50% md:to-100%" />
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none hidden md:block"
+        style={{
+          background:
+            "linear-gradient(to top, #171717 0%, rgba(23,23,23,0.75) 35%, rgba(23,23,23,0.2) 55%, transparent 100%)",
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-14 lg:pb-20 w-full">
-        <div className="max-w-2xl rounded-2xl border border-cream/10 bg-ink/40 backdrop-blur-sm px-4 py-5 sm:px-5 sm:py-6 md:border-0 md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none">
-          <p className="text-signal/95 text-xs sm:text-sm font-semibold tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-3 sm:mb-4">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14 lg:pb-20 w-full">
+        <div className="max-w-3xl">
+          <p className="text-signal text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase mb-3 sm:mb-5">
             {dict.hero.locationBadge} · {dict.hero.eyebrow}
           </p>
-          <h1 className="font-display text-3xl sm:text-5xl lg:text-7xl text-cream mb-4 sm:mb-5 leading-[0.98] sm:leading-[0.95] drop-shadow-sm">
+
+          <h1 className="font-display text-[2.75rem] leading-[0.92] sm:text-6xl lg:text-8xl text-cream mb-5 sm:mb-6 tracking-tight">
             {dict.hero.title1}
             <br />
             <span className="text-signal">{dict.hero.title2}</span>
           </h1>
-          <p className="text-sm sm:text-lg text-cream/90 leading-relaxed mb-6 sm:mb-8 max-w-xl">
+
+          <p className="text-sm sm:text-lg text-cream/85 leading-relaxed mb-7 sm:mb-8 max-w-xl">
             {content.hero.body}
           </p>
 
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 sm:gap-4 mb-6 sm:mb-8">
+          <div className="flex flex-wrap gap-3 sm:gap-4 mb-7 sm:mb-8">
             <Link
               href={localePath(locale, `/photowalks/${nextWalk.id}`)}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-signal hover:bg-signal-light text-ink font-bold rounded-sm transition-colors text-sm w-full sm:w-auto"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-signal hover:bg-signal-light text-ink font-bold rounded-sm transition-colors text-sm"
             >
               {content.hero.ctaWalk}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href={localePath(locale, "/harta")}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-cream/10 hover:bg-cream/15 text-cream font-medium rounded-sm backdrop-blur-md border border-cream/20 transition-colors text-sm w-full sm:w-auto"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-cream/10 hover:bg-cream/15 text-cream font-medium rounded-sm backdrop-blur-sm border border-cream/20 transition-colors text-sm"
             >
               <MapPin className="w-4 h-4" />
               {dict.hero.ctaMap}
             </Link>
             <Link
               href={localePath(locale, "/concursuri")}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 text-cream/85 hover:text-cream text-sm font-medium transition-colors w-full sm:w-auto sm:justify-start"
+              className="inline-flex items-center gap-2 px-2 py-3.5 text-cream/80 hover:text-cream text-sm font-medium transition-colors"
             >
-              <Trophy className="w-4 h-4 text-signal shrink-0" />
+              <Trophy className="w-4 h-4 text-signal/90" />
               {content.hero.ctaContest}
             </Link>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-cream/80 border-t border-cream/10 pt-5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-cream/70 pt-5 border-t border-cream/10">
             <Link
               href={localePath(locale, `/photowalks/${nextWalk.id}`)}
               className="hover:text-signal transition-colors"
             >
-              <span className="text-cream/50">{dict.hero.nextLabel}:</span>{" "}
+              <span className="text-cream/45">{dict.hero.nextLabel}:</span>{" "}
               {nextWalk.title}
             </Link>
-            <span className="hidden sm:inline text-cream/30">·</span>
+            <span className="hidden sm:inline text-cream/25">·</span>
             <span className="hidden sm:inline">
               {photoCount} {dict.hero.archiveLabel}
             </span>
-            <span className="hidden sm:inline text-cream/30">·</span>
+            <span className="hidden sm:inline text-cream/25">·</span>
             <span className="text-signal/90">
               {dict.hero.contestLabel} #{contest.themeNumber}
             </span>
           </div>
         </div>
 
-        <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
-          <p className="text-[10px] tracking-[0.15em] uppercase text-cream/40 sm:text-ink-500">
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <p className="text-[10px] tracking-[0.15em] uppercase text-cream/35 sm:text-ink-500">
             {dict.hero.photoCredit}
           </p>
 
-          <div
-            className="flex items-center gap-2 sm:gap-2.5"
-            role="tablist"
-            aria-label="Slideshow hero"
-          >
-            <span className="text-xs text-cream/45 sm:text-ink-500 tabular-nums mr-1 hidden sm:inline">
+          <div className="flex items-center gap-2.5" role="tablist" aria-label="Slideshow hero">
+            <span className="text-xs text-cream/40 sm:text-ink-500 tabular-nums mr-1 hidden sm:inline">
               {String(active + 1).padStart(2, "0")}
               {dict.hero.frameOf}
               {String(slides.length).padStart(2, "0")}
