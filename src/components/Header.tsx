@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, Camera, Instagram, Youtube } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+import { Menu, X, ChevronDown, Instagram, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/i18n/LocaleContext";
 import { getNavigation, localePath, switchLocalePath } from "@/i18n/navigation";
@@ -40,18 +41,13 @@ export function Header() {
       <div className="h-0.5 bg-signal/40" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href={localePath(locale, "/")} className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-full bg-leica flex items-center justify-center shadow-[0_0_0_2px_rgba(226,6,18,0.25)] group-hover:shadow-[0_0_0_3px_rgba(226,6,18,0.35)] transition-shadow">
-              <Camera className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <span className="font-display text-xl lg:text-2xl text-cream">
-                {dict.brand.name}
-              </span>
-              <span className="hidden sm:block text-xs text-ink-400 tracking-widest uppercase">
-                {dict.brand.tagline}
-              </span>
-            </div>
+          <Link href={localePath(locale, "/")} className="group">
+            <BrandLogo
+              size={40}
+              showText
+              name={dict.brand.name}
+              tagline={dict.brand.tagline}
+            />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
@@ -212,10 +208,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-leica flex items-center justify-center">
-                <Camera className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-display text-xl text-cream">{dict.brand.name}</span>
+              <BrandLogo size={40} name={dict.brand.name} />
             </div>
             <p className="text-ink-400 text-sm leading-relaxed">{dict.footer.about}</p>
             <div className="flex gap-4 mt-6">

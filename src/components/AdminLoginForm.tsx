@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Camera } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -43,9 +43,7 @@ export function AdminLoginForm() {
         className="w-full max-w-sm bg-ink-900 border border-ink-700 rounded-xl p-8"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-full bg-leica flex items-center justify-center">
-            <Camera className="w-5 h-5 text-white" />
-          </div>
+          <BrandLogo size={40} name="Street Lens" />
           <div>
             <h1 className="font-display text-2xl">Admin</h1>
             <p className="text-xs text-ink-400">Acces restricționat</p>
