@@ -11,19 +11,16 @@ type BrandLogoProps = {
   showTagline?: boolean;
   /** Animate wordmark emerging from the mark (header). */
   animate?: boolean;
-  /** On small screens show mark-only for horizontal. */
-  responsive?: boolean;
   alt?: string;
 };
 
 export function BrandLogo({
-  height = 40,
+  height = 44,
   className,
   variant = "horizontal",
   tagline,
   showTagline = false,
   animate = false,
-  responsive = false,
   alt = "streetlens",
 }: BrandLogoProps) {
   if (variant === "mark") {
@@ -49,27 +46,25 @@ export function BrandLogo({
     );
   }
 
-  const markSize = Math.round(height * 0.95);
-
   return (
     <span
-      className={cn("inline-flex items-center gap-2.5 sm:gap-3", className)}
+      className={cn(
+        "inline-flex items-center gap-2 min-w-0 max-w-full",
+        className
+      )}
       role="img"
       aria-label={alt}
     >
-      <StreetlensMark size={markSize} animate={animate} />
-      <span
-        className={cn(
-          "min-w-0 overflow-hidden",
-          responsive ? "hidden sm:inline-flex" : "inline-flex"
-        )}
-      >
-        <span className={cn(animate && "logo-word-clip")}>
-          <StreetlensWordmark animate={animate} size="md" />
-        </span>
+      <StreetlensMark
+        size={height}
+        animate={animate}
+        className="shrink-0"
+      />
+      <span className="min-w-0 overflow-hidden inline-flex">
+        <StreetlensWordmark animate={animate} size="header" />
       </span>
       {showTagline && tagline ? (
-        <span className="hidden lg:block text-xs text-ink-400 tracking-widest uppercase max-w-[12rem] leading-snug">
+        <span className="hidden xl:block text-xs text-ink-400 tracking-widest uppercase max-w-[11rem] leading-snug shrink-0">
           {tagline}
         </span>
       ) : null}

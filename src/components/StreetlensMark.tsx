@@ -8,7 +8,7 @@ type StreetlensMarkProps = {
 
 /** Inline viewfinder mark — red brackets, cream lens, yellow tally. */
 export function StreetlensMark({
-  size = 40,
+  size = 44,
   className,
   animate = false,
 }: StreetlensMarkProps) {
@@ -19,7 +19,7 @@ export function StreetlensMark({
       width={size}
       height={size}
       fill="none"
-      className={cn(animate && "logo-mark-focus", className)}
+      className={cn("block", animate && "logo-mark-focus", className)}
       aria-hidden="true"
     >
       <path
@@ -66,13 +66,15 @@ export function StreetlensMark({
 type StreetlensWordmarkProps = {
   className?: string;
   animate?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "header";
 };
 
 const sizeClass = {
   sm: "text-lg",
   md: "text-xl lg:text-2xl",
   lg: "text-2xl",
+  /* Fits header with RO + menu on ~320px; larger from sm up */
+  header: "text-[1.35rem] sm:text-2xl lg:text-[1.75rem]",
 } as const;
 
 export function StreetlensWordmark({
@@ -83,7 +85,7 @@ export function StreetlensWordmark({
   return (
     <span
       className={cn(
-        "inline-flex items-baseline leading-none tracking-tight text-cream",
+        "inline-flex items-baseline leading-none tracking-tight text-cream whitespace-nowrap",
         sizeClass[size],
         animate && "logo-word-reveal",
         className

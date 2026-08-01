@@ -87,7 +87,7 @@ body {
 @keyframes logoWordReveal {
   0% {
     opacity: 0;
-    transform: translateX(-1.1em);
+    transform: translateX(-55%);
   }
   100% {
     opacity: 1;
@@ -106,47 +106,29 @@ body {
   }
 }
 
-@keyframes logoWordClip {
-  0% {
-    max-width: 0;
-    opacity: 1;
-  }
-  100% {
-    max-width: 12rem;
-    opacity: 1;
-  }
-}
-
 .logo-mark-focus {
   animation: logoMarkFocus 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
   transform-origin: center;
 }
 
-.logo-word-clip {
-  display: inline-flex;
-  max-width: 0;
-  animation: logoWordClip 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
-}
-
+/* Text slides out from behind the mark — always ends visible */
 .logo-word-reveal {
-  animation: logoWordReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
   display: inline-flex;
+  animation: logoWordReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
 .logo-word-reveal-down {
-  overflow: hidden;
-  animation: logoWordRevealDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  display: inline-flex;
+  animation: logoWordRevealDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .logo-mark-focus,
-  .logo-word-clip,
   .logo-word-reveal,
   .logo-word-reveal-down {
-    animation: none;
-    max-width: none;
-    opacity: 1;
-    transform: none;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

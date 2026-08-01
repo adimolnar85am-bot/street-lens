@@ -18,7 +18,7 @@ function LanguageSwitcher() {
   return (
     <Link
       href={switchLocalePath(pathname ?? "/", otherLocale)}
-      className="px-3 py-1.5 text-xs font-bold tracking-wider border border-ink-600 hover:border-signal text-cream/70 hover:text-signal rounded-sm transition-colors"
+      className="px-2.5 sm:px-3 py-1.5 text-xs font-bold tracking-wider border border-ink-600 hover:border-signal text-cream/70 hover:text-signal rounded-sm transition-colors shrink-0"
       aria-label={dict.lang.switchTo}
     >
       {dict.lang[otherLocale]}
@@ -40,11 +40,13 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-ink-800">
       <div className="h-0.5 bg-signal/40" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href={localePath(locale, "/")} className="group">
+        <div className="flex items-center justify-between gap-2 sm:gap-4 h-16 lg:h-20">
+          <Link
+            href={localePath(locale, "/")}
+            className="group min-w-0 flex-1 overflow-hidden pr-1"
+          >
             <BrandLogo
-              height={40}
-              responsive
+              height={44}
               animate
               showTagline
               tagline={dict.brand.tagline}
@@ -117,10 +119,10 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="flex lg:hidden items-center gap-3">
+          <div className="flex lg:hidden items-center gap-2 shrink-0">
             <LanguageSwitcher />
             <button
-              className="p-2 text-cream"
+              className="p-2 -mr-1 text-cream"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={dict.nav.menu}
             >
@@ -209,7 +211,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <BrandLogo height={36} />
+              <BrandLogo height={40} />
             </div>
             <p className="text-ink-400 text-sm leading-relaxed">{dict.footer.about}</p>
             <div className="flex gap-4 mt-6">
