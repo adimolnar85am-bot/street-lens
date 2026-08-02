@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus, LayoutGrid } from "lucide-react";
+import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus, LayoutGrid, CheckSquare, Square, X } from "lucide-react";
 import { ProtectedImage } from "@/components/ProtectedImage";
 import { AdminNav } from "@/components/AdminShell";
 import { prepareImagesForUpload } from "@/lib/client-image-compress";
@@ -93,6 +93,10 @@ export default function AdminPhotosPage() {
   const [uploadMessage, setUploadMessage] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "visible" | "hidden">("all");
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkMessage, setBulkMessage] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -129,6 +133,73 @@ export default function AdminPhotosPage() {
       router.refresh();
     }
     setBusyId(null);
+  }
+
+  function toggleSelectionMode() {
+    setSelectionMode((on) => {
+      if (on) setSelectedIds(new Set());
+      return !on;
+    });
+    setBulkMessage(null);
+  }
+
+  function togglePhotoSelection(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function selectAllFiltered() {
+    setSelectedIds(new Set(filtered.map((p) => p.id)));
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set());
+  }
+
+  async function bulkAct(action: "exclude" | "restore" | "delete") {
+    const ids = [...selectedIds];
+    if (!ids.length) return;
+
+    if (action === "delete") {
+      const ok = window.confirm(
+        `Ștergi definitiv ${ids.length} ${ids.length === 1 ? "poză" : "poze"}? Acțiunea nu poate fi anulată.`
+      );
+      if (!ok) return;
+    }
+
+    setBulkBusy(true);
+    setBulkMessage(null);
+    const res = await fetch("/api/admin/photos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, action }),
+    });
+
+    if (res.status === 401) {
+      router.replace("/admin/login");
+      return;
+    }
+
+    const data = await res.json();
+    if (res.ok) {
+      setPhotos(data.photos || []);
+      setSelectedIds(new Set());
+      setBulkMessage(
+        action === "exclude"
+          ? `${data.processed} ${data.processed === 1 ? "poză eliminată" : "poze eliminate"} de pe site`
+          : action === "restore"
+            ? `${data.processed} ${data.processed === 1 ? "poză restaurată" : "poze restaurate"}`
+            : `${data.processed} ${data.processed === 1 ? "poză ștearsă" : "poze șterse"} definitiv`
+      );
+      router.refresh();
+    } else {
+      setBulkMessage(data.error || "Eroare la acțiunea în masă");
+    }
+    setBulkBusy(false);
   }
 
   async function uploadFiles(fileList: FileList | File[]) {
@@ -270,6 +341,10 @@ export default function AdminPhotosPage() {
     return true;
   });
 
+  const selectedPhotos = photos.filter((p) => selectedIds.has(p.id));
+  const selectedVisible = selectedPhotos.filter((p) => !p.excluded).length;
+  const selectedHidden = selectedPhotos.filter((p) => p.excluded).length;
+
   return (
     <div className="min-h-screen">
       <AdminNav
@@ -389,6 +464,23 @@ export default function AdminPhotosPage() {
             <RefreshCw className="w-4 h-4" />
             Reîncarcă
           </button>
+          <button
+            type="button"
+            onClick={toggleSelectionMode}
+            className={cn(
+              "inline-flex items-center gap-2 px-3 py-2 text-sm border rounded-sm transition-colors",
+              selectionMode
+                ? "bg-signal text-ink border-signal font-semibold"
+                : "border-ink-700 hover:border-ink-500"
+            )}
+          >
+            {selectionMode ? (
+              <CheckSquare className="w-4 h-4" />
+            ) : (
+              <Square className="w-4 h-4" />
+            )}
+            {selectionMode ? "Mod selectare activ" : "Selectare multiplă"}
+          </button>
           <div className="flex gap-2">
             {(
               [
@@ -413,9 +505,22 @@ export default function AdminPhotosPage() {
             ))}
           </div>
         </div>
+        {selectionMode ? (
+          <p className="text-xs text-ink-400">
+            Atinge pozele pentru a le selecta, apoi alege acțiunea din bara de jos.
+          </p>
+        ) : null}
+        {bulkMessage ? (
+          <p className="text-sm text-green-400">{bulkMessage}</p>
+        ) : null}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div
+        className={cn(
+          "max-w-7xl mx-auto px-4 py-8",
+          selectionMode && selectedIds.size > 0 && "pb-36"
+        )}
+      >
         {loading ? (
           <p className="text-ink-400 text-sm">Se încarcă…</p>
         ) : filtered.length === 0 ? (
@@ -426,12 +531,33 @@ export default function AdminPhotosPage() {
           </p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filtered.map((photo) => (
+            {filtered.map((photo) => {
+              const isSelected = selectedIds.has(photo.id);
+              return (
               <div
                 key={photo.id}
+                role={selectionMode ? "button" : undefined}
+                tabIndex={selectionMode ? 0 : undefined}
+                onClick={
+                  selectionMode
+                    ? () => togglePhotoSelection(photo.id)
+                    : undefined
+                }
+                onKeyDown={
+                  selectionMode
+                    ? (e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          togglePhotoSelection(photo.id);
+                        }
+                      }
+                    : undefined
+                }
                 className={cn(
-                  "relative rounded-lg overflow-hidden border bg-ink-900",
-                  photo.excluded ? "border-ink-700 opacity-70" : "border-ink-800"
+                  "relative rounded-lg overflow-hidden border bg-ink-900 transition-colors",
+                  photo.excluded ? "border-ink-700 opacity-70" : "border-ink-800",
+                  selectionMode && "cursor-pointer hover:border-ink-500",
+                  isSelected && "border-signal ring-2 ring-signal/40"
                 )}
               >
                 <div className="relative aspect-square">
@@ -441,6 +567,18 @@ export default function AdminPhotosPage() {
                     className="object-cover pointer-events-none"
                     sizes="25vw"
                   />
+                  {selectionMode ? (
+                    <div
+                      className={cn(
+                        "absolute top-2 right-2 w-6 h-6 rounded-sm border-2 flex items-center justify-center transition-colors",
+                        isSelected
+                          ? "bg-signal border-signal text-ink"
+                          : "bg-ink/70 border-cream/40 text-transparent"
+                      )}
+                    >
+                      <CheckSquare className="w-4 h-4" />
+                    </div>
+                  ) : null}
                   {photo.excluded && (
                     <div className="absolute inset-0 bg-ink/50 flex items-center justify-center">
                       <span className="text-xs font-semibold uppercase tracking-wider text-cream bg-ink/80 px-2 py-1 rounded-sm">
@@ -458,6 +596,7 @@ export default function AdminPhotosPage() {
                     </span>
                   )}
                 </div>
+                {!selectionMode ? (
                 <div className="p-2 flex flex-wrap gap-1">
                   {photo.excluded ? (
                     <button
@@ -490,11 +629,93 @@ export default function AdminPhotosPage() {
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
+                ) : (
+                  <p className="px-2 py-2 text-[10px] text-ink-400 truncate">
+                    {photo.id}
+                  </p>
+                )}
               </div>
-            ))}
+            );
+            })}
           </div>
         )}
       </div>
+
+      {selectionMode && selectedIds.size > 0 ? (
+        <div className="fixed bottom-0 inset-x-0 z-40 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <div className="max-w-7xl mx-auto bg-ink-900 border border-ink-700 rounded-xl shadow-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-cream">
+                {selectedIds.size}{" "}
+                {selectedIds.size === 1 ? "poză selectată" : "poze selectate"}
+              </p>
+              <p className="text-xs text-ink-400 mt-0.5">
+                {selectedVisible > 0 ? `${selectedVisible} pe site` : null}
+                {selectedVisible > 0 && selectedHidden > 0 ? " · " : null}
+                {selectedHidden > 0 ? `${selectedHidden} eliminate` : null}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={selectAllFiltered}
+                disabled={bulkBusy}
+                className="px-3 py-2 text-xs border border-ink-700 rounded-sm hover:border-ink-500 disabled:opacity-50"
+              >
+                Selectează tot ({filtered.length})
+              </button>
+              <button
+                type="button"
+                onClick={clearSelection}
+                disabled={bulkBusy}
+                className="px-3 py-2 text-xs border border-ink-700 rounded-sm hover:border-ink-500 disabled:opacity-50"
+              >
+                Deselectează
+              </button>
+              {selectedVisible > 0 ? (
+                <button
+                  type="button"
+                  disabled={bulkBusy}
+                  onClick={() => bulkAct("exclude")}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs bg-ink-800 hover:bg-ink-700 rounded-sm disabled:opacity-50"
+                >
+                  <EyeOff className="w-3.5 h-3.5" />
+                  Elimină de pe site
+                </button>
+              ) : null}
+              {selectedHidden > 0 ? (
+                <button
+                  type="button"
+                  disabled={bulkBusy}
+                  onClick={() => bulkAct("restore")}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs bg-signal text-ink font-semibold rounded-sm disabled:opacity-50"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  Restaurează
+                </button>
+              ) : null}
+              <button
+                type="button"
+                disabled={bulkBusy}
+                onClick={() => bulkAct("delete")}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs text-leica border border-leica/30 hover:bg-leica/10 rounded-sm disabled:opacity-50"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                Șterge definitiv
+              </button>
+              <button
+                type="button"
+                onClick={toggleSelectionMode}
+                disabled={bulkBusy}
+                className="p-2 text-ink-400 hover:text-cream disabled:opacity-50"
+                title="Închide selectarea"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

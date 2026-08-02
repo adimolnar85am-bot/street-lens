@@ -122,35 +122,50 @@ export async function POST(request: Request) {
 
   await hydratePhotoStorage(true);
 
-  let body: { id?: string; action?: string };
+  let body: { id?: string; ids?: string[]; action?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Cerere invalidă" }, { status: 400 });
   }
 
-  const id = String(body?.id || "");
   const action = String(body?.action || "");
+  const ids = Array.isArray(body.ids)
+    ? body.ids.map(String).filter(Boolean)
+    : body?.id
+      ? [String(body.id)]
+      : [];
 
-  if (!id) {
+  if (!ids.length) {
     return NextResponse.json({ error: "ID lipsă" }, { status: 400 });
   }
 
-  let ok = false;
-  if (action === "exclude") ok = await excludePhoto(id);
-  else if (action === "restore") ok = await restorePhoto(id);
-  else if (action === "delete") ok = await deletePhotoPermanently(id);
-  else {
+  if (!["exclude", "restore", "delete"].includes(action)) {
     return NextResponse.json({ error: "Acțiune invalidă" }, { status: 400 });
   }
 
-  if (!ok) {
-    return NextResponse.json({ error: "Poza nu a fost găsită" }, { status: 404 });
+  const results: { id: string; ok: boolean }[] = [];
+  for (const id of ids) {
+    let ok = false;
+    if (action === "exclude") ok = await excludePhoto(id);
+    else if (action === "restore") ok = await restorePhoto(id);
+    else if (action === "delete") ok = await deletePhotoPermanently(id);
+    results.push({ id, ok });
+  }
+
+  const succeeded = results.filter((r) => r.ok).length;
+  if (!succeeded) {
+    return NextResponse.json({ error: "Nicio poză nu a fost găsită" }, { status: 404 });
   }
 
   revalidatePhotoPaths();
 
-  return NextResponse.json({ ok: true, photos: getAdminPhotos() });
+  return NextResponse.json({
+    ok: true,
+    processed: succeeded,
+    failed: results.length - succeeded,
+    photos: getAdminPhotos(),
+  });
 }
 
 export async function PUT(request: Request) {
