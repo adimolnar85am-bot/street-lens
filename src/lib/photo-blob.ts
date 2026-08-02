@@ -4,6 +4,12 @@ const PHOTO_PREFIX = "photos/";
 const INDEX_PATH = "meta/photos-index.json";
 const EXCLUDED_PATH = "meta/excluded.json";
 
+const putOpts = {
+  access: "public" as const,
+  addRandomSuffix: false,
+  allowOverwrite: true,
+};
+
 export type BlobPhotoEntry = {
   id: string;
   src: string;
@@ -15,10 +21,15 @@ export type BlobPhotoEntry = {
 };
 
 export function isBlobStorageEnabled(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 }
 
-export async function loadBlobPhotoIndex(): Promise<BlobPhotoEntry[]> {
+function photoIdFromPathname(pathname: string): string | null {
+  const match = pathname.match(/photos\/([^.]+)\.jpe?g$/i);
+  return match?.[1] ?? null;
+}
+
+async function readBlobPhotoIndexRaw(): Promise<BlobPhotoEntry[]> {
   if (!isBlobStorageEnabled()) return [];
   try {
     const { blobs } = await list({ prefix: INDEX_PATH, limit: 1 });
@@ -32,15 +43,59 @@ export async function loadBlobPhotoIndex(): Promise<BlobPhotoEntry[]> {
   }
 }
 
+/** Recover blob photos missing from index (e.g. after failed index write). */
+export async function recoverMissingBlobPhotos(): Promise<BlobPhotoEntry[]> {
+  if (!isBlobStorageEnabled()) return [];
+
+  const index = await readBlobPhotoIndexRaw();
+  const byId = new Map(index.map((entry) => [entry.id, entry]));
+  const missing: BlobPhotoEntry[] = [];
+  let cursor: string | undefined;
+
+  do {
+    const page = await list({ prefix: PHOTO_PREFIX, cursor, limit: 1000 });
+    for (const blob of page.blobs) {
+      const id = photoIdFromPathname(blob.pathname);
+      if (!id || byId.has(id)) continue;
+      const entry: BlobPhotoEntry = {
+        id,
+        src: blob.url,
+        width: 0,
+        height: 0,
+        orientation: "landscape",
+        aspectRatio: "3 / 2",
+        uploadedAt: blob.uploadedAt.toISOString(),
+      };
+      missing.push(entry);
+      byId.set(id, entry);
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+
+  if (!missing.length) return index;
+
+  const merged = [...missing, ...index];
+  await saveBlobPhotoIndex(merged);
+  return merged;
+}
+
+export async function loadBlobPhotoIndex(): Promise<BlobPhotoEntry[]> {
+  const index = await readBlobPhotoIndexRaw();
+  if (index.length > 0) return index;
+
+  const { blobs } = await list({ prefix: PHOTO_PREFIX, limit: 1 });
+  if (!blobs.length) return [];
+  return recoverMissingBlobPhotos();
+}
+
 async function saveBlobPhotoIndex(photos: BlobPhotoEntry[]): Promise<void> {
   if (!isBlobStorageEnabled()) return;
   await put(
     INDEX_PATH,
     JSON.stringify({ photos, updatedAt: new Date().toISOString() }),
     {
-      access: "public",
+      ...putOpts,
       contentType: "application/json",
-      addRandomSuffix: false,
     }
   );
 }
@@ -48,7 +103,7 @@ async function saveBlobPhotoIndex(photos: BlobPhotoEntry[]): Promise<void> {
 export async function uploadPhotoToBlob(
   id: string,
   buffer: Buffer,
-  meta: Omit<BlobPhotoEntry, "id" | "src">
+  meta: Omit<BlobPhotoEntry, "id" | "src" | "uploadedAt">
 ): Promise<BlobPhotoEntry> {
   if (!isBlobStorageEnabled()) {
     throw new Error(
@@ -58,9 +113,8 @@ export async function uploadPhotoToBlob(
 
   const pathname = `${PHOTO_PREFIX}${id}.jpg`;
   const blob = await put(pathname, buffer, {
-    access: "public",
+    ...putOpts,
     contentType: "image/jpeg",
-    addRandomSuffix: false,
   });
 
   const entry: BlobPhotoEntry = {
@@ -70,7 +124,7 @@ export async function uploadPhotoToBlob(
     ...meta,
   };
 
-  const index = await loadBlobPhotoIndex();
+  const index = await readBlobPhotoIndexRaw();
   const next = [entry, ...index.filter((p) => p.id !== id)];
   await saveBlobPhotoIndex(next);
 
@@ -80,7 +134,7 @@ export async function uploadPhotoToBlob(
 export async function deletePhotoFromBlob(id: string): Promise<boolean> {
   if (!isBlobStorageEnabled()) return false;
 
-  const index = await loadBlobPhotoIndex();
+  const index = await readBlobPhotoIndexRaw();
   const entry = index.find((p) => p.id === id);
   if (!entry) return false;
 
@@ -110,13 +164,12 @@ export async function readExcludedFromBlob(): Promise<string[]> {
 export async function writeExcludedToBlob(files: string[]): Promise<void> {
   if (!isBlobStorageEnabled()) return;
   await put(EXCLUDED_PATH, JSON.stringify(files, null, 2), {
-    access: "public",
+    ...putOpts,
     contentType: "application/json",
-    addRandomSuffix: false,
   });
 }
 
 export async function blobPhotoExists(id: string): Promise<boolean> {
-  const index = await loadBlobPhotoIndex();
+  const index = await readBlobPhotoIndexRaw();
   return index.some((p) => p.id === id);
 }

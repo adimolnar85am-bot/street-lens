@@ -26,7 +26,7 @@ async function handleUpload(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
 
-  await hydratePhotoStorage();
+  await hydratePhotoStorage(true);
 
   let formData: FormData;
   try {
@@ -92,7 +92,7 @@ export async function GET() {
   if (!(await isAdminSession())) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
-  await hydratePhotoStorage();
+  await hydratePhotoStorage(true);
   return NextResponse.json({ photos: getAdminPhotos() });
 }
 
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
 
-  await hydratePhotoStorage();
+  await hydratePhotoStorage(true);
 
   let body: { id?: string; action?: string };
   try {

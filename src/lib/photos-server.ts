@@ -12,6 +12,7 @@ import {
   isBlobStorageEnabled,
   loadBlobPhotoIndex,
   readExcludedFromBlob,
+  recoverMissingBlobPhotos,
   uploadPhotoToBlob,
   writeExcludedToBlob,
   type BlobPhotoEntry,
@@ -133,10 +134,12 @@ function metaFromDimensions(width: number, height: number): SizeMeta {
 }
 
 /** Load blob index + excluded list (call once per request on server). */
-export const hydratePhotoStorage = cache(async () => {
+export const hydratePhotoStorage = cache(async (recoverMissing = false) => {
   noStore();
   if (isBlobStorageEnabled()) {
-    blobEntries = await loadBlobPhotoIndex();
+    blobEntries = recoverMissing
+      ? await recoverMissingBlobPhotos()
+      : await loadBlobPhotoIndex();
     blobMetaBySrc = new Map(
       blobEntries.map((e) => [
         e.src,
