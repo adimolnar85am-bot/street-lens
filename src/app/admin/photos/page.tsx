@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeOff, RotateCcw, Trash2, RefreshCw } from "lucide-react";
+import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus } from "lucide-react";
 import { ProtectedImage } from "@/components/ProtectedImage";
 import { AdminNav } from "@/components/AdminShell";
 import { cn } from "@/lib/utils";
@@ -16,9 +16,14 @@ type AdminPhoto = {
 
 export default function AdminPhotosPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [photos, setPhotos] = useState<AdminPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "visible" | "hidden">("all");
 
   const load = useCallback(async () => {
@@ -58,6 +63,68 @@ export default function AdminPhotosPage() {
     setBusyId(null);
   }
 
+  async function uploadFiles(fileList: FileList | File[]) {
+    const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
+    if (!files.length) {
+      setUploadError("Selectează fișiere imagine (JPG, PNG, WebP).");
+      return;
+    }
+
+    setUploading(true);
+    setUploadMessage(null);
+    setUploadError(null);
+
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append("files", file);
+    }
+
+    try {
+      const res = await fetch("/api/admin/photos", {
+        method: "PUT",
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setUploadError(data.error || "Upload eșuat");
+        return;
+      }
+
+      setPhotos(data.photos || []);
+      router.refresh();
+
+      const count = data.uploaded?.length || 0;
+      const failed = data.errors?.length || 0;
+      if (count && failed) {
+        setUploadMessage(`${count} poze încărcate · ${failed} eșuate`);
+      } else if (count) {
+        setUploadMessage(`${count} ${count === 1 ? "poză încărcată" : "poze încărcate"}`);
+      } else {
+        setUploadError("Nicio poză nu a fost încărcată");
+      }
+    } catch {
+      setUploadError("Eroare de rețea la upload");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
+  function onFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files?.length) {
+      uploadFiles(e.target.files);
+    }
+  }
+
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    if (e.dataTransfer.files?.length) {
+      uploadFiles(e.dataTransfer.files);
+    }
+  }
+
   async function logout() {
     await fetch("/api/admin/logout", { method: "POST" });
     router.replace("/admin/login");
@@ -75,48 +142,111 @@ export default function AdminPhotosPage() {
   return (
     <div className="min-h-screen">
       <AdminNav
-        title="Curățare poze"
+        title="Poze site"
         subtitle={`${visible} vizibile · ${hidden} eliminate · ${photos.length} total`}
         onLogout={logout}
       />
 
-      <div className="max-w-7xl mx-auto px-4 pb-4 flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={load}
-          className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-ink-700 rounded-sm hover:border-ink-500"
+      <div className="max-w-7xl mx-auto px-4 pb-4 space-y-4">
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={onDrop}
+          className={cn(
+            "rounded-xl border-2 border-dashed p-6 sm:p-8 transition-colors",
+            dragOver
+              ? "border-signal bg-signal/10"
+              : "border-ink-700 bg-ink-900/50 hover:border-ink-500"
+          )}
         >
-          <RefreshCw className="w-4 h-4" />
-          Reîncarcă
-        </button>
-        <div className="flex gap-2">
-          {(
-            [
-              ["all", "Toate"],
-              ["visible", "Pe site"],
-              ["hidden", "Eliminate"],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setFilter(id)}
-              className={cn(
-                "px-3 py-1.5 text-xs rounded-full border transition-colors",
-                filter === id
-                  ? "bg-signal text-ink border-signal font-semibold"
-                  : "border-ink-700 text-ink-300 hover:border-ink-500"
-              )}
-            >
-              {label}
-            </button>
-          ))}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 rounded-lg bg-ink-800 text-signal shrink-0">
+                <ImagePlus className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold text-cream">Încarcă poze noi</p>
+                <p className="text-sm text-ink-400 mt-1">
+                  Trage fișiere aici sau alege din calculator. JPG, PNG, WebP — max
+                  15 MB / poză, până la 20 odată.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="hidden"
+                onChange={onFileInputChange}
+              />
+              <button
+                type="button"
+                disabled={uploading}
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-signal hover:bg-signal-light disabled:opacity-50 text-ink font-bold rounded-sm text-sm"
+              >
+                <Upload className="w-4 h-4" />
+                {uploading ? "Se încarcă…" : "Alege poze"}
+              </button>
+            </div>
+          </div>
+          {uploadMessage ? (
+            <p className="mt-4 text-sm text-green-400">{uploadMessage}</p>
+          ) : null}
+          {uploadError ? (
+            <p className="mt-4 text-sm text-leica">{uploadError}</p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={load}
+            className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-ink-700 rounded-sm hover:border-ink-500"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Reîncarcă
+          </button>
+          <div className="flex gap-2">
+            {(
+              [
+                ["all", "Toate"],
+                ["visible", "Pe site"],
+                ["hidden", "Eliminate"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setFilter(id)}
+                className={cn(
+                  "px-3 py-1.5 text-xs rounded-full border transition-colors",
+                  filter === id
+                    ? "bg-signal text-ink border-signal font-semibold"
+                    : "border-ink-700 text-ink-300 hover:border-ink-500"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {loading ? (
           <p className="text-ink-400 text-sm">Se încarcă…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-ink-400 text-sm">
+            {filter === "all"
+              ? "Nicio poză încă. Încarcă prima fotografie mai sus."
+              : "Nicio poză în acest filtru."}
+          </p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {filtered.map((photo) => (

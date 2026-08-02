@@ -343,3 +343,58 @@ export function deletePhotoPermanently(id: string): boolean {
 export function hashName(input: string) {
   return createHash("sha256").update(input).digest("hex").slice(0, 16);
 }
+
+const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+const ALLOWED_UPLOAD_TYPES = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+]);
+
+export async function uploadPhotoFromBuffer(
+  buffer: Buffer,
+  mimeType: string
+): Promise<{ id: string; src: string }> {
+  if (buffer.length > MAX_UPLOAD_BYTES) {
+    throw new Error("Fișier prea mare (max 15 MB)");
+  }
+
+  const normalizedType = mimeType.toLowerCase() || "image/jpeg";
+  if (!ALLOWED_UPLOAD_TYPES.has(normalizedType)) {
+    throw new Error("Format neacceptat. Folosește JPG, PNG sau WebP.");
+  }
+
+  if (!fs.existsSync(PHOTOS_DIR)) {
+    fs.mkdirSync(PHOTOS_DIR, { recursive: true });
+  }
+
+  const sharp = (await import("sharp")).default;
+  const jpegBuffer = await sharp(buffer)
+    .rotate()
+    .jpeg({ quality: 88, mozjpeg: true })
+    .toBuffer();
+
+  let id = createHash("sha256").update(jpegBuffer).digest("hex").slice(0, 16);
+  let filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
+  let attempt = 0;
+  while (fs.existsSync(filePath) && attempt < 10) {
+    attempt += 1;
+    id = createHash("sha256")
+      .update(jpegBuffer)
+      .update(String(attempt))
+      .digest("hex")
+      .slice(0, 16);
+    filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
+  }
+
+  if (fs.existsSync(filePath)) {
+    throw new Error("Nu s-a putut genera un nume unic pentru fișier");
+  }
+
+  fs.writeFileSync(filePath, jpegBuffer);
+  sizeCache.delete(filePath);
+  rebuildCatalog();
+
+  return { id, src: `/photos/${id}.jpg` };
+}

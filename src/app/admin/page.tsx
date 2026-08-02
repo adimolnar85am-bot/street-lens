@@ -5,8 +5,8 @@ import { AdminNav } from "@/components/AdminShell";
 const cards = [
   {
     href: "/admin/photos",
-    title: "Curățare poze",
-    body: "Exclude, restaurează sau șterge fotografii din galerie.",
+    title: "Poze site",
+    body: "Încarcă fotografii noi, exclude, restaurează sau șterge din galerie.",
     icon: Camera,
   },
   {
