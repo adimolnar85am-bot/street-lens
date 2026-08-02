@@ -123,7 +123,8 @@ export default function PhotoAssignmentsPage() {
             Reîncarcă
           </button>
           <p className="text-sm text-ink-400">
-            Slot gol = rotație automată din pozele vizibile
+            Pozele alese manual rămân fixe la refresh — se schimbă doar din admin.
+            Slot gol = rotație automată.
           </p>
         </div>
 

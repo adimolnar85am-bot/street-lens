@@ -27,11 +27,18 @@ const PHOTOWALK_PINS: Record<string, { id: string }[]> = {
 const HERO_SLOTS = 18;
 const GALLERY_FEATURED_SLOTS = 12;
 
+function normalizeAssignments(data: Partial<PhotoAssignments>): PhotoAssignments {
+  return {
+    slots: data.slots ?? {},
+    slotSrcs: data.slotSrcs ?? {},
+  };
+}
+
 function readAssignmentsFile(): PhotoAssignments {
   try {
     if (!fs.existsSync(ASSIGNMENTS_PATH)) return { ...EMPTY_PHOTO_ASSIGNMENTS };
     const data = JSON.parse(fs.readFileSync(ASSIGNMENTS_PATH, "utf8")) as PhotoAssignments;
-    return { slots: data.slots ?? {} };
+    return normalizeAssignments(data);
   } catch {
     return { ...EMPTY_PHOTO_ASSIGNMENTS };
   }
@@ -39,8 +46,8 @@ function readAssignmentsFile(): PhotoAssignments {
 
 async function readAssignmentsFromBlobOrDisk(): Promise<PhotoAssignments> {
   if (isBlobStorageEnabled()) {
-    const blobSlots = await readAssignmentsFromBlob();
-    if (blobSlots) return { slots: blobSlots };
+    const blobData = await readAssignmentsFromBlob();
+    if (blobData) return normalizeAssignments(blobData);
   }
   return readAssignmentsFile();
 }
@@ -58,7 +65,7 @@ export function getPhotoAssignmentsSync(): PhotoAssignments {
 export async function writePhotoAssignments(
   assignments: PhotoAssignments
 ): Promise<PhotoAssignments> {
-  const normalized = { slots: { ...assignments.slots } };
+  const normalized = normalizeAssignments(assignments);
   try {
     fs.writeFileSync(
       ASSIGNMENTS_PATH,
@@ -69,9 +76,29 @@ export async function writePhotoAssignments(
     /* read-only FS on Vercel */
   }
   if (isBlobStorageEnabled()) {
-    await writeAssignmentsToBlob(normalized.slots);
+    await writeAssignmentsToBlob(normalized);
   }
   return normalized;
+}
+
+export function applySlotAssignment(
+  current: PhotoAssignments,
+  slot: string,
+  photoId: string | null,
+  src: string | null
+): PhotoAssignments {
+  const slots = { ...current.slots };
+  const slotSrcs = { ...(current.slotSrcs ?? {}) };
+
+  if (photoId && src) {
+    slots[slot] = photoId;
+    slotSrcs[slot] = src;
+  } else {
+    delete slots[slot];
+    delete slotSrcs[slot];
+  }
+
+  return { slots, slotSrcs };
 }
 
 export function buildPhotoSlotCatalog(): PhotoSlotDef[] {

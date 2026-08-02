@@ -190,6 +190,12 @@ export function getCachedPhotoAssignments(): PhotoAssignments {
 
 export function getPhotoSrcById(id: string): string | null {
   const excluded = new Set(readExcluded());
+  const file = `${id}.jpg`;
+  if (excluded.has(file)) return null;
+
+  const blobEntry = blobEntries.find((e) => e.id === id);
+  if (blobEntry) return blobEntry.src;
+
   for (const src of listAllPhotoSrcs()) {
     if (photoIdFromSrc(src) !== id) continue;
     if (excluded.has(photoFileFromSrc(src))) return null;
@@ -198,15 +204,33 @@ export function getPhotoSrcById(id: string): string | null {
   return null;
 }
 
+function isAssignedSrcVisible(src: string): boolean {
+  const excluded = new Set(readExcluded());
+  return !excluded.has(photoFileFromSrc(src));
+}
+
 export function resolvePhotoSrc(
   slotKey: string,
   fallback: { orientation: PhotoOrientation; index: number }
 ): string {
-  const assignedId = getAssignedPhotoId(getCachedPhotoAssignments(), slotKey);
-  if (assignedId) {
-    const src = getPhotoSrcById(assignedId);
-    if (src) return src;
+  const assignments = getCachedPhotoAssignments();
+  const assignedId = getAssignedPhotoId(assignments, slotKey);
+  const assignedSrc = assignments.slotSrcs?.[slotKey];
+
+  if (assignedId || assignedSrc) {
+    if (assignedSrc && isAssignedSrcVisible(assignedSrc)) {
+      if (!assignedId || photoIdFromSrc(assignedSrc) === assignedId) {
+        return assignedSrc;
+      }
+    }
+    if (assignedId) {
+      const src = getPhotoSrcById(assignedId);
+      if (src) return src;
+    }
+    // Slot ales manual — nu revenim la rotație automată
+    return assignedSrc && isAssignedSrcVisible(assignedSrc) ? assignedSrc : "";
   }
+
   return photoForFrame(fallback.orientation, fallback.index);
 }
 
@@ -425,13 +449,7 @@ export function getHeroSlides() {
     slides.push({ src, alt: PHOTO_ALT, label: `Cadru ${i + 1}` });
   }
 
-  if (slides.length) return slides;
-
-  return getCatalog().hero.map((src, i) => ({
-    src,
-    alt: PHOTO_ALT,
-    label: `Cadru ${i + 1}`,
-  }));
+  return slides;
 }
 
 export function getPhotoCount() {
@@ -470,15 +488,23 @@ function galleryPhotoFromSrc(src: string, key: string, i: number): GalleryPhoto 
 
 export function getGalleryPreview(limit = 12): GalleryPhoto[] {
   const assignments = getCachedPhotoAssignments();
-  const assigned: GalleryPhoto[] = [];
-  for (let i = 0; i < GALLERY_FEATURED_SLOTS; i++) {
-    const photoId = assignments.slots[`galleryFeatured.${i}`];
-    if (!photoId) continue;
-    const src = getPhotoSrcById(photoId);
-    if (!src) continue;
-    assigned.push(galleryPhotoFromSrc(src, `gf-${i + 1}`, i));
+  const hasAnyAssignment = Array.from(
+    { length: GALLERY_FEATURED_SLOTS },
+    (_, i) => assignments.slots[`galleryFeatured.${i}`]
+  ).some(Boolean);
+
+  if (hasAnyAssignment) {
+    const featured: GalleryPhoto[] = [];
+    for (let i = 0; i < GALLERY_FEATURED_SLOTS; i++) {
+      const src = resolvePhotoSrc(`galleryFeatured.${i}`, {
+        orientation: i % 3 === 0 ? "portrait" : i % 3 === 1 ? "landscape" : "square",
+        index: i,
+      });
+      if (!src) continue;
+      featured.push(galleryPhotoFromSrc(src, `gf-${i + 1}`, i));
+    }
+    if (featured.length) return featured.slice(0, limit);
   }
-  if (assigned.length) return assigned.slice(0, limit);
 
   const portraits = getGalleryPhotos().filter((p) => p.orientation === "portrait");
   const landscapes = getGalleryPhotos().filter((p) => p.orientation === "landscape");

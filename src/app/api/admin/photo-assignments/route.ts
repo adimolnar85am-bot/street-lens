@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { isAdminSession } from "@/lib/admin-auth";
 import {
+  applySlotAssignment,
   buildPhotoSlotCatalog,
   getPhotoAssignments,
   writePhotoAssignments,
 } from "@/lib/photo-assignments-server";
-import { getAdminPhotos, hydratePhotoStorage } from "@/lib/photos-server";
+import { getAdminPhotos, getPhotoSrcById, hydratePhotoStorage } from "@/lib/photos-server";
 import type { PhotoAssignments } from "@/lib/photo-assignments.types";
 
 function revalidateSitePaths() {
@@ -64,18 +65,26 @@ export async function PUT(request: Request) {
   }
 
   const current = await getPhotoAssignments();
+  await hydratePhotoStorage(true);
 
   if (body.assignments?.slots) {
-    const cleaned: Record<string, string> = {};
+    let cleaned: PhotoAssignments = { slots: {}, slotSrcs: {} };
     for (const [key, value] of Object.entries(body.assignments.slots)) {
-      if (value) cleaned[key] = value;
+      if (!value) continue;
+      const src = getPhotoSrcById(value);
+      if (!src) continue;
+      cleaned = applySlotAssignment(cleaned, key, value, src);
     }
-    await writePhotoAssignments({ slots: cleaned });
+    await writePhotoAssignments(cleaned);
   } else if (body.slot) {
-    const next = { ...current.slots };
-    if (body.photoId) next[body.slot] = body.photoId;
-    else delete next[body.slot];
-    await writePhotoAssignments({ slots: next });
+    const src = body.photoId ? getPhotoSrcById(body.photoId) : null;
+    const next = applySlotAssignment(
+      current,
+      body.slot,
+      body.photoId ?? null,
+      src
+    );
+    await writePhotoAssignments(next);
   } else {
     return NextResponse.json({ error: "Date lipsă" }, { status: 400 });
   }

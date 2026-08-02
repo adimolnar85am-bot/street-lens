@@ -170,27 +170,43 @@ export async function writeExcludedToBlob(files: string[]): Promise<void> {
   });
 }
 
-export async function readAssignmentsFromBlob(): Promise<Record<string, string> | null> {
+export type BlobPhotoAssignments = {
+  slots: Record<string, string>;
+  slotSrcs?: Record<string, string>;
+};
+
+export async function readAssignmentsFromBlob(): Promise<BlobPhotoAssignments | null> {
   if (!isBlobStorageEnabled()) return null;
   try {
     const { blobs } = await list({ prefix: ASSIGNMENTS_PATH, limit: 1 });
     if (!blobs.length) return null;
     const res = await fetch(blobs[0].url, { cache: "no-store" });
     if (!res.ok) return null;
-    const data = (await res.json()) as { slots?: Record<string, string> };
-    return data.slots ?? {};
+    const data = (await res.json()) as BlobPhotoAssignments;
+    return {
+      slots: data.slots ?? {},
+      slotSrcs: data.slotSrcs ?? {},
+    };
   } catch {
     return null;
   }
 }
 
 export async function writeAssignmentsToBlob(
-  slots: Record<string, string>
+  assignments: BlobPhotoAssignments
 ): Promise<void> {
   if (!isBlobStorageEnabled()) return;
   await put(
     ASSIGNMENTS_PATH,
-    JSON.stringify({ slots, updatedAt: new Date().toISOString() }, null, 2),
+    JSON.stringify(
+      {
+        slots: assignments.slots,
+        slotSrcs: assignments.slotSrcs ?? {},
+        updatedAt: new Date().toISOString(),
+      },
+      null,
+      2
+    ),
     {
       ...putOpts,
       contentType: "application/json",
