@@ -3,6 +3,7 @@ import { del, list, put } from "@vercel/blob";
 const PHOTO_PREFIX = "photos/";
 const INDEX_PATH = "meta/photos-index.json";
 const EXCLUDED_PATH = "meta/excluded.json";
+const ASSIGNMENTS_PATH = "meta/photo-assignments.json";
 
 const putOpts = {
   access: "public" as const,
@@ -167,6 +168,34 @@ export async function writeExcludedToBlob(files: string[]): Promise<void> {
     ...putOpts,
     contentType: "application/json",
   });
+}
+
+export async function readAssignmentsFromBlob(): Promise<Record<string, string> | null> {
+  if (!isBlobStorageEnabled()) return null;
+  try {
+    const { blobs } = await list({ prefix: ASSIGNMENTS_PATH, limit: 1 });
+    if (!blobs.length) return null;
+    const res = await fetch(blobs[0].url, { cache: "no-store" });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { slots?: Record<string, string> };
+    return data.slots ?? {};
+  } catch {
+    return null;
+  }
+}
+
+export async function writeAssignmentsToBlob(
+  slots: Record<string, string>
+): Promise<void> {
+  if (!isBlobStorageEnabled()) return;
+  await put(
+    ASSIGNMENTS_PATH,
+    JSON.stringify({ slots, updatedAt: new Date().toISOString() }, null, 2),
+    {
+      ...putOpts,
+      contentType: "application/json",
+    }
+  );
 }
 
 export async function blobPhotoExists(id: string): Promise<boolean> {

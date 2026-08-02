@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus } from "lucide-react";
+import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus, LayoutGrid } from "lucide-react";
 import { ProtectedImage } from "@/components/ProtectedImage";
 import { AdminNav } from "@/components/AdminShell";
 import { prepareImagesForUpload } from "@/lib/client-image-compress";
@@ -278,6 +279,19 @@ export default function AdminPhotosPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pb-4 space-y-4">
+        <Link
+          href="/admin/photos/assignments"
+          className="flex items-center gap-3 p-4 bg-ink-900 border border-ink-800 rounded-xl hover:border-signal/40 transition-colors"
+        >
+          <LayoutGrid className="w-5 h-5 text-signal shrink-0" />
+          <div>
+            <p className="text-sm font-medium text-cream">Poze pe secțiuni</p>
+            <p className="text-xs text-ink-400">
+              Alege ce poze rulează în Hero, galerie, concurs, photowalk-uri și magazin
+            </p>
+          </div>
+        </Link>
+
         <div
           onDragOver={(e) => {
             e.preventDefault();

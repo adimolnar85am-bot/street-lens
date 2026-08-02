@@ -7,6 +7,13 @@ import type { GalleryPhoto, PhotoOrientation } from "./photos";
 import { PHOTO_ALT, PHOTO_COPYRIGHT } from "./photos";
 import { shuffled } from "./photo-rotation";
 import {
+  getPhotoAssignments,
+  getAssignedPhotoId,
+  HERO_SLOTS,
+  GALLERY_FEATURED_SLOTS,
+} from "./photo-assignments-server";
+import type { PhotoAssignments } from "./photo-assignments.types";
+import {
   blobPhotoExists,
   deletePhotoFromBlob,
   isBlobStorageEnabled,
@@ -54,6 +61,8 @@ function photoFileFromSrc(src: string): string {
 export function photoIdFromSrc(src: string): string {
   return photoFileFromSrc(src).replace(/\.jpe?g$/i, "");
 }
+
+let assignmentsCache: PhotoAssignments = { slots: {} };
 
 const sizeCache = new Map<string, SizeMeta>();
 let blobEntries: BlobPhotoEntry[] = [];
@@ -172,7 +181,34 @@ export const hydratePhotoStorage = cache(async (recoverMissing = false) => {
     blobMetaBySrc = new Map();
     excludedCache = null;
   }
+  assignmentsCache = await getPhotoAssignments();
 });
+
+export function getCachedPhotoAssignments(): PhotoAssignments {
+  return assignmentsCache;
+}
+
+export function getPhotoSrcById(id: string): string | null {
+  const excluded = new Set(readExcluded());
+  for (const src of listAllPhotoSrcs()) {
+    if (photoIdFromSrc(src) !== id) continue;
+    if (excluded.has(photoFileFromSrc(src))) return null;
+    return src;
+  }
+  return null;
+}
+
+export function resolvePhotoSrc(
+  slotKey: string,
+  fallback: { orientation: PhotoOrientation; index: number }
+): string {
+  const assignedId = getAssignedPhotoId(getCachedPhotoAssignments(), slotKey);
+  if (assignedId) {
+    const src = getPhotoSrcById(assignedId);
+    if (src) return src;
+  }
+  return photoForFrame(fallback.orientation, fallback.index);
+}
 
 export function getPhotoMeta(src: string): SizeMeta {
   const cached = sizeCache.get(src);
@@ -369,6 +405,28 @@ export function getCatalog(): Catalog {
 }
 
 export function getHeroSlides() {
+  const assignments = getCachedPhotoAssignments();
+  const hasAssigned = Array.from({ length: HERO_SLOTS }, (_, i) =>
+    Boolean(assignments.slots[`hero.${i}`])
+  ).some(Boolean);
+
+  if (!hasAssigned) {
+    return getCatalog().hero.map((src, i) => ({
+      src,
+      alt: PHOTO_ALT,
+      label: `Cadru ${i + 1}`,
+    }));
+  }
+
+  const slides: { src: string; alt: string; label: string }[] = [];
+  for (let i = 0; i < HERO_SLOTS; i++) {
+    const src = resolvePhotoSrc(`hero.${i}`, { orientation: "landscape", index: i });
+    if (!src) continue;
+    slides.push({ src, alt: PHOTO_ALT, label: `Cadru ${i + 1}` });
+  }
+
+  if (slides.length) return slides;
+
   return getCatalog().hero.map((src, i) => ({
     src,
     alt: PHOTO_ALT,
@@ -396,7 +454,32 @@ export function getGalleryPhotos(): GalleryPhoto[] {
   });
 }
 
+function galleryPhotoFromSrc(src: string, key: string, i: number): GalleryPhoto {
+  const categories = ["digital", "analog", "telefon"] as const;
+  const meta = getPhotoMeta(src);
+  return {
+    id: key,
+    image: src,
+    title: `Serie ${String(i + 1).padStart(3, "0")}`,
+    photographer: "Street Lens",
+    category: categories[i % categories.length],
+    orientation: meta.orientation,
+    aspectRatio: meta.aspectRatio,
+  };
+}
+
 export function getGalleryPreview(limit = 12): GalleryPhoto[] {
+  const assignments = getCachedPhotoAssignments();
+  const assigned: GalleryPhoto[] = [];
+  for (let i = 0; i < GALLERY_FEATURED_SLOTS; i++) {
+    const photoId = assignments.slots[`galleryFeatured.${i}`];
+    if (!photoId) continue;
+    const src = getPhotoSrcById(photoId);
+    if (!src) continue;
+    assigned.push(galleryPhotoFromSrc(src, `gf-${i + 1}`, i));
+  }
+  if (assigned.length) return assigned.slice(0, limit);
+
   const portraits = getGalleryPhotos().filter((p) => p.orientation === "portrait");
   const landscapes = getGalleryPhotos().filter((p) => p.orientation === "landscape");
   const squares = getGalleryPhotos().filter((p) => p.orientation === "square");

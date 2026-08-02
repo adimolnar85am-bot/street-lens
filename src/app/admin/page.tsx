@@ -4,8 +4,14 @@ import { AdminNav } from "@/components/AdminShell";
 
 const cards = [
   {
+    href: "/admin/photos/assignments",
+    title: "Poze pe secțiuni",
+    body: "Alege ce poză apare în Hero, galerie, concurs, photowalk-uri, magazin și articole.",
+    icon: Camera,
+  },
+  {
     href: "/admin/photos",
-    title: "Poze site",
+    title: "Bibliotecă poze",
     body: "Încarcă fotografii noi, exclude, restaurează sau șterge din galerie.",
     icon: Camera,
   },

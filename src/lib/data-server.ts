@@ -1,5 +1,5 @@
 import "server-only";
-import { photoForFrame, getGalleryPreview } from "./photos-server";
+import { resolvePhotoSrc } from "./photos-server";
 import {
   getPublishedArticles,
   getSiteContent,
@@ -35,7 +35,10 @@ export function getPhotowalks(dict: Dictionary, locale: Locale = "ro"): Photowal
       theme: copy.theme,
       date: walk.date,
       location: copy.location,
-      coverImage: photoForFrame("landscape", index * 4),
+      coverImage: resolvePhotoSrc(`photowalks.${walk.id}.cover`, {
+        orientation: "landscape",
+        index: index * 4,
+      }),
       description: copy.description,
       participantCount: walk.participantCount,
       center: walk.center,
@@ -45,7 +48,10 @@ export function getPhotowalks(dict: Dictionary, locale: Locale = "ro"): Photowal
         lng: pin.lng,
         title: dict.photowalks.trailFrame,
         photographer: dict.gallery.photographer,
-        image: photoForFrame("landscape", pin.photoIndex),
+        image: resolvePhotoSrc(`photowalks.${walk.id}.pins.${pin.id}`, {
+          orientation: "landscape",
+          index: pin.photoIndex,
+        }),
         theme: copy.theme,
         date: walk.date,
       })),
@@ -63,7 +69,7 @@ export function getActiveContest(dict: Dictionary, locale: Locale = "ro"): Conte
     themeNumber: active.themeNumber,
     deadline: active.deadline,
     prize: copy.prize,
-    image: photoForFrame("portrait", 0),
+    image: resolvePhotoSrc("contest", { orientation: "portrait", index: 0 }),
     submissions: active.submissions,
   };
 }
@@ -94,10 +100,10 @@ export function getBlogArticles(dict: Dictionary, locale: Locale = "ro") {
     title: article[locale].title,
     excerpt: article[locale].excerpt,
     body: article[locale].body,
-    image: photoForFrame(
-      "landscape",
-      (photoOffsets[article.categorySlug] ?? 8) + index % 2
-    ),
+    image: resolvePhotoSrc(`articles.${article.id}`, {
+      orientation: "landscape",
+      index: (photoOffsets[article.categorySlug] ?? 8) + (index % 2),
+    }),
     date: article.date,
     category: categoryTitles[article.categorySlug] ?? article.categorySlug,
     categorySlug: article.categorySlug,
@@ -113,7 +119,10 @@ export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchIte
     id: item.id,
     name: item[locale].name,
     price: item.price,
-    image: photoForFrame("square", index),
+    image: resolvePhotoSrc(`shop.${item.id}`, {
+      orientation: "square",
+      index,
+    }),
     category: categoryLabels[item.category],
   }));
 }
@@ -126,10 +135,10 @@ export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): Pho
       .map((a, i) => ({
         title: a[locale].title,
         excerpt: a[locale].excerpt,
-        image: photoForFrame(
-          "landscape",
-          slug === "digital" ? 8 + i : slug === "analog" ? 10 + i : 12 + i
-        ),
+        image: resolvePhotoSrc(`articles.${a.id}`, {
+          orientation: "landscape",
+          index: slug === "digital" ? 8 + i : slug === "analog" ? 10 + i : 12 + i,
+        }),
         date: a.date,
       }));
 
@@ -140,8 +149,14 @@ export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): Pho
       slug: "digital",
       tagline: dict.formats.digital.tagline,
       description: dict.formats.digital.description,
-      heroImage: photoForFrame("portrait", 1),
-      bannerImage: photoForFrame("landscape", 14),
+      heroImage: resolvePhotoSrc("categories.digital.hero", {
+        orientation: "portrait",
+        index: 1,
+      }),
+      bannerImage: resolvePhotoSrc("categories.digital.banner", {
+        orientation: "landscape",
+        index: 14,
+      }),
       articles: byCategory("digital"),
     },
     {
@@ -150,8 +165,14 @@ export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): Pho
       slug: "analog",
       tagline: dict.formats.analog.tagline,
       description: dict.formats.analog.description,
-      heroImage: photoForFrame("portrait", 2),
-      bannerImage: photoForFrame("landscape", 15),
+      heroImage: resolvePhotoSrc("categories.analog.hero", {
+        orientation: "portrait",
+        index: 2,
+      }),
+      bannerImage: resolvePhotoSrc("categories.analog.banner", {
+        orientation: "landscape",
+        index: 15,
+      }),
       articles: byCategory("analog"),
     },
     {
@@ -160,11 +181,17 @@ export function getPhotoCategories(dict: Dictionary, locale: Locale = "ro"): Pho
       slug: "telefon",
       tagline: dict.formats.phone.tagline,
       description: dict.formats.phone.description,
-      heroImage: photoForFrame("portrait", 3),
-      bannerImage: photoForFrame("landscape", 16),
+      heroImage: resolvePhotoSrc("categories.telefon.hero", {
+        orientation: "portrait",
+        index: 3,
+      }),
+      bannerImage: resolvePhotoSrc("categories.telefon.banner", {
+        orientation: "landscape",
+        index: 16,
+      }),
       articles: byCategory("telefon"),
     },
   ];
 }
 
-export { getGalleryPreview };
+export { getGalleryPreview } from "./photos-server";
