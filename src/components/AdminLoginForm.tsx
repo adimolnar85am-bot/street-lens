@@ -67,6 +67,12 @@ export function AdminLoginForm() {
         >
           {loading ? "Se verifică…" : "Intră"}
         </button>
+
+        <p className="mt-6 text-[11px] text-ink-500 leading-relaxed text-center">
+          Pe telefon sau desktop: deschide această pagină în browser, apoi
+          „Adaugă pe ecranul principal” — se instalează ca aplicație{" "}
+          <span className="text-ink-400">Admin</span>, nu site-ul public.
+        </p>
       </form>
     </div>
   );

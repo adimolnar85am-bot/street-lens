@@ -1,0 +1,51 @@
+{
+  "name": "streetlens Admin",
+  "short_name": "Admin",
+  "description": "Panou administrare Street Lens — poze, conținut, setări.",
+  "start_url": "/admin/login",
+  "scope": "/admin",
+  "id": "/admin",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "lang": "ro",
+  "dir": "ltr",
+  "categories": ["productivity", "photography"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Poze",
+      "short_name": "Poze",
+      "description": "Gestionare galerie",
+      "url": "/admin/photos",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Conținut",
+      "short_name": "CMS",
+      "description": "Editare conținut site",
+      "url": "/admin/content",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
