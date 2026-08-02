@@ -1,6 +1,6 @@
 import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
-import { ArrowRight, MapPin, Users } from "lucide-react";
+import { ArrowRight, Coffee, Users } from "lucide-react";
 import { getPhotowalks } from "@/lib/data-server";
 import { formatDate } from "@/lib/utils";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -52,7 +52,7 @@ export function PhotowalksSection({
                       {walk.title}
                     </p>
                     <p className="text-ink-400 text-xs mt-1">
-                      {formatDate(walk.date)} · {walk.location}
+                      {formatDate(walk.date)} · {walk.theme}
                     </p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-ink-500 group-hover:text-signal/80 group-hover:translate-x-1 transition-all flex-shrink-0" />
@@ -85,8 +85,8 @@ export function PhotowalksSection({
                 <h3 className="font-display text-2xl text-cream mb-2">{latest.theme}</h3>
                 <div className="flex items-center gap-4 text-sm text-ink-300">
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
-                    {latest.location}
+                    <Coffee className="w-4 h-4" />
+                    {dict.photowalks.meetupFormat}
                   </span>
                   <span className="flex items-center gap-1">
                     <Users className="w-4 h-4" />

@@ -36,7 +36,7 @@ const cards = [
   {
     href: "/admin/content?tab=photowalks",
     title: "Photowalk-uri",
-    body: "Titluri, teme, locații și descrieri walk-uri.",
+    body: "Titluri, teme, format întâlnire și descrieri walk-uri.",
     icon: Camera,
   },
   {

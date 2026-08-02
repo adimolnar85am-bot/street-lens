@@ -1,6 +1,6 @@
 import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Calendar, Users } from "lucide-react";
+import { ArrowLeft, Coffee, Calendar, Users } from "lucide-react";
 import { getPhotowalks } from "@/lib/data-server";
 import { formatDate } from "@/lib/utils";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -74,8 +74,8 @@ export default async function PhotowalksPage({
                     {formatDate(walk.date)}
                   </span>
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {walk.location}
+                    <Coffee className="w-3.5 h-3.5" />
+                    {dict.photowalks.meetupFormat}
                   </span>
                   <span className="flex items-center gap-1">
                     <Users className="w-3.5 h-3.5" />

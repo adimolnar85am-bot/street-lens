@@ -710,7 +710,7 @@ export default function AdminContentPage() {
                   }}
                 />
                 <AdminField
-                  label="Locație"
+                  label="Format întâlnire"
                   value={walk[locale].location}
                   onChange={(v) => {
                     const photowalks = [...content.photowalks];

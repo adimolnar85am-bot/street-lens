@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Calendar, MapPin, Trophy } from "lucide-react";
+import { ArrowLeft, Calendar, Coffee, Trophy } from "lucide-react";
 import { getPhotowalks, getActiveContest } from "@/lib/data-server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -53,8 +53,8 @@ export default async function CalendarPage({
               </p>
               <h3 className="font-display text-xl text-ink mb-2">{nextWalk.title}</h3>
               <p className="text-sm text-ink-500 flex items-center gap-2 mb-4">
-                <MapPin className="w-4 h-4" />
-                {nextWalk.location}
+                <Coffee className="w-4 h-4" />
+                {dict.photowalks.meetupFormat}
               </p>
               <Link
                 href={localePath(locale, `/photowalks/${nextWalk.id}`)}
@@ -94,7 +94,7 @@ export default async function CalendarPage({
               >
                 <div>
                   <p className="font-medium text-ink">{walk.title}</p>
-                  <p className="text-sm text-ink-500">{walk.location}</p>
+                  <p className="text-sm text-ink-500">{walk.theme}</p>
                 </div>
                 <span className="text-sm text-ink-400">{formatDate(walk.date)}</span>
               </Link>

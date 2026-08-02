@@ -27,26 +27,26 @@
   },
   "hero": {
     "ro": {
-      "body": "Ne vedem sâmbăta pe stradă — în orașe de pe mapamond, cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
+      "body": "Ne vedem sâmbăta — organizat, la o cafea, apoi plecăm în tură foto cu temă aleasă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
       "ctaWalk": "Photowalk #1",
       "ctaContest": "Tema #1 · Reflexii"
     },
     "en": {
-      "body": "We meet on the street every Saturday — in cities around the world, with a theme, a route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what matters is what you see, not what's in your bag.",
+      "body": "We meet on Saturdays — organized over coffee, then head out for a themed photo walk. Numbered contests, a shared archive. Mirrorless, film, or phone: what matters is what you see, not what's in your bag.",
       "ctaWalk": "Photowalk #1",
       "ctaContest": "Theme #1 · Reflections"
     }
   },
   "about": {
     "ro": {
-      "pageBody": "Street Lens e comunitatea de street photography — un loc unde ne întâlnim, învățăm și documentăm orașele împreună, oriunde am fi.",
-      "missionBody": "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri în orașe de pe mapamond, concursuri și resurse pentru toți nivelurile.",
-      "howBody": "În fiecare sâmbătă organizăm un photowalk cu temă aleasă de comunitate — Lisabona, Berlin, Cluj sau alt oraș. După walk, pin-urile și pozele apar pe harta interactivă. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor."
+      "pageBody": "Street Lens e comunitatea de street photography — ne întâlnim la cafea, ieșim pe stradă și documentăm împreună.",
+      "missionBody": "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu ieșiri săptămânale, concursuri și resurse pentru toți nivelurile.",
+      "howBody": "În fiecare sâmbătă ne vedem la o cafea — stabilim tema, apoi plecăm în tură foto 2–3 ore. Cadrele reprezentative apar în arhiva comunității. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor."
     },
     "en": {
-      "pageBody": "Street Lens is a street photography community — a place to meet, learn, and document cities together, wherever you are.",
-      "missionBody": "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We aim to build an active, accessible, inspired community with photowalks in cities worldwide, contests, and resources for all levels.",
-      "howBody": "Every Saturday we run a photowalk with a community-chosen theme — Lisbon, Berlin, Cluj, or another city. After the walk, pins and photos appear on the interactive map. Each month we launch a numbered contest theme — from #1 upward. Gallery, blog, and guides are open to everyone."
+      "pageBody": "Street Lens is a street photography community — we meet for coffee, head out on the street, and document together.",
+      "missionBody": "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We aim to build an active, accessible, inspired community with weekly outings, contests, and resources for all levels.",
+      "howBody": "Every Saturday we meet at a café — set the theme, then head out for a 2–3 hour photo walk. Representative frames go into the community archive. Each month we launch a numbered contest theme — from #1 upward. Gallery, blog, and guides are open to everyone."
     }
   },
   "contest": {
@@ -81,7 +81,7 @@
         },
         {
           "title": "2. Trimitere",
-          "body": "Trimite o singură fotografie per temă, la rezoluție maximă, prin email la hello@streetlens.ro cu subiectul „Concurs Tema #X”. Include numele tău și locația (oraș). Deadline-ul este afișat pe pagina concursului."
+          "body": "Trimite o singură fotografie per temă, la rezoluție maximă, prin email la hello@streetlens.ro cu subiectul „Concurs Tema #X”. Include numele tău. Deadline-ul este afișat pe pagina concursului."
         },
         {
           "title": "3. Jurizare",
@@ -107,7 +107,7 @@
         },
         {
           "title": "2. Submission",
-          "body": "Submit one photo per theme at maximum resolution by email to hello@streetlens.ro with subject \"Contest Theme #X\". Include your name and city. The deadline is shown on the contest page."
+          "body": "Submit one photo per theme at maximum resolution by email to hello@streetlens.ro with subject \"Contest Theme #X\". Include your name. The deadline is shown on the contest page."
         },
         {
           "title": "3. Judging",
@@ -231,13 +231,13 @@
       "ro": {
         "title": "Photowalk #1 — Umbra & Lumină",
         "theme": "Contrast urban",
-        "location": "Alfama, Lisabona",
-        "description": "Am explorat străzile înguste unde lumina se filtrează printre clădiri, creând scene dramatice de contrast."
+        "location": "Cafea → tură foto",
+        "description": "După cafea, am ieșit pe străzi înguste unde lumina se filtrează printre clădiri — scene dramatice de contrast."
       },
       "en": {
         "title": "Photowalk #1 — Shadow & Light",
         "theme": "Urban contrast",
-        "location": "Alfama, Lisbon",
+        "location": "Coffee → photo walk",
         "description": "We explored narrow streets where light filters between buildings, creating dramatic contrast scenes."
       }
     },
@@ -247,15 +247,15 @@
       "participantCount": 22,
       "center": [52.5163, 13.3777],
       "ro": {
-        "title": "Photowalk #2 — Oamenii orașului",
+        "title": "Photowalk #2 — Oamenii străzii",
         "theme": "Portret de stradă",
-        "location": "Mitte, Berlin",
-        "description": "O sesiune dedicată oamenilor — expresii, gesturi și momente candid surprinse în fluxul urban."
+        "location": "Cafea → tură foto",
+        "description": "Întâlnire scurtă la cafea, apoi o sesiune dedicată oamenilor — expresii, gesturi și momente candid."
       },
       "en": {
-        "title": "Photowalk #2 — People of the city",
+        "title": "Photowalk #2 — People on the street",
         "theme": "Street portrait",
-        "location": "Mitte, Berlin",
+        "location": "Coffee → photo walk",
         "description": "A session dedicated to people — expressions, gestures, and candid moments caught in the urban flow."
       }
     }
