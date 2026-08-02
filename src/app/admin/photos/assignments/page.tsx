@@ -150,13 +150,13 @@ export default function PhotoAssignmentsPage() {
                         <p className="text-sm text-cream font-medium mb-3">
                           {slot.label}
                         </p>
-                        <div className="relative aspect-video rounded-md overflow-hidden bg-ink-800 mb-3">
+                        <div className="relative w-full aspect-[4/3] min-h-[140px] rounded-md overflow-hidden bg-ink-800 mb-3">
                           {assigned ? (
                             <ProtectedImage
                               src={assigned.src}
                               fill
-                              className="object-cover"
-                              sizes="33vw"
+                              className="object-contain"
+                              sizes="(max-width: 640px) 100vw, 33vw"
                             />
                           ) : (
                             <div className="absolute inset-0 flex items-center justify-center text-ink-500 text-xs px-4 text-center">
@@ -196,14 +196,17 @@ export default function PhotoAssignmentsPage() {
       </div>
 
       {pickerSlot ? (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-ink/80">
-          <div className="w-full max-w-4xl max-h-[85vh] bg-ink-900 border border-ink-700 rounded-xl flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-ink-800">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-ink/80">
+          <div className="w-full sm:max-w-6xl h-[92vh] sm:h-auto sm:max-h-[90vh] bg-ink-900 border border-ink-700 sm:rounded-xl flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-ink-800 shrink-0">
               <div>
                 <p className="text-xs text-signal uppercase tracking-wider">
                   {pickerSlot.section}
                 </p>
                 <h3 className="font-display text-lg text-cream">{pickerSlot.label}</h3>
+                <p className="text-xs text-ink-400 mt-1">
+                  Atinge o poză — se salvează automat
+                </p>
               </div>
               <button
                 type="button"
@@ -213,7 +216,8 @@ export default function PhotoAssignmentsPage() {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {visiblePhotos.map((photo) => (
                 <button
                   key={photo.id}
@@ -221,20 +225,27 @@ export default function PhotoAssignmentsPage() {
                   disabled={busy === pickerSlot.key}
                   onClick={() => assign(pickerSlot.key, photo.id)}
                   className={cn(
-                    "relative aspect-square rounded-md overflow-hidden border-2 transition-colors",
+                    "w-full rounded-lg overflow-hidden border-2 transition-colors text-left",
                     assignments.slots[pickerSlot.key] === photo.id
                       ? "border-signal"
-                      : "border-transparent hover:border-ink-600"
+                      : "border-ink-700 hover:border-ink-500"
                   )}
                 >
-                  <ProtectedImage
-                    src={photo.src}
-                    fill
-                    className="object-cover"
-                    sizes="25vw"
-                  />
+                  <div className="relative w-full aspect-[4/3] min-h-[180px] sm:min-h-[200px] bg-ink-800">
+                    <ProtectedImage
+                      src={photo.src}
+                      fill
+                      className="object-contain p-1"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                    />
+                  </div>
+                  <p className="px-2 py-1.5 text-[10px] text-ink-400 truncate bg-ink-950/80">
+                    {photo.id}
+                    {photo.orientation ? ` · ${photo.orientation}` : ""}
+                  </p>
                 </button>
               ))}
+              </div>
             </div>
             {visiblePhotos.length === 0 ? (
               <p className="p-6 text-sm text-ink-400 text-center">
