@@ -259,6 +259,31 @@ export function listAllPhotoSrcs(): string[] {
   );
 }
 
+function photoUploadedAtMs(src: string): number {
+  if (src.startsWith("http")) {
+    const entry = blobEntries.find((e) => e.src === src);
+    if (entry?.uploadedAt) return new Date(entry.uploadedAt).getTime();
+    return 0;
+  }
+  try {
+    return fs.statSync(path.join(PHOTOS_DIR, photoFileFromSrc(src))).mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
+/** Newest uploads first (admin list). */
+export function listAllPhotoSrcsNewestFirst(): string[] {
+  const local = listDiskPhotos();
+  const localIds = new Set(local.map(photoIdFromSrc));
+  const blobSrcs = blobEntries
+    .filter((e) => !localIds.has(e.id))
+    .map((e) => e.src);
+  return [...blobSrcs, ...local].sort(
+    (a, b) => photoUploadedAtMs(b) - photoUploadedAtMs(a)
+  );
+}
+
 export function getVisiblePhotoSrcs(): string[] {
   noStore();
   const excluded = new Set(readExcluded());
@@ -395,7 +420,7 @@ export type AdminPhoto = {
 export function getAdminPhotos(): AdminPhoto[] {
   noStore();
   const excluded = new Set(readExcluded());
-  return listAllPhotoSrcs().map((src) => {
+  return listAllPhotoSrcsNewestFirst().map((src) => {
     const file = photoFileFromSrc(src);
     const id = photoIdFromSrc(src);
     return {
@@ -558,9 +583,7 @@ export async function uploadPhotoFromBuffer(
       );
     }
     const entry = await uploadPhotoToBlob(id, jpegBuffer, meta);
-    blobEntries = [...blobEntries.filter((e) => e.id !== id), entry].sort(
-      (a, b) => a.id.localeCompare(b.id)
-    );
+    blobEntries = [entry, ...blobEntries.filter((e) => e.id !== id)];
     blobMetaBySrc.set(entry.src, meta);
     sizeCache.set(entry.src, meta);
     rebuildCatalog();

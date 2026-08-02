@@ -11,6 +11,7 @@ export type BlobPhotoEntry = {
   height: number;
   orientation: "landscape" | "portrait" | "square";
   aspectRatio: string;
+  uploadedAt?: string;
 };
 
 export function isBlobStorageEnabled(): boolean {
@@ -65,13 +66,12 @@ export async function uploadPhotoToBlob(
   const entry: BlobPhotoEntry = {
     id,
     src: blob.url,
+    uploadedAt: new Date().toISOString(),
     ...meta,
   };
 
   const index = await loadBlobPhotoIndex();
-  const next = [...index.filter((p) => p.id !== id), entry].sort((a, b) =>
-    a.id.localeCompare(b.id)
-  );
+  const next = [entry, ...index.filter((p) => p.id !== id)];
   await saveBlobPhotoIndex(next);
 
   return entry;
