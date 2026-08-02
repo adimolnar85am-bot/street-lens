@@ -5,6 +5,7 @@ import {
   deletePhotoPermanently,
   excludePhoto,
   getAdminPhotos,
+  hydratePhotoStorage,
   restorePhoto,
   uploadPhotoFromBuffer,
 } from "@/lib/photos-server";
@@ -24,6 +25,8 @@ async function handleUpload(request: Request) {
   if (!(await isAdminSession())) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+
+  await hydratePhotoStorage();
 
   let formData: FormData;
   try {
@@ -89,6 +92,7 @@ export async function GET() {
   if (!(await isAdminSession())) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
+  await hydratePhotoStorage();
   return NextResponse.json({ photos: getAdminPhotos() });
 }
 
@@ -116,6 +120,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
 
+  await hydratePhotoStorage();
+
   let body: { id?: string; action?: string };
   try {
     body = await request.json();
@@ -131,9 +137,9 @@ export async function POST(request: Request) {
   }
 
   let ok = false;
-  if (action === "exclude") ok = excludePhoto(id);
-  else if (action === "restore") ok = restorePhoto(id);
-  else if (action === "delete") ok = deletePhotoPermanently(id);
+  if (action === "exclude") ok = await excludePhoto(id);
+  else if (action === "restore") ok = await restorePhoto(id);
+  else if (action === "delete") ok = await deletePhotoPermanently(id);
   else {
     return NextResponse.json({ error: "Acțiune invalidă" }, { status: 400 });
   }

@@ -6,13 +6,23 @@ import { unstable_noStore as noStore } from "next/cache";
 import type { GalleryPhoto, PhotoOrientation } from "./photos";
 import { PHOTO_ALT, PHOTO_COPYRIGHT } from "./photos";
 import { shuffled } from "./photo-rotation";
+import {
+  blobPhotoExists,
+  deletePhotoFromBlob,
+  isBlobStorageEnabled,
+  loadBlobPhotoIndex,
+  readExcludedFromBlob,
+  uploadPhotoToBlob,
+  writeExcludedToBlob,
+  type BlobPhotoEntry,
+} from "./photo-blob";
 
 const PHOTOS_DIR = path.join(process.cwd(), "public", "photos");
 const CATALOG_PATH = path.join(process.cwd(), "src/lib/photos.generated.json");
 const EXCLUDED_PATH = path.join(process.cwd(), "src/lib/photos.excluded.json");
 
 const LANDSCAPE_MIN_RATIO = 1.2;
-const PORTRAIT_MAX_RATIO = 1 / 1.2; // width/height <= this → portrait
+const PORTRAIT_MAX_RATIO = 1 / 1.2;
 const HERO_MAX = 18;
 
 export type Catalog = {
@@ -33,15 +43,23 @@ type SizeMeta = {
   aspectRatio: string;
 };
 
-function filenameFromSrc(src: string) {
+function photoFileFromSrc(src: string): string {
+  if (src.startsWith("http")) {
+    return src.split("/").pop() || "";
+  }
   return src.replace(/^\/photos\//, "");
 }
 
-const sizeCache = new Map<string, SizeMeta>();
+export function photoIdFromSrc(src: string): string {
+  return photoFileFromSrc(src).replace(/\.jpe?g$/i, "");
+}
 
-/** Lightweight JPEG/PNG dimension reader (no full decode). */
-function getImageSize(filePath: string): { width: number; height: number } {
-  const buf = fs.readFileSync(filePath);
+const sizeCache = new Map<string, SizeMeta>();
+let blobEntries: BlobPhotoEntry[] = [];
+let blobMetaBySrc = new Map<string, SizeMeta>();
+let excludedCache: string[] | null = null;
+
+function getImageSizeFromBuffer(buf: Buffer): { width: number; height: number } {
   if (buf[0] === 0x89 && buf[1] === 0x50) {
     return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
   }
@@ -67,15 +85,20 @@ function getImageSize(filePath: string): { width: number; height: number } {
       marker === 0xc2 ||
       marker === 0xc3
     ) {
-      const height = buf.readUInt16BE(i + 5);
-      const width = buf.readUInt16BE(i + 7);
-      return { width, height };
+      return {
+        height: buf.readUInt16BE(i + 5),
+        width: buf.readUInt16BE(i + 7),
+      };
     }
     const len = buf.readUInt16BE(i + 2);
     if (len < 2) break;
     i += 2 + len;
   }
   return { width: 0, height: 0 };
+}
+
+function getImageSize(filePath: string): { width: number; height: number } {
+  return getImageSizeFromBuffer(fs.readFileSync(filePath));
 }
 
 function classify(width: number, height: number): PhotoOrientation {
@@ -95,28 +118,84 @@ function aspectRatioString(width: number, height: number): string {
   const g = gcd(width, height);
   const w = Math.round(width / g);
   const h = Math.round(height / g);
-  // Keep ratios readable
-  if (w > 50 || h > 50) {
-    return `${(width / height).toFixed(3)}`;
-  }
+  if (w > 50 || h > 50) return `${(width / height).toFixed(3)}`;
   return `${w} / ${h}`;
 }
 
+function metaFromDimensions(width: number, height: number): SizeMeta {
+  const orientation = classify(width, height);
+  return {
+    width,
+    height,
+    orientation,
+    aspectRatio: aspectRatioString(width, height),
+  };
+}
+
+/** Load blob index + excluded list (call once per request on server). */
+export const hydratePhotoStorage = cache(async () => {
+  noStore();
+  if (isBlobStorageEnabled()) {
+    blobEntries = await loadBlobPhotoIndex();
+    blobMetaBySrc = new Map(
+      blobEntries.map((e) => [
+        e.src,
+        {
+          width: e.width,
+          height: e.height,
+          orientation: e.orientation,
+          aspectRatio: e.aspectRatio,
+        },
+      ])
+    );
+    excludedCache = await readExcludedFromBlob();
+    if (!excludedCache.length) {
+      try {
+        if (fs.existsSync(EXCLUDED_PATH)) {
+          const local = JSON.parse(
+            fs.readFileSync(EXCLUDED_PATH, "utf8")
+          ) as string[];
+          if (local.length) {
+            excludedCache = local;
+            await writeExcludedToBlob(local);
+          }
+        }
+      } catch {
+        /* non-fatal */
+      }
+    }
+  } else {
+    blobEntries = [];
+    blobMetaBySrc = new Map();
+    excludedCache = null;
+  }
+});
+
 export function getPhotoMeta(src: string): SizeMeta {
-  const abs = path.join(PHOTOS_DIR, filenameFromSrc(src));
-  const cached = sizeCache.get(abs);
+  const cached = sizeCache.get(src);
   if (cached) return cached;
 
+  if (src.startsWith("http")) {
+    const blobMeta = blobMetaBySrc.get(src);
+    if (blobMeta) {
+      sizeCache.set(src, blobMeta);
+      return blobMeta;
+    }
+    const fallback: SizeMeta = {
+      width: 0,
+      height: 0,
+      orientation: "landscape",
+      aspectRatio: "3 / 2",
+    };
+    sizeCache.set(src, fallback);
+    return fallback;
+  }
+
+  const abs = path.join(PHOTOS_DIR, photoFileFromSrc(src));
   try {
     const { width, height } = getImageSize(abs);
-    const orientation = classify(width, height);
-    const meta: SizeMeta = {
-      width,
-      height,
-      orientation,
-      aspectRatio: aspectRatioString(width, height),
-    };
-    sizeCache.set(abs, meta);
+    const meta = metaFromDimensions(width, height);
+    sizeCache.set(src, meta);
     return meta;
   } catch {
     const meta: SizeMeta = {
@@ -125,7 +204,7 @@ export function getPhotoMeta(src: string): SizeMeta {
       orientation: "landscape",
       aspectRatio: "3 / 2",
     };
-    sizeCache.set(abs, meta);
+    sizeCache.set(src, meta);
     return meta;
   }
 }
@@ -138,6 +217,7 @@ function pickEvenly(srcs: string[], max: number): string[] {
 
 export function readExcluded(): string[] {
   noStore();
+  if (excludedCache) return excludedCache;
   try {
     if (!fs.existsSync(EXCLUDED_PATH)) return [];
     return JSON.parse(fs.readFileSync(EXCLUDED_PATH, "utf8")) as string[];
@@ -146,8 +226,16 @@ export function readExcluded(): string[] {
   }
 }
 
-function writeExcluded(list: string[]) {
-  fs.writeFileSync(EXCLUDED_PATH, JSON.stringify(list, null, 2));
+async function writeExcluded(list: string[]) {
+  excludedCache = list;
+  if (isBlobStorageEnabled()) {
+    await writeExcludedToBlob(list);
+  }
+  try {
+    fs.writeFileSync(EXCLUDED_PATH, JSON.stringify(list, null, 2));
+  } catch {
+    /* read-only FS on Vercel */
+  }
 }
 
 export function listDiskPhotos(): string[] {
@@ -160,34 +248,37 @@ export function listDiskPhotos(): string[] {
     .map((f) => `/photos/${f}`);
 }
 
+export function listAllPhotoSrcs(): string[] {
+  const local = listDiskPhotos();
+  const localIds = new Set(local.map(photoIdFromSrc));
+  const blobSrcs = blobEntries
+    .map((e) => e.src)
+    .filter((src) => !localIds.has(photoIdFromSrc(src)));
+  return [...local, ...blobSrcs].sort((a, b) =>
+    photoIdFromSrc(a).localeCompare(photoIdFromSrc(b))
+  );
+}
+
 export function getVisiblePhotoSrcs(): string[] {
   noStore();
   const excluded = new Set(readExcluded());
-  return listDiskPhotos().filter((src) => !excluded.has(filenameFromSrc(src)));
+  return listAllPhotoSrcs().filter(
+    (src) => !excluded.has(photoFileFromSrc(src))
+  );
 }
 
-/** Shuffled once per page load / navigation — consistent across all sections. */
 export const getRotatedVisiblePhotoSrcs = cache((): string[] => {
   noStore();
   return shuffled(getVisiblePhotoSrcs());
 });
 
-export function getPhotosByOrientation(
-  orientation: PhotoOrientation
-): string[] {
+export function getPhotosByOrientation(orientation: PhotoOrientation): string[] {
   return getRotatedVisiblePhotoSrcs().filter(
     (src) => getPhotoMeta(src).orientation === orientation
   );
 }
 
-/**
- * Pick a photo that matches the frame orientation.
- * Falls back: square→portrait→landscape (or reverse) so UI never breaks.
- */
-export function photoForFrame(
-  orientation: PhotoOrientation,
-  index = 0
-): string {
+export function photoForFrame(orientation: PhotoOrientation, index = 0): string {
   const primary = getPhotosByOrientation(orientation);
   if (primary.length) return primary[index % primary.length];
 
@@ -207,7 +298,6 @@ export function photoForFrame(
   return all.length ? all[index % all.length] : "";
 }
 
-/** @deprecated use photoForFrame — kept as landscape-biased alias */
 export function photoAt(index: number): string {
   return photoForFrame("landscape", index);
 }
@@ -234,7 +324,7 @@ export function getCatalog(): Catalog {
     total: live.length,
     copyright: PHOTO_COPYRIGHT,
     all: live,
-    ids: live.map((src) => filenameFromSrc(src).replace(/\.jpe?g$/i, "")),
+    ids: live.map((src) => photoIdFromSrc(src)),
     hero,
     landscape,
     portrait,
@@ -251,8 +341,7 @@ export function getCatalog(): Catalog {
 }
 
 export function getHeroSlides() {
-  const hero = getCatalog().hero;
-  return hero.map((src, i) => ({
+  return getCatalog().hero.map((src, i) => ({
     src,
     alt: PHOTO_ALT,
     label: `Cadru ${i + 1}`,
@@ -280,7 +369,6 @@ export function getGalleryPhotos(): GalleryPhoto[] {
 }
 
 export function getGalleryPreview(limit = 12): GalleryPhoto[] {
-  // Balanced mix for masonry preview: portrait + landscape interleaved
   const portraits = getGalleryPhotos().filter((p) => p.orientation === "portrait");
   const landscapes = getGalleryPhotos().filter((p) => p.orientation === "landscape");
   const squares = getGalleryPhotos().filter((p) => p.orientation === "square");
@@ -307,9 +395,9 @@ export type AdminPhoto = {
 export function getAdminPhotos(): AdminPhoto[] {
   noStore();
   const excluded = new Set(readExcluded());
-  return listDiskPhotos().map((src) => {
-    const file = filenameFromSrc(src);
-    const id = file.replace(/\.jpe?g$/i, "");
+  return listAllPhotoSrcs().map((src) => {
+    const file = photoFileFromSrc(src);
+    const id = photoIdFromSrc(src);
     return {
       id,
       src,
@@ -319,31 +407,50 @@ export function getAdminPhotos(): AdminPhoto[] {
   });
 }
 
-export function excludePhoto(id: string): boolean {
+async function photoExists(id: string): Promise<boolean> {
+  const filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
+  if (fs.existsSync(filePath)) return true;
+  return blobPhotoExists(id);
+}
+
+export async function excludePhoto(id: string): Promise<boolean> {
+  if (!(await photoExists(id))) return false;
   const file = `${id}.jpg`;
-  const filePath = path.join(PHOTOS_DIR, file);
-  if (!fs.existsSync(filePath)) return false;
   const excluded = new Set(readExcluded());
   excluded.add(file);
-  writeExcluded([...excluded]);
+  await writeExcluded([...excluded]);
   rebuildCatalog();
   return true;
 }
 
-export function restorePhoto(id: string): boolean {
+export async function restorePhoto(id: string): Promise<boolean> {
   const file = `${id}.jpg`;
   const excluded = readExcluded().filter((f) => f !== file);
-  writeExcluded(excluded);
+  await writeExcluded(excluded);
   rebuildCatalog();
   return true;
 }
 
-export function deletePhotoPermanently(id: string): boolean {
+export async function deletePhotoPermanently(id: string): Promise<boolean> {
   const file = `${id}.jpg`;
   const filePath = path.join(PHOTOS_DIR, file);
-  if (!fs.existsSync(filePath)) return false;
-  fs.unlinkSync(filePath);
-  writeExcluded(readExcluded().filter((f) => f !== file));
+  let deleted = false;
+
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+    deleted = true;
+  }
+
+  if (await deletePhotoFromBlob(id)) {
+    deleted = true;
+  }
+
+  if (!deleted) return false;
+
+  await writeExcluded(readExcluded().filter((f) => f !== file));
+  const removed = blobEntries.find((e) => e.id === id);
+  blobEntries = blobEntries.filter((e) => e.id !== id);
+  if (removed) blobMetaBySrc.delete(removed.src);
   rebuildCatalog();
   return true;
 }
@@ -365,7 +472,6 @@ const MAX_SAVED_BYTES = 3.5 * 1024 * 1024;
 
 async function processUploadImage(buffer: Buffer): Promise<Buffer> {
   const sharp = (await import("sharp")).default;
-
   const resizeOpts = {
     width: MAX_UPLOAD_EDGE,
     height: MAX_UPLOAD_EDGE,
@@ -406,6 +512,11 @@ async function processUploadImage(buffer: Buffer): Promise<Buffer> {
   return jpegBuffer;
 }
 
+function metaFromBuffer(buffer: Buffer): SizeMeta {
+  const { width, height } = getImageSizeFromBuffer(buffer);
+  return metaFromDimensions(width, height);
+}
+
 export async function uploadPhotoFromBuffer(
   buffer: Buffer,
   mimeType: string
@@ -419,40 +530,49 @@ export async function uploadPhotoFromBuffer(
     throw new Error("Format neacceptat. Folosește JPG, PNG sau WebP.");
   }
 
-  if (!fs.existsSync(PHOTOS_DIR)) {
-    fs.mkdirSync(PHOTOS_DIR, { recursive: true });
-  }
-
   const jpegBuffer = await processUploadImage(buffer);
+  const meta = metaFromBuffer(jpegBuffer);
 
   let id = createHash("sha256").update(jpegBuffer).digest("hex").slice(0, 16);
-  let filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
   let attempt = 0;
-  while (fs.existsSync(filePath) && attempt < 10) {
+  while ((await photoExists(id)) && attempt < 10) {
     attempt += 1;
     id = createHash("sha256")
       .update(jpegBuffer)
       .update(String(attempt))
       .digest("hex")
       .slice(0, 16);
-    filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
   }
 
-  if (fs.existsSync(filePath)) {
+  if (await photoExists(id)) {
     throw new Error("Nu s-a putut genera un nume unic pentru fișier");
   }
 
-  try {
-    fs.writeFileSync(filePath, jpegBuffer);
-  } catch (err) {
-    const code = (err as NodeJS.ErrnoException).code;
-    if (code === "EROFS" || code === "EPERM") {
+  const onVercel = Boolean(process.env.VERCEL);
+  const useBlob = isBlobStorageEnabled();
+
+  if (useBlob || onVercel) {
+    if (!useBlob) {
       throw new Error(
-        "Nu se pot salva fișiere pe server (limitare hosting). Încearcă local sau storage extern."
+        "Activează Vercel Blob: Vercel → Storage → Blob → Connect Store → redeploy."
       );
     }
-    throw err;
+    const entry = await uploadPhotoToBlob(id, jpegBuffer, meta);
+    blobEntries = [...blobEntries.filter((e) => e.id !== id), entry].sort(
+      (a, b) => a.id.localeCompare(b.id)
+    );
+    blobMetaBySrc.set(entry.src, meta);
+    sizeCache.set(entry.src, meta);
+    rebuildCatalog();
+    return { id, src: entry.src };
   }
+
+  if (!fs.existsSync(PHOTOS_DIR)) {
+    fs.mkdirSync(PHOTOS_DIR, { recursive: true });
+  }
+
+  const filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
+  fs.writeFileSync(filePath, jpegBuffer);
   sizeCache.delete(filePath);
   rebuildCatalog();
 

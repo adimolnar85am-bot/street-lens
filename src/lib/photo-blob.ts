@@ -1,0 +1,122 @@
+import { del, list, put } from "@vercel/blob";
+
+const PHOTO_PREFIX = "photos/";
+const INDEX_PATH = "meta/photos-index.json";
+const EXCLUDED_PATH = "meta/excluded.json";
+
+export type BlobPhotoEntry = {
+  id: string;
+  src: string;
+  width: number;
+  height: number;
+  orientation: "landscape" | "portrait" | "square";
+  aspectRatio: string;
+};
+
+export function isBlobStorageEnabled(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+export async function loadBlobPhotoIndex(): Promise<BlobPhotoEntry[]> {
+  if (!isBlobStorageEnabled()) return [];
+  try {
+    const { blobs } = await list({ prefix: INDEX_PATH, limit: 1 });
+    if (!blobs.length) return [];
+    const res = await fetch(blobs[0].url, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { photos?: BlobPhotoEntry[] };
+    return data.photos ?? [];
+  } catch {
+    return [];
+  }
+}
+
+async function saveBlobPhotoIndex(photos: BlobPhotoEntry[]): Promise<void> {
+  if (!isBlobStorageEnabled()) return;
+  await put(
+    INDEX_PATH,
+    JSON.stringify({ photos, updatedAt: new Date().toISOString() }),
+    {
+      access: "public",
+      contentType: "application/json",
+      addRandomSuffix: false,
+    }
+  );
+}
+
+export async function uploadPhotoToBlob(
+  id: string,
+  buffer: Buffer,
+  meta: Omit<BlobPhotoEntry, "id" | "src">
+): Promise<BlobPhotoEntry> {
+  if (!isBlobStorageEnabled()) {
+    throw new Error(
+      "Vercel Blob nu e configurat. În Vercel: Storage → Blob → Connect, apoi redeploy."
+    );
+  }
+
+  const pathname = `${PHOTO_PREFIX}${id}.jpg`;
+  const blob = await put(pathname, buffer, {
+    access: "public",
+    contentType: "image/jpeg",
+    addRandomSuffix: false,
+  });
+
+  const entry: BlobPhotoEntry = {
+    id,
+    src: blob.url,
+    ...meta,
+  };
+
+  const index = await loadBlobPhotoIndex();
+  const next = [...index.filter((p) => p.id !== id), entry].sort((a, b) =>
+    a.id.localeCompare(b.id)
+  );
+  await saveBlobPhotoIndex(next);
+
+  return entry;
+}
+
+export async function deletePhotoFromBlob(id: string): Promise<boolean> {
+  if (!isBlobStorageEnabled()) return false;
+
+  const index = await loadBlobPhotoIndex();
+  const entry = index.find((p) => p.id === id);
+  if (!entry) return false;
+
+  try {
+    await del(entry.src);
+  } catch {
+    /* blob may already be gone */
+  }
+
+  await saveBlobPhotoIndex(index.filter((p) => p.id !== id));
+  return true;
+}
+
+export async function readExcludedFromBlob(): Promise<string[]> {
+  if (!isBlobStorageEnabled()) return [];
+  try {
+    const { blobs } = await list({ prefix: EXCLUDED_PATH, limit: 1 });
+    if (!blobs.length) return [];
+    const res = await fetch(blobs[0].url, { cache: "no-store" });
+    if (!res.ok) return [];
+    return (await res.json()) as string[];
+  } catch {
+    return [];
+  }
+}
+
+export async function writeExcludedToBlob(files: string[]): Promise<void> {
+  if (!isBlobStorageEnabled()) return;
+  await put(EXCLUDED_PATH, JSON.stringify(files, null, 2), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+  });
+}
+
+export async function blobPhotoExists(id: string): Promise<boolean> {
+  const index = await loadBlobPhotoIndex();
+  return index.some((p) => p.id === id);
+}
