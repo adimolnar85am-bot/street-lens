@@ -20,49 +20,21 @@ function revalidatePhotoPaths() {
   revalidatePath("/admin/photos");
 }
 
-export async function GET() {
-  if (!(await isAdminSession())) {
-    return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
-  }
-  return NextResponse.json({ photos: getAdminPhotos() });
-}
-
-export async function POST(request: Request) {
+async function handleUpload(request: Request) {
   if (!(await isAdminSession())) {
     return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
   }
 
-  const body = await request.json();
-  const id = String(body?.id || "");
-  const action = String(body?.action || "");
-
-  if (!id) {
-    return NextResponse.json({ error: "ID lipsă" }, { status: 400 });
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return NextResponse.json(
+      { error: "Payload prea mare sau invalid. Max ~4 MB per poză." },
+      { status: 413 }
+    );
   }
 
-  let ok = false;
-  if (action === "exclude") ok = excludePhoto(id);
-  else if (action === "restore") ok = restorePhoto(id);
-  else if (action === "delete") ok = deletePhotoPermanently(id);
-  else {
-    return NextResponse.json({ error: "Acțiune invalidă" }, { status: 400 });
-  }
-
-  if (!ok) {
-    return NextResponse.json({ error: "Poza nu a fost găsită" }, { status: 404 });
-  }
-
-  revalidatePhotoPaths();
-
-  return NextResponse.json({ ok: true, photos: getAdminPhotos() });
-}
-
-export async function PUT(request: Request) {
-  if (!(await isAdminSession())) {
-    return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
-  }
-
-  const formData = await request.formData();
   const entries = formData.getAll("files");
   const files = entries.filter((entry): entry is File => entry instanceof File);
 
@@ -111,4 +83,81 @@ export async function PUT(request: Request) {
     errors,
     photos: getAdminPhotos(),
   });
+}
+
+export async function GET() {
+  if (!(await isAdminSession())) {
+    return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
+  }
+  return NextResponse.json({ photos: getAdminPhotos() });
+}
+
+export async function POST(request: Request) {
+  const contentType = request.headers.get("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    try {
+      return await handleUpload(request);
+    } catch (err) {
+      console.error("admin photos upload:", err);
+      return NextResponse.json(
+        {
+          error:
+            err instanceof Error
+              ? err.message
+              : "Eroare neașteptată la upload",
+        },
+        { status: 500 }
+      );
+    }
+  }
+
+  if (!(await isAdminSession())) {
+    return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
+  }
+
+  let body: { id?: string; action?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Cerere invalidă" }, { status: 400 });
+  }
+
+  const id = String(body?.id || "");
+  const action = String(body?.action || "");
+
+  if (!id) {
+    return NextResponse.json({ error: "ID lipsă" }, { status: 400 });
+  }
+
+  let ok = false;
+  if (action === "exclude") ok = excludePhoto(id);
+  else if (action === "restore") ok = restorePhoto(id);
+  else if (action === "delete") ok = deletePhotoPermanently(id);
+  else {
+    return NextResponse.json({ error: "Acțiune invalidă" }, { status: 400 });
+  }
+
+  if (!ok) {
+    return NextResponse.json({ error: "Poza nu a fost găsită" }, { status: 404 });
+  }
+
+  revalidatePhotoPaths();
+
+  return NextResponse.json({ ok: true, photos: getAdminPhotos() });
+}
+
+export async function PUT(request: Request) {
+  try {
+    return await handleUpload(request);
+  } catch (err) {
+    console.error("admin photos upload:", err);
+    return NextResponse.json(
+      {
+        error:
+          err instanceof Error ? err.message : "Eroare neașteptată la upload",
+      },
+      { status: 500 }
+    );
+  }
 }

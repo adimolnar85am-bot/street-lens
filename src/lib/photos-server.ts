@@ -352,7 +352,6 @@ export function hashName(input: string) {
   return createHash("sha256").update(input).digest("hex").slice(0, 16);
 }
 
-const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 const ALLOWED_UPLOAD_TYPES = new Set([
   "image/jpeg",
   "image/jpg",
@@ -360,12 +359,59 @@ const ALLOWED_UPLOAD_TYPES = new Set([
   "image/webp",
 ]);
 
+const MAX_UPLOAD_INPUT_BYTES = 25 * 1024 * 1024;
+const MAX_UPLOAD_EDGE = Number(process.env.MAX_UPLOAD_EDGE) || 2400;
+const MAX_SAVED_BYTES = 3.5 * 1024 * 1024;
+
+async function processUploadImage(buffer: Buffer): Promise<Buffer> {
+  const sharp = (await import("sharp")).default;
+
+  const resizeOpts = {
+    width: MAX_UPLOAD_EDGE,
+    height: MAX_UPLOAD_EDGE,
+    fit: "inside" as const,
+    withoutEnlargement: true,
+  };
+
+  let quality = 88;
+  let jpegBuffer = await sharp(buffer)
+    .rotate()
+    .resize(resizeOpts)
+    .jpeg({ quality, mozjpeg: true, chromaSubsampling: "4:2:0" })
+    .toBuffer();
+
+  while (jpegBuffer.length > MAX_SAVED_BYTES && quality > 52) {
+    quality -= 8;
+    jpegBuffer = await sharp(buffer)
+      .rotate()
+      .resize(resizeOpts)
+      .jpeg({ quality, mozjpeg: true, chromaSubsampling: "4:2:0" })
+      .toBuffer();
+  }
+
+  if (jpegBuffer.length > MAX_SAVED_BYTES) {
+    const smallerEdge = Math.round(MAX_UPLOAD_EDGE * 0.75);
+    jpegBuffer = await sharp(buffer)
+      .rotate()
+      .resize({
+        width: smallerEdge,
+        height: smallerEdge,
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .jpeg({ quality: 78, mozjpeg: true, chromaSubsampling: "4:2:0" })
+      .toBuffer();
+  }
+
+  return jpegBuffer;
+}
+
 export async function uploadPhotoFromBuffer(
   buffer: Buffer,
   mimeType: string
 ): Promise<{ id: string; src: string }> {
-  if (buffer.length > MAX_UPLOAD_BYTES) {
-    throw new Error("Fișier prea mare (max 15 MB)");
+  if (buffer.length > MAX_UPLOAD_INPUT_BYTES) {
+    throw new Error("Fișier prea mare (max 25 MB înainte de procesare)");
   }
 
   const normalizedType = mimeType.toLowerCase() || "image/jpeg";
@@ -377,11 +423,7 @@ export async function uploadPhotoFromBuffer(
     fs.mkdirSync(PHOTOS_DIR, { recursive: true });
   }
 
-  const sharp = (await import("sharp")).default;
-  const jpegBuffer = await sharp(buffer)
-    .rotate()
-    .jpeg({ quality: 88, mozjpeg: true })
-    .toBuffer();
+  const jpegBuffer = await processUploadImage(buffer);
 
   let id = createHash("sha256").update(jpegBuffer).digest("hex").slice(0, 16);
   let filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
@@ -400,7 +442,17 @@ export async function uploadPhotoFromBuffer(
     throw new Error("Nu s-a putut genera un nume unic pentru fișier");
   }
 
-  fs.writeFileSync(filePath, jpegBuffer);
+  try {
+    fs.writeFileSync(filePath, jpegBuffer);
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code;
+    if (code === "EROFS" || code === "EPERM") {
+      throw new Error(
+        "Nu se pot salva fișiere pe server (limitare hosting). Încearcă local sau storage extern."
+      );
+    }
+    throw err;
+  }
   sizeCache.delete(filePath);
   rebuildCatalog();
 

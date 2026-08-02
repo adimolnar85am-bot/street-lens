@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { EyeOff, RotateCcw, Trash2, RefreshCw, Upload, ImagePlus } from "lucide-react";
 import { ProtectedImage } from "@/components/ProtectedImage";
 import { AdminNav } from "@/components/AdminShell";
+import { prepareImagesForUpload } from "@/lib/client-image-compress";
 import { cn } from "@/lib/utils";
 
 type AdminPhoto = {
@@ -21,13 +22,34 @@ type UploadProgress = {
   label: string;
 };
 
-function uploadWithProgress(
-  formData: FormData,
+function parseUploadError(status: number, responseText: string): string {
+  const trimmed = responseText.trim();
+  if (trimmed.startsWith("{")) {
+    try {
+      const json = JSON.parse(trimmed) as { error?: string };
+      if (json.error) return json.error;
+    } catch {
+      /* fall through */
+    }
+  }
+  if (status === 401) return "Sesiune expirată — reconectează-te.";
+  if (status === 413) return "Poză prea mare. Max ~4 MB per fișier pe server.";
+  if (status >= 500) return `Eroare server (${status}). Încearcă o poză mai mică.`;
+  if (status === 0) return "Conexiune întreruptă.";
+  return `Upload eșuat (cod ${status}).`;
+}
+
+function uploadOneFile(
+  file: File,
   onProgress: (percent: number) => void
 ): Promise<{ ok: boolean; status: number; data: Record<string, unknown> }> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("PUT", "/api/admin/photos");
+    xhr.open("POST", "/api/admin/photos");
+    xhr.withCredentials = true;
+
+    const formData = new FormData();
+    formData.append("files", file);
 
     xhr.upload.addEventListener("progress", (event) => {
       if (!event.lengthComputable) return;
@@ -38,10 +60,15 @@ function uploadWithProgress(
     xhr.addEventListener("load", () => {
       onProgress(100);
       let data: Record<string, unknown> = {};
-      try {
-        data = JSON.parse(xhr.responseText) as Record<string, unknown>;
-      } catch {
-        data = { error: "Răspuns invalid de la server" };
+      const text = xhr.responseText || "";
+      if (text.trim().startsWith("{")) {
+        try {
+          data = JSON.parse(text) as Record<string, unknown>;
+        } catch {
+          data = { error: parseUploadError(xhr.status, text) };
+        }
+      } else {
+        data = { error: parseUploadError(xhr.status, text) };
       }
       resolve({ ok: xhr.status >= 200 && xhr.status < 300, status: xhr.status, data });
     });
@@ -104,8 +131,8 @@ export default function AdminPhotosPage() {
   }
 
   async function uploadFiles(fileList: FileList | File[]) {
-    const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
-    if (!files.length) {
+    const raw = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
+    if (!raw.length) {
       setUploadError("Selectează fișiere imagine (JPG, PNG, WebP).");
       return;
     }
@@ -115,51 +142,95 @@ export default function AdminPhotosPage() {
     setUploadError(null);
     setUploadProgress({
       percent: 0,
-      phase: "uploading",
-      fileCount: files.length,
-      label: `Se trimit ${files.length} ${files.length === 1 ? "fișier" : "fișiere"}…`,
+      phase: "processing",
+      fileCount: raw.length,
+      label: "Pregătire imagini (redimensionare, JPG)…",
     });
 
-    const formData = new FormData();
-    for (const file of files) {
-      formData.append("files", file);
+    let files: File[];
+    try {
+      files = await prepareImagesForUpload(raw);
+    } catch (err) {
+      setUploading(false);
+      setUploadProgress(null);
+      setUploadError(
+        err instanceof Error ? err.message : "Nu s-au putut procesa imaginile"
+      );
+      return;
     }
 
-    try {
-      const { ok, data } = await uploadWithProgress(formData, (percent) => {
-        setUploadProgress((prev) =>
-          prev
-            ? {
-                ...prev,
-                percent,
-                phase: percent >= 99 ? "processing" : "uploading",
-                label:
-                  percent >= 99
-                    ? "Se procesează pozele pe server…"
-                    : `Se trimit ${files.length} ${files.length === 1 ? "fișier" : "fișiere"}…`,
-              }
-            : null
-        );
-      });
+    const tooLarge = files.find((f) => f.size > 4 * 1024 * 1024);
+    if (tooLarge) {
+      setUploading(false);
+      setUploadProgress(null);
+      setUploadError(
+        `„${tooLarge.name}" e încă prea mare după compresie. Încearcă o poză mai mică.`
+      );
+      return;
+    }
 
-      if (!ok) {
-        setUploadError(String(data.error || "Upload eșuat"));
-        return;
+    setUploadMessage(null);
+    setUploadError(null);
+
+    let successCount = 0;
+    const failMessages: string[] = [];
+
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        setUploadProgress({
+          percent: Math.round((i / files.length) * 100),
+          phase: "uploading",
+          fileCount: files.length,
+          label: `Poză ${i + 1} / ${files.length}: ${file.name}`,
+        });
+
+        const { ok, status, data } = await uploadOneFile(file, (filePercent) => {
+          const overall = Math.round(((i + filePercent / 100) / files.length) * 100);
+          setUploadProgress({
+            percent: Math.min(overall, 99),
+            phase: filePercent >= 99 ? "processing" : "uploading",
+            fileCount: files.length,
+            label:
+              filePercent >= 99
+                ? `Procesare poză ${i + 1} / ${files.length}…`
+                : `Poză ${i + 1} / ${files.length}: ${file.name}`,
+          });
+        });
+
+        if (status === 401) {
+          router.replace("/admin/login");
+          return;
+        }
+
+        if (!ok) {
+          failMessages.push(String(data.error || file.name));
+          continue;
+        }
+
+        successCount += 1;
       }
 
-      setPhotos((data.photos as AdminPhoto[]) || []);
+      setUploadProgress({
+        percent: 100,
+        phase: "processing",
+        fileCount: files.length,
+        label: "Actualizare galerie…",
+      });
+
+      await load();
       router.refresh();
 
-      const uploaded = data.uploaded as { name: string }[] | undefined;
-      const errors = data.errors as { name: string }[] | undefined;
-      const count = uploaded?.length || 0;
-      const failed = errors?.length || 0;
-      if (count && failed) {
-        setUploadMessage(`${count} poze încărcate · ${failed} eșuate`);
-      } else if (count) {
-        setUploadMessage(`${count} ${count === 1 ? "poză încărcată" : "poze încărcate"}`);
+      if (successCount && failMessages.length) {
+        setUploadMessage(
+          `${successCount} poze încărcate · ${failMessages.length} eșuate`
+        );
+      } else if (successCount) {
+        setUploadMessage(
+          `${successCount} ${successCount === 1 ? "poză încărcată" : "poze încărcate"}`
+        );
       } else {
-        setUploadError("Nicio poză nu a fost încărcată");
+        setUploadError(failMessages[0] || "Nicio poză nu a fost încărcată");
       }
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Eroare de rețea la upload");
@@ -229,8 +300,8 @@ export default function AdminPhotosPage() {
               <div>
                 <p className="font-semibold text-cream">Încarcă poze noi</p>
                 <p className="text-sm text-ink-400 mt-1">
-                  Trage fișiere aici sau alege din calculator. JPG, PNG, WebP — max
-                  15 MB / poză, până la 20 odată.
+                  Trage poze aici — JPG, PNG, WebP. Se redimensionează automat
+                  (max 2400px) și se salvează ca JPG optimizat.
                 </p>
               </div>
             </div>
