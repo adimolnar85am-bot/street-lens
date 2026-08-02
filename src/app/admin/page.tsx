@@ -4,9 +4,15 @@ import { AdminNav } from "@/components/AdminShell";
 
 const cards = [
   {
+    href: "/admin/merch",
+    title: "Imagini merch",
+    body: "Stocare separată pentru produse magazin — nu apar în slide-uri sau galerie.",
+    icon: ShoppingBag,
+  },
+  {
     href: "/admin/photos/assignments",
     title: "Poze pe secțiuni",
-    body: "Alege ce poză apare în Hero, galerie, concurs, photowalk-uri, magazin și articole.",
+    body: "Alege ce poză apare în Hero, galerie, concurs, photowalk-uri și articole.",
     icon: Camera,
   },
   {

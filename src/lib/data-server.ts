@@ -1,5 +1,6 @@
 import "server-only";
 import { resolvePhotoSrc } from "./photos-server";
+import { getMerchImageForItem, hydrateMerchStorage } from "./merch-photos-server";
 import {
   getPublishedArticles,
   getSiteContent,
@@ -115,14 +116,11 @@ export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchIte
   const copy = shop[locale];
   const categoryLabels = { tees: copy.catTees, print: copy.catPrint };
 
-  return shop.items.map((item, index) => ({
+  return shop.items.map((item) => ({
     id: item.id,
     name: item[locale].name,
     price: item.price,
-    image: resolvePhotoSrc(`shop.${item.id}`, {
-      orientation: "square",
-      index,
-    }),
+    image: getMerchImageForItem(item.id),
     category: categoryLabels[item.category],
   }));
 }

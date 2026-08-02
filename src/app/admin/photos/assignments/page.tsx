@@ -107,7 +107,7 @@ export default function PhotoAssignmentsPage() {
     <div className="min-h-screen">
       <AdminNav
         title="Poze pe secțiuni"
-        subtitle="Alege ce poză rulează în Hero, galerie, concurs, photowalk-uri, magazin și articole"
+        subtitle="Alege ce poză rulează în Hero, galerie, concurs, photowalk-uri și articole"
         onLogout={logout}
       />
 

@@ -362,7 +362,7 @@ export default function AdminPhotosPage() {
           <div>
             <p className="text-sm font-medium text-cream">Poze pe secțiuni</p>
             <p className="text-xs text-ink-400">
-              Alege ce poze rulează în Hero, galerie, concurs, photowalk-uri și magazin
+              Alege ce poze rulează în Hero, galerie, concurs, photowalk-uri și articole
             </p>
           </div>
         </Link>

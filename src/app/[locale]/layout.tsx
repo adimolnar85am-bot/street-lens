@@ -8,6 +8,7 @@ import { OrganizationJsonLd } from "@/components/JsonLd";
 import { buildPageMetadata } from "@/lib/metadata";
 import { getSiteContent } from "@/lib/content-server";
 import { hydratePhotoStorage } from "@/lib/photos-server";
+import { hydrateMerchStorage } from "@/lib/merch-photos-server";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
 
   const locale = localeParam as Locale;
   await hydratePhotoStorage();
+  await hydrateMerchStorage();
   const dict = await getDictionary(locale);
   const site = getSiteContent();
   const content = {

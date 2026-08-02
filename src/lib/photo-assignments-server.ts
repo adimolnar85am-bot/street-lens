@@ -142,14 +142,6 @@ export function buildPhotoSlotCatalog(): PhotoSlotDef[] {
     }
   }
 
-  for (const item of content.shop.items) {
-    slots.push({
-      key: `shop.${item.id}`,
-      label: item.ro.name,
-      section: "Magazin",
-    });
-  }
-
   for (const article of content.articles.filter((a) => a.published)) {
     slots.push({
       key: `articles.${article.id}`,
