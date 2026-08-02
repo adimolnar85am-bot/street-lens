@@ -39,6 +39,8 @@ export interface ContentMerchItem {
   id: string;
   price: number;
   category: "tees" | "print" | "apparel" | "accessories";
+  /** Use "one" for one-size products (e.g. cap). Omit for items without sizes. */
+  sizes?: string[];
   ro: { name: string };
   en: { name: string };
 }
@@ -129,6 +131,10 @@ export interface SiteContent {
       catPrint: string;
       catApparel: string;
       catAccessories: string;
+      oneSizeLabel: string;
+      sizesLabel: string;
+      selectSizeLabel: string;
+      sizeFieldLabel: string;
     };
     en: {
       pageTitle: string;
@@ -149,6 +155,10 @@ export interface SiteContent {
       catPrint: string;
       catApparel: string;
       catAccessories: string;
+      oneSizeLabel: string;
+      sizesLabel: string;
+      selectSizeLabel: string;
+      sizeFieldLabel: string;
     };
     items: ContentMerchItem[];
   };

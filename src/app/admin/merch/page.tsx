@@ -14,6 +14,7 @@ import {
 import { ProtectedImage } from "@/components/ProtectedImage";
 import { AdminNav } from "@/components/AdminShell";
 import { prepareImagesForUpload } from "@/lib/client-image-compress";
+import { formatMerchSizesSummary } from "@/lib/merch-sizes";
 import { cn } from "@/lib/utils";
 
 type MerchPhoto = {
@@ -27,6 +28,7 @@ type MerchProduct = {
   name: string;
   category: string;
   price: number;
+  sizes?: string[];
 };
 
 type MerchAssignments = {
@@ -265,6 +267,9 @@ export default function AdminMerchPhotosPage() {
                   >
                     <p className="text-xs text-ink-400 uppercase tracking-wider mb-1">
                       {product.category} · {product.price} RON
+                      {product.sizes?.length
+                        ? ` · ${formatMerchSizesSummary(product.sizes, "Mărime unică")}`
+                        : ""}
                     </p>
                     <p className="text-sm text-cream font-medium mb-3">{product.name}</p>
                     <div className="relative w-full aspect-square rounded-md overflow-hidden bg-ink-800 mb-3">

@@ -445,7 +445,11 @@
       "catTees": "Tricouri",
       "catPrint": "Print",
       "catApparel": "Bluze",
-      "catAccessories": "Accesorii"
+      "catAccessories": "Accesorii",
+      "oneSizeLabel": "Mărime unică",
+      "sizesLabel": "Mărimi",
+      "selectSizeLabel": "Alege o mărime pentru comandă",
+      "sizeFieldLabel": "Mărime"
     },
     "en": {
       "pageTitle": "Shop",
@@ -465,12 +469,16 @@
       "catTees": "Tees",
       "catPrint": "Print",
       "catApparel": "Hoodies",
-      "catAccessories": "Accessories"
+      "catAccessories": "Accessories",
+      "oneSizeLabel": "One size",
+      "sizesLabel": "Sizes",
+      "selectSizeLabel": "Choose a size to order",
+      "sizeFieldLabel": "Size"
     },
     "items": [
-      { "id": "m1", "price": 89, "category": "tees", "ro": { "name": "Tricou „Walk & Shoot”" }, "en": { "name": "\"Walk & Shoot\" tee" } },
-      { "id": "m5", "price": 79, "category": "accessories", "ro": { "name": "Șapcă Street Lens" }, "en": { "name": "Street Lens cap" } },
-      { "id": "m6", "price": 195, "category": "apparel", "ro": { "name": "Bluză Street Lens" }, "en": { "name": "Street Lens hoodie" } },
+      { "id": "m1", "price": 89, "category": "tees", "sizes": ["S", "M", "L", "XL", "XXL"], "ro": { "name": "Tricou „Walk & Shoot”" }, "en": { "name": "\"Walk & Shoot\" tee" } },
+      { "id": "m5", "price": 79, "category": "accessories", "sizes": ["one"], "ro": { "name": "Șapcă Street Lens" }, "en": { "name": "Street Lens cap" } },
+      { "id": "m6", "price": 195, "category": "apparel", "sizes": ["S", "M", "L", "XL", "XXL"], "ro": { "name": "Bluză Street Lens" }, "en": { "name": "Street Lens hoodie" } },
       { "id": "m7", "price": 110, "category": "accessories", "ro": { "name": "Foto strap" }, "en": { "name": "Camera strap" } },
       { "id": "m8", "price": 29, "category": "accessories", "ro": { "name": "Pin Street Lens" }, "en": { "name": "Street Lens pin" } },
       { "id": "m2", "price": 145, "category": "print", "ro": { "name": "Print tiraj limitat I" }, "en": { "name": "Limited print I" } },

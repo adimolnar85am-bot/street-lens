@@ -158,6 +158,7 @@ export type MerchProductDef = {
   name: string;
   category: string;
   price: number;
+  sizes?: string[];
 };
 
 export function getMerchProductCatalog(): MerchProductDef[] {
@@ -167,6 +168,7 @@ export function getMerchProductCatalog(): MerchProductDef[] {
     name: item.ro.name,
     category: item.category,
     price: item.price,
+    sizes: item.sizes,
   }));
 }
 

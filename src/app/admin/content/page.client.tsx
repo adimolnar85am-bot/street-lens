@@ -1298,6 +1298,22 @@ export default function AdminContentPage() {
                       setContent({ ...content, shop: { ...content.shop, items } });
                     }}
                   />
+                  <AdminField
+                    label="Mărimi (separate prin virgulă; „one” = mărime unică; gol = fără mărimi)"
+                    value={(item.sizes ?? []).join(", ")}
+                    onChange={(v) => {
+                      const items = [...content.shop.items];
+                      const sizes = v
+                        .split(",")
+                        .map((s) => s.trim())
+                        .filter(Boolean);
+                      items[index] = {
+                        ...item,
+                        sizes: sizes.length ? sizes : undefined,
+                      };
+                      setContent({ ...content, shop: { ...content.shop, items } });
+                    }}
+                  />
                 </div>
               ))}
             </div>

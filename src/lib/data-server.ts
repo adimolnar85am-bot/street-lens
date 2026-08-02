@@ -127,6 +127,7 @@ export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchIte
     price: item.price,
     image: getMerchImageForItem(item.id),
     category: categoryLabels[item.category],
+    sizes: item.sizes,
   }));
 }
 

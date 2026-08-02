@@ -2,6 +2,7 @@ import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { getMerchItems } from "@/lib/data-server";
+import { MerchPreviewCard } from "@/components/MerchPreviewCard";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
@@ -45,24 +46,13 @@ export function MerchSection({
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {merchItems.map((item) => (
-            <Link key={item.id} href={localePath(locale, "/magazin")} className="group">
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-ink-100 mb-3">
-                <ProtectedImage
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors" />
-              </div>
-              <p className="text-xs text-ink-400 uppercase tracking-wider">
-                {item.category}
-              </p>
-              <h3 className="text-ink font-medium text-sm mt-1 group-hover:text-signal transition-colors">
-                {item.name}
-              </h3>
-              <p className="text-ink-600 font-medium text-sm mt-1">{item.price} RON</p>
-            </Link>
+            <MerchPreviewCard
+              key={item.id}
+              item={item}
+              locale={locale}
+              oneSizeLabel={shop.oneSizeLabel}
+              sizesLabel={shop.sizesLabel}
+            />
           ))}
         </div>
 
