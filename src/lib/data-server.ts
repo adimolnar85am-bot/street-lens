@@ -114,7 +114,12 @@ export function getBlogArticles(dict: Dictionary, locale: Locale = "ro") {
 export function getMerchItems(dict: Dictionary, locale: Locale = "ro"): MerchItem[] {
   const { shop } = getSiteContent();
   const copy = shop[locale];
-  const categoryLabels = { tees: copy.catTees, print: copy.catPrint };
+  const categoryLabels = {
+    tees: copy.catTees,
+    print: copy.catPrint,
+    apparel: copy.catApparel,
+    accessories: copy.catAccessories,
+  };
 
   return shop.items.map((item) => ({
     id: item.id,

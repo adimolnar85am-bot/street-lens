@@ -38,7 +38,7 @@ export interface MembershipTier {
 export interface ContentMerchItem {
   id: string;
   price: number;
-  category: "tees" | "print";
+  category: "tees" | "print" | "apparel" | "accessories";
   ro: { name: string };
   en: { name: string };
 }
@@ -127,6 +127,8 @@ export interface SiteContent {
       sectionSeePrints: string;
       catTees: string;
       catPrint: string;
+      catApparel: string;
+      catAccessories: string;
     };
     en: {
       pageTitle: string;
@@ -145,6 +147,8 @@ export interface SiteContent {
       sectionSeePrints: string;
       catTees: string;
       catPrint: string;
+      catApparel: string;
+      catAccessories: string;
     };
     items: ContentMerchItem[];
   };

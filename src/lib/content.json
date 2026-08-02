@@ -443,7 +443,9 @@
       "sectionPrintBody": "Tiraje limitate — fotografiile care au definit walk-urile noastre",
       "sectionSeePrints": "Vezi printurile",
       "catTees": "Tricouri",
-      "catPrint": "Print"
+      "catPrint": "Print",
+      "catApparel": "Bluze",
+      "catAccessories": "Accesorii"
     },
     "en": {
       "pageTitle": "Shop",
@@ -461,10 +463,16 @@
       "sectionPrintBody": "Limited editions — photos that defined our walks",
       "sectionSeePrints": "See prints",
       "catTees": "Tees",
-      "catPrint": "Print"
+      "catPrint": "Print",
+      "catApparel": "Hoodies",
+      "catAccessories": "Accessories"
     },
     "items": [
       { "id": "m1", "price": 89, "category": "tees", "ro": { "name": "Tricou „Walk & Shoot”" }, "en": { "name": "\"Walk & Shoot\" tee" } },
+      { "id": "m5", "price": 79, "category": "accessories", "ro": { "name": "Șapcă Street Lens" }, "en": { "name": "Street Lens cap" } },
+      { "id": "m6", "price": 195, "category": "apparel", "ro": { "name": "Bluză Street Lens" }, "en": { "name": "Street Lens hoodie" } },
+      { "id": "m7", "price": 110, "category": "accessories", "ro": { "name": "Foto strap" }, "en": { "name": "Camera strap" } },
+      { "id": "m8", "price": 29, "category": "accessories", "ro": { "name": "Pin Street Lens" }, "en": { "name": "Street Lens pin" } },
       { "id": "m2", "price": 145, "category": "print", "ro": { "name": "Print tiraj limitat I" }, "en": { "name": "Limited print I" } },
       { "id": "m3", "price": 120, "category": "print", "ro": { "name": "Print tiraj limitat II" }, "en": { "name": "Limited print II" } },
       { "id": "m4", "price": 95, "category": "print", "ro": { "name": "Poster comunitate" }, "en": { "name": "Community poster" } }
