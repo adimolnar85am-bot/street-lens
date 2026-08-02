@@ -8,14 +8,14 @@ const en: DeepStringify<typeof ro> = {
   meta: {
     title: "Street Lens — Street Photography Community",
     description:
-      "Street photography community in Romania. Weekly photowalks, interactive map, contests, and merch.",
+      "Global street photography community. Weekly photowalks, interactive map, contests, and merch.",
     ogHeadline: "The street is the studio.",
     ogTagline:
-      "Photowalks, contests, and gallery — street photography community in Romania.",
+      "Photowalks, contests, and gallery — street photography, wherever you are.",
   },
   brand: {
     name: "Street Lens",
-    tagline: "Street · Romania",
+    tagline: "Street · City",
   },
   nav: {
     community: "Community",
@@ -61,11 +61,11 @@ const en: DeepStringify<typeof ro> = {
     menu: "Menu",
   },
   hero: {
-    locationBadge: "Romania",
+    locationBadge: "Cities",
     eyebrow: "photo community",
     title1: "The street",
     title2: "is the studio.",
-    body: "We meet on Saturdays — in cities across Romania, with a theme, route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what you see matters more than what you carry.",
+    body: "We meet on Saturdays — in cities around the world, with a theme, route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what you see matters more than what you carry.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Route map",
     ctaContest: "Theme #1 · Reflections",
@@ -118,25 +118,25 @@ const en: DeepStringify<typeof ro> = {
     participants: "participants",
     pageTitle: "Photowalks",
     pageBody:
-      "The archive of our meetups in cities across Romania. Each walk has a community-chosen theme and a route mapped with pins.",
+      "The archive of our meetups in cities everywhere. Each walk has a community-chosen theme and a route mapped with pins.",
     allWalks: "All photowalks",
     trailPhotos: "Photos from the route",
     trailFrame: "Frame from the route",
     pw1Title: "Photowalk #1 — Light & Shadow",
     pw1Theme: "Urban contrast",
-    pw1Location: "Old Town, Cluj-Napoca",
+    pw1Location: "Alfama, Lisbon",
     pw1Desc:
       "We explored narrow streets where light filters between buildings, creating dramatic contrast scenes.",
     pw2Title: "Photowalk #2 — People of the city",
     pw2Theme: "Street portrait",
-    pw2Location: "Historic center, Timișoara",
+    pw2Location: "Mitte, Berlin",
     pw2Desc:
       "A session dedicated to people — expressions, gestures, and candid moments caught in the urban flow.",
   },
   map: {
     eyebrow: "Interactive map",
     title: "Our routes, pin by pin",
-    body: "After each photowalk, pins appear on the map — routes from Cluj, Timișoara, Bucharest, and other cities. Explore past trails or add your own finds.",
+    body: "After each photowalk, pins appear on the map — Lisbon, Berlin, Cluj, and other cities. Explore past trails or add your own finds.",
     pinsOnTrail: "pins on the trail",
     addPin: "+ Add pin to map",
     loading: "Loading map...",
@@ -187,7 +187,7 @@ const en: DeepStringify<typeof ro> = {
   about: {
     pageTitle: "About us",
     pageBody:
-      "Street Lens is Romania’s street photography community — where we meet, learn, and document the city together.",
+      "Street Lens is a street photography community — where we meet, learn, and document cities together, wherever we are.",
     missionTitle: "Our mission",
     missionBody:
       "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We build an active, accessible community with weekly photowalks, contests, and resources for all levels.",
@@ -350,7 +350,7 @@ const en: DeepStringify<typeof ro> = {
   },
   footer: {
     about:
-      "Street photography community in Romania. We meet every Saturday, in different cities, for photowalks with themes we choose together.",
+      "Global street photography community. We meet every Saturday, in different cities, for photowalks with themes we choose together.",
     community: "Community",
     photography: "Photography",
     newsletter: "Newsletter",

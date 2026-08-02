@@ -2,14 +2,14 @@ const ro = {
   meta: {
     title: "Street Lens — Comunitate de Street Photography",
     description:
-      "Comunitate de fotografi de stradă din România. Photowalk-uri săptămânale, hartă interactivă, concursuri și merch.",
+      "Comunitate globală de fotografi de stradă. Photowalk-uri săptămânale, hartă interactivă, concursuri și merch.",
     ogHeadline: "Orașul, fără filtru.",
     ogTagline:
-      "Photowalk-uri, concursuri și galerie — comunitate de street photography din România.",
+      "Photowalk-uri, concursuri și galerie — street photography, oriunde ești.",
   },
   brand: {
     name: "Street Lens",
-    tagline: "Strada · România",
+    tagline: "Strada · Oraș",
   },
   nav: {
     community: "Comunitate",
@@ -55,11 +55,11 @@ const ro = {
     menu: "Meniu",
   },
   hero: {
-    locationBadge: "România",
+    locationBadge: "Orașe",
     eyebrow: "comunitate foto",
     title1: "Orașul,",
     title2: "fără filtru.",
-    body: "Ne vedem sâmbăta pe stradă — în orașe din România, cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
+    body: "Ne vedem sâmbăta pe stradă — în orașe de pe mapamond, cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Harta traseelor",
     ctaContest: "Tema #1 · Reflexii",
@@ -112,25 +112,25 @@ const ro = {
     participants: "participanți",
     pageTitle: "Photowalk-uri",
     pageBody:
-      "Arhiva întâlnirilor noastre din orașe din România. Fiecare walk are o temă aleasă de comunitate și un traseu documentat pe hartă.",
+      "Arhiva întâlnirilor noastre din orașe de pretutindeni. Fiecare walk are o temă aleasă de comunitate și un traseu documentat pe hartă.",
     allWalks: "Toate photowalk-urile",
     trailPhotos: "Poze de pe traseu",
     trailFrame: "Cadru de pe traseu",
     pw1Title: "Photowalk #1 — Umbra & Lumină",
     pw1Theme: "Contrast urban",
-    pw1Location: "Centrul vechi, Cluj-Napoca",
+    pw1Location: "Alfama, Lisabona",
     pw1Desc:
       "Am explorat străzile înguste unde lumina se filtrează printre clădiri, creând scene dramatice de contrast.",
     pw2Title: "Photowalk #2 — Oamenii orașului",
     pw2Theme: "Portret de stradă",
-    pw2Location: "Centrul istoric, Timișoara",
+    pw2Location: "Mitte, Berlin",
     pw2Desc:
       "O sesiune dedicată oamenilor — expresii, gesturi și momente candid surprinse în fluxul urban.",
   },
   map: {
     eyebrow: "Hartă interactivă",
     title: "Traseele noastre, pin cu pin",
-    body: "După fiecare photowalk, pin-urile apar pe hartă — trasee din Cluj, Timișoara, București și alte orașe. Explorează rutele anterioare sau adaugă propriile descoperiri.",
+    body: "După fiecare photowalk, pin-urile apar pe hartă — Lisabona, Berlin, Cluj și alte orașe. Explorează rutele anterioare sau adaugă propriile descoperiri.",
     pinsOnTrail: "pin-uri pe traseul",
     addPin: "+ Adaugă pin pe hartă",
     loading: "Se încarcă harta...",
@@ -181,7 +181,7 @@ const ro = {
   about: {
     pageTitle: "Despre noi",
     pageBody:
-      "Street Lens e comunitatea de street photography din România — un loc unde ne întâlnim, învățăm și documentăm orașul împreună.",
+      "Street Lens e comunitatea de street photography — un loc unde ne întâlnim, învățăm și documentăm orașele împreună, oriunde am fi.",
     missionTitle: "Misiunea noastră",
     missionBody:
       "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri săptămânale, concursuri și resurse pentru toți nivelurile.",
@@ -348,7 +348,7 @@ const ro = {
   },
   footer: {
     about:
-      "Comunitate de street photography din România. Ne întâlnim în fiecare sâmbătă, în orașe diferite, pentru photowalk-uri cu teme alese de noi.",
+      "Comunitate globală de street photography. Ne întâlnim în fiecare sâmbătă, în orașe diferite, pentru photowalk-uri cu teme alese de noi.",
     community: "Comunitate",
     photography: "Fotografie",
     newsletter: "Newsletter",
