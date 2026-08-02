@@ -11,7 +11,7 @@ const en: DeepStringify<typeof ro> = {
       "Street photography community in Romania. Weekly photowalks, interactive map, contests, and merch.",
     ogHeadline: "The street is the studio.",
     ogTagline:
-      "Photowalks, contests, and gallery — street photography community in Bucharest.",
+      "Photowalks, contests, and gallery — street photography community in Romania.",
   },
   brand: {
     name: "Street Lens",
@@ -61,11 +61,11 @@ const en: DeepStringify<typeof ro> = {
     menu: "Menu",
   },
   hero: {
-    locationBadge: "Bucharest",
+    locationBadge: "Romania",
     eyebrow: "photo community",
     title1: "The street",
     title2: "is the studio.",
-    body: "We meet on Saturdays — theme, route, photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what you see matters more than what you carry.",
+    body: "We meet on Saturdays — in cities across Romania, with a theme, route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what you see matters more than what you carry.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Route map",
     ctaContest: "Theme #1 · Reflections",
@@ -118,25 +118,25 @@ const en: DeepStringify<typeof ro> = {
     participants: "participants",
     pageTitle: "Photowalks",
     pageBody:
-      "The full archive of our weekly meetups. Each walk has a community-chosen theme and a route mapped with pins.",
+      "The archive of our meetups in cities across Romania. Each walk has a community-chosen theme and a route mapped with pins.",
     allWalks: "All photowalks",
     trailPhotos: "Photos from the route",
     trailFrame: "Frame from the route",
     pw1Title: "Photowalk #1 — Light & Shadow",
     pw1Theme: "Urban contrast",
-    pw1Location: "Old Town, Bucharest",
+    pw1Location: "Old Town, Cluj-Napoca",
     pw1Desc:
       "We explored narrow streets where light filters between buildings, creating dramatic contrast scenes.",
     pw2Title: "Photowalk #2 — People of the city",
     pw2Theme: "Street portrait",
-    pw2Location: "Unirii Square · street",
+    pw2Location: "Historic center, Timișoara",
     pw2Desc:
       "A session dedicated to people — expressions, gestures, and candid moments caught in the urban flow.",
   },
   map: {
     eyebrow: "Interactive map",
     title: "Our routes, pin by pin",
-    body: "After each photowalk, members add pins with their photos as reference. Explore past routes or add your own finds.",
+    body: "After each photowalk, pins appear on the map — routes from Cluj, Timișoara, Bucharest, and other cities. Explore past trails or add your own finds.",
     pinsOnTrail: "pins on the trail",
     addPin: "+ Add pin to map",
     loading: "Loading map...",
@@ -350,7 +350,7 @@ const en: DeepStringify<typeof ro> = {
   },
   footer: {
     about:
-      "Street photography community in Romania. We meet every Saturday for photowalks with themes we choose together.",
+      "Street photography community in Romania. We meet every Saturday, in different cities, for photowalks with themes we choose together.",
     community: "Community",
     photography: "Photography",
     newsletter: "Newsletter",

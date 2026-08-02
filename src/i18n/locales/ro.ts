@@ -5,7 +5,7 @@ const ro = {
       "Comunitate de fotografi de stradă din România. Photowalk-uri săptămânale, hartă interactivă, concursuri și merch.",
     ogHeadline: "Orașul, fără filtru.",
     ogTagline:
-      "Photowalk-uri, concursuri și galerie — comunitate de street photography din București.",
+      "Photowalk-uri, concursuri și galerie — comunitate de street photography din România.",
   },
   brand: {
     name: "Street Lens",
@@ -55,11 +55,11 @@ const ro = {
     menu: "Meniu",
   },
   hero: {
-    locationBadge: "București",
+    locationBadge: "România",
     eyebrow: "comunitate foto",
     title1: "Orașul,",
     title2: "fără filtru.",
-    body: "Ne vedem sâmbăta pe stradă — cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
+    body: "Ne vedem sâmbăta pe stradă — în orașe din România, cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Harta traseelor",
     ctaContest: "Tema #1 · Reflexii",
@@ -112,25 +112,25 @@ const ro = {
     participants: "participanți",
     pageTitle: "Photowalk-uri",
     pageBody:
-      "Arhiva completă a întâlnirilor noastre săptămânale. Fiecare walk are o temă aleasă de comunitate și un traseu documentat pe hartă.",
+      "Arhiva întâlnirilor noastre din orașe din România. Fiecare walk are o temă aleasă de comunitate și un traseu documentat pe hartă.",
     allWalks: "Toate photowalk-urile",
     trailPhotos: "Poze de pe traseu",
     trailFrame: "Cadru de pe traseu",
     pw1Title: "Photowalk #1 — Umbra & Lumină",
     pw1Theme: "Contrast urban",
-    pw1Location: "Centrul Vechi, București",
+    pw1Location: "Centrul vechi, Cluj-Napoca",
     pw1Desc:
       "Am explorat străzile înguste unde lumina se filtrează printre clădiri, creând scene dramatice de contrast.",
     pw2Title: "Photowalk #2 — Oamenii orașului",
     pw2Theme: "Portret de stradă",
-    pw2Location: "Piața Unirii · stradă",
+    pw2Location: "Centrul istoric, Timișoara",
     pw2Desc:
       "O sesiune dedicată oamenilor — expresii, gesturi și momente candid surprinse în fluxul urban.",
   },
   map: {
     eyebrow: "Hartă interactivă",
     title: "Traseele noastre, pin cu pin",
-    body: "După fiecare photowalk, membrii adaugă pin-uri pe hartă cu pozele lor ca referință. Explorează traseele anterioare sau adaugă propriile tale descoperiri.",
+    body: "După fiecare photowalk, pin-urile apar pe hartă — trasee din Cluj, Timișoara, București și alte orașe. Explorează rutele anterioare sau adaugă propriile descoperiri.",
     pinsOnTrail: "pin-uri pe traseul",
     addPin: "+ Adaugă pin pe hartă",
     loading: "Se încarcă harta...",
@@ -348,7 +348,7 @@ const ro = {
   },
   footer: {
     about:
-      "Comunitate de street photography din România. Ne întâlnim în fiecare sâmbătă pentru photowalk-uri cu teme alese de noi.",
+      "Comunitate de street photography din România. Ne întâlnim în fiecare sâmbătă, în orașe diferite, pentru photowalk-uri cu teme alese de noi.",
     community: "Comunitate",
     photography: "Fotografie",
     newsletter: "Newsletter",

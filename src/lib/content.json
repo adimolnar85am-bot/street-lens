@@ -27,26 +27,26 @@
   },
   "hero": {
     "ro": {
-      "body": "Ne vedem sâmbăta pe stradă — cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
+      "body": "Ne vedem sâmbăta pe stradă — în orașe din România, cu temă, traseu și poze puse pe hartă. Concursuri numerotate, arhivă comună. Mirrorless, film sau telefon: contează ce vezi, nu ce ai în geantă.",
       "ctaWalk": "Photowalk #1",
       "ctaContest": "Tema #1 · Reflexii"
     },
     "en": {
-      "body": "We meet on the street every Saturday — with a theme, a route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what matters is what you see, not what's in your bag.",
+      "body": "We meet on the street every Saturday — in cities across Romania, with a theme, a route, and photos on the map. Numbered contests, a shared archive. Mirrorless, film, or phone: what matters is what you see, not what's in your bag.",
       "ctaWalk": "Photowalk #1",
       "ctaContest": "Theme #1 · Reflections"
     }
   },
   "about": {
     "ro": {
-      "pageBody": "Street Lens e comunitatea de street photography din România — un loc unde ne întâlnim, învățăm și documentăm orașul împreună.",
-      "missionBody": "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri săptămânale, concursuri și resurse pentru toți nivelurile.",
-      "howBody": "În fiecare sâmbătă organizăm un photowalk cu temă aleasă de comunitate. După walk, pin-urile și pozele apar pe harta interactivă. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor."
+      "pageBody": "Street Lens e comunitatea de street photography din România — un loc unde ne întâlnim, învățăm și documentăm orașele împreună.",
+      "missionBody": "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu photowalk-uri în orașe din țară, concursuri și resurse pentru toți nivelurile.",
+      "howBody": "În fiecare sâmbătă organizăm un photowalk cu temă aleasă de comunitate — în Cluj, Timișoara, București sau alt oraș. După walk, pin-urile și pozele apar pe harta interactivă. Lunar lansăm un concurs cu temă numerotată — de la #1 în sus. Galeria, blogul și ghidurile sunt deschise tuturor."
     },
     "en": {
-      "pageBody": "Street Lens is Romania's street photography community — a place to meet, learn, and document the city together.",
-      "missionBody": "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We aim to build an active, accessible, inspired community with weekly photowalks, contests, and resources for all levels.",
-      "howBody": "Every Saturday we run a photowalk with a community-chosen theme. After the walk, pins and photos appear on the interactive map. Each month we launch a numbered contest theme — from #1 upward. Gallery, blog, and guides are open to everyone."
+      "pageBody": "Street Lens is Romania's street photography community — a place to meet, learn, and document cities together.",
+      "missionBody": "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We aim to build an active, accessible, inspired community with photowalks in cities across the country, contests, and resources for all levels.",
+      "howBody": "Every Saturday we run a photowalk with a community-chosen theme — in Cluj, Timișoara, Bucharest, or another city. After the walk, pins and photos appear on the interactive map. Each month we launch a numbered contest theme — from #1 upward. Gallery, blog, and guides are open to everyone."
     }
   },
   "contest": {
@@ -227,17 +227,17 @@
       "id": "pw-1",
       "date": "2026-07-26",
       "participantCount": 18,
-      "center": [44.4268, 26.1025],
+      "center": [46.7712, 23.5897],
       "ro": {
         "title": "Photowalk #1 — Umbra & Lumină",
         "theme": "Contrast urban",
-        "location": "Centrul Vechi, București",
+        "location": "Centrul vechi, Cluj-Napoca",
         "description": "Am explorat străzile înguste unde lumina se filtrează printre clădiri, creând scene dramatice de contrast."
       },
       "en": {
         "title": "Photowalk #1 — Shadow & Light",
         "theme": "Urban contrast",
-        "location": "Old Town, Bucharest",
+        "location": "Old Town, Cluj-Napoca",
         "description": "We explored narrow streets where light filters between buildings, creating dramatic contrast scenes."
       }
     },
@@ -245,17 +245,17 @@
       "id": "pw-2",
       "date": "2026-07-19",
       "participantCount": 22,
-      "center": [44.4271, 26.1026],
+      "center": [45.755, 21.227],
       "ro": {
         "title": "Photowalk #2 — Oamenii orașului",
         "theme": "Portret de stradă",
-        "location": "Piața Unirii · stradă",
+        "location": "Centrul istoric, Timișoara",
         "description": "O sesiune dedicată oamenilor — expresii, gesturi și momente candid surprinse în fluxul urban."
       },
       "en": {
         "title": "Photowalk #2 — People of the city",
         "theme": "Street portrait",
-        "location": "Unirii Square · street",
+        "location": "Historic center, Timișoara",
         "description": "A session dedicated to people — expressions, gestures, and candid moments caught in the urban flow."
       }
     }

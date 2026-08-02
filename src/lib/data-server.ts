@@ -13,14 +13,14 @@ const PHOTOWALK_PINS: Record<
   { id: string; lat: number; lng: number; photoIndex: number }[]
 > = {
   "pw-1": [
-    { id: "pin-1", lat: 44.4289, lng: 26.1011, photoIndex: 1 },
-    { id: "pin-2", lat: 44.4255, lng: 26.1042, photoIndex: 2 },
-    { id: "pin-3", lat: 44.4272, lng: 26.0998, photoIndex: 3 },
+    { id: "pin-1", lat: 46.7705, lng: 23.589, photoIndex: 1 },
+    { id: "pin-2", lat: 46.7688, lng: 23.5915, photoIndex: 2 },
+    { id: "pin-3", lat: 46.772, lng: 23.5875, photoIndex: 3 },
   ],
   "pw-2": [
-    { id: "pin-4", lat: 44.4265, lng: 26.103, photoIndex: 5 },
-    { id: "pin-5", lat: 44.428, lng: 26.1015, photoIndex: 6 },
-    { id: "pin-6", lat: 44.4275, lng: 26.1005, photoIndex: 7 },
+    { id: "pin-4", lat: 45.7578, lng: 21.229, photoIndex: 5 },
+    { id: "pin-5", lat: 45.754, lng: 21.227, photoIndex: 6 },
+    { id: "pin-6", lat: 45.751, lng: 21.225, photoIndex: 7 },
   ],
 };
 
