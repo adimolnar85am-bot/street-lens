@@ -14,6 +14,45 @@ type AdminPhoto = {
   orientation?: "landscape" | "portrait" | "square";
 };
 
+type UploadProgress = {
+  percent: number;
+  phase: "uploading" | "processing";
+  fileCount: number;
+  label: string;
+};
+
+function uploadWithProgress(
+  formData: FormData,
+  onProgress: (percent: number) => void
+): Promise<{ ok: boolean; status: number; data: Record<string, unknown> }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", "/api/admin/photos");
+
+    xhr.upload.addEventListener("progress", (event) => {
+      if (!event.lengthComputable) return;
+      const percent = Math.round((event.loaded / event.total) * 100);
+      onProgress(Math.min(percent, 99));
+    });
+
+    xhr.addEventListener("load", () => {
+      onProgress(100);
+      let data: Record<string, unknown> = {};
+      try {
+        data = JSON.parse(xhr.responseText) as Record<string, unknown>;
+      } catch {
+        data = { error: "Răspuns invalid de la server" };
+      }
+      resolve({ ok: xhr.status >= 200 && xhr.status < 300, status: xhr.status, data });
+    });
+
+    xhr.addEventListener("error", () => reject(new Error("Eroare de rețea la upload")));
+    xhr.addEventListener("abort", () => reject(new Error("Upload anulat")));
+
+    xhr.send(formData);
+  });
+}
+
 export default function AdminPhotosPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -21,6 +60,7 @@ export default function AdminPhotosPage() {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [uploadMessage, setUploadMessage] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -73,6 +113,12 @@ export default function AdminPhotosPage() {
     setUploading(true);
     setUploadMessage(null);
     setUploadError(null);
+    setUploadProgress({
+      percent: 0,
+      phase: "uploading",
+      fileCount: files.length,
+      label: `Se trimit ${files.length} ${files.length === 1 ? "fișier" : "fișiere"}…`,
+    });
 
     const formData = new FormData();
     for (const file of files) {
@@ -80,22 +126,34 @@ export default function AdminPhotosPage() {
     }
 
     try {
-      const res = await fetch("/api/admin/photos", {
-        method: "PUT",
-        body: formData,
+      const { ok, data } = await uploadWithProgress(formData, (percent) => {
+        setUploadProgress((prev) =>
+          prev
+            ? {
+                ...prev,
+                percent,
+                phase: percent >= 99 ? "processing" : "uploading",
+                label:
+                  percent >= 99
+                    ? "Se procesează pozele pe server…"
+                    : `Se trimit ${files.length} ${files.length === 1 ? "fișier" : "fișiere"}…`,
+              }
+            : null
+        );
       });
-      const data = await res.json();
 
-      if (!res.ok) {
-        setUploadError(data.error || "Upload eșuat");
+      if (!ok) {
+        setUploadError(String(data.error || "Upload eșuat"));
         return;
       }
 
-      setPhotos(data.photos || []);
+      setPhotos((data.photos as AdminPhoto[]) || []);
       router.refresh();
 
-      const count = data.uploaded?.length || 0;
-      const failed = data.errors?.length || 0;
+      const uploaded = data.uploaded as { name: string }[] | undefined;
+      const errors = data.errors as { name: string }[] | undefined;
+      const count = uploaded?.length || 0;
+      const failed = errors?.length || 0;
       if (count && failed) {
         setUploadMessage(`${count} poze încărcate · ${failed} eșuate`);
       } else if (count) {
@@ -103,10 +161,11 @@ export default function AdminPhotosPage() {
       } else {
         setUploadError("Nicio poză nu a fost încărcată");
       }
-    } catch {
-      setUploadError("Eroare de rețea la upload");
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Eroare de rețea la upload");
     } finally {
       setUploading(false);
+      setUploadProgress(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
@@ -195,6 +254,39 @@ export default function AdminPhotosPage() {
               </button>
             </div>
           </div>
+          {uploadProgress ? (
+            <div className="mt-5 space-y-2">
+              <div className="flex items-center justify-between gap-3 text-sm">
+                <span className="text-cream/90">{uploadProgress.label}</span>
+                <span className="text-ink-400 tabular-nums shrink-0">
+                  {uploadProgress.percent}%
+                </span>
+              </div>
+              <div
+                className="h-2 rounded-full bg-ink-800 overflow-hidden"
+                role="progressbar"
+                aria-valuenow={uploadProgress.percent}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progres upload"
+              >
+                <div
+                  className={cn(
+                    "h-full rounded-full transition-[width] duration-200 ease-out",
+                    uploadProgress.phase === "processing"
+                      ? "bg-signal/70 animate-pulse"
+                      : "bg-signal"
+                  )}
+                  style={{ width: `${uploadProgress.percent}%` }}
+                />
+              </div>
+              <p className="text-xs text-ink-500">
+                {uploadProgress.phase === "processing"
+                  ? "Conversie JPG și actualizare galerie…"
+                  : `${uploadProgress.fileCount} ${uploadProgress.fileCount === 1 ? "poză" : "poze"} selectate`}
+              </p>
+            </div>
+          ) : null}
           {uploadMessage ? (
             <p className="mt-4 text-sm text-green-400">{uploadMessage}</p>
           ) : null}
