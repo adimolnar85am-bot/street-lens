@@ -69,9 +69,11 @@ export function AdminLoginForm() {
         </button>
 
         <p className="mt-6 text-[11px] text-ink-500 leading-relaxed text-center">
-          Pe telefon sau desktop: deschide această pagină în browser, apoi
-          „Adaugă pe ecranul principal” — se instalează ca aplicație{" "}
-          <span className="text-ink-400">Admin</span>, nu site-ul public.
+          Pentru shortcut pe telefon/desktop: deschide{" "}
+          <strong className="text-ink-400">/admin/login</strong>, apoi
+          „Adaugă pe ecranul principal”. Iconița trebuie să se numească{" "}
+          <strong className="text-ink-400">Admin</strong> — șterge shortcut-ul
+          vechi „streetlens” dacă există.
         </p>
       </form>
     </div>

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { AdminManifestFix } from "@/components/AdminManifestFix";
 
 export const metadata: Metadata = {
   title: "Admin — Street Lens",
@@ -40,6 +41,7 @@ export default function AdminLayout({
 }) {
   return (
     <div className="min-h-screen bg-ink text-cream">
+      <AdminManifestFix />
       {children}
     </div>
   );

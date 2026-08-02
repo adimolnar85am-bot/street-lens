@@ -2,7 +2,7 @@
   "name": "streetlens Admin",
   "short_name": "Admin",
   "description": "Panou administrare Street Lens — poze, conținut, setări.",
-  "start_url": "/admin/login",
+  "start_url": "/admin/login?source=homescreen",
   "scope": "/admin",
   "id": "/admin",
   "display": "standalone",

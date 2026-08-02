@@ -9,6 +9,7 @@ type PageMeta = {
   locale: Locale;
   ogTitle?: string;
   ogDescription?: string;
+  manifest?: string;
 };
 
 export function buildPageMetadata({
@@ -18,6 +19,7 @@ export function buildPageMetadata({
   locale,
   ogTitle,
   ogDescription,
+  manifest,
 }: PageMeta): Metadata {
   const normalizedPath = path.startsWith("/") ? path : path ? `/${path}` : "";
   const url = `${siteUrl}/${locale}${normalizedPath}`;
@@ -26,6 +28,7 @@ export function buildPageMetadata({
   return {
     title,
     description,
+    ...(manifest ? { manifest } : {}),
     metadataBase: new URL(siteUrl),
     alternates: {
       canonical: url,

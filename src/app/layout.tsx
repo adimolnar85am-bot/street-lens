@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Urbanist } from "next/font/google";
 import { CopyrightProtection } from "@/components/CopyrightProtection";
 import { PwaRegister } from "@/components/PwaRegister";
-import { siteName } from "@/lib/site";
 import "./globals.css";
 
 const urbanist = Urbanist({
@@ -22,7 +21,6 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
-  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },

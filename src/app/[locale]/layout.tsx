@@ -26,6 +26,7 @@ export async function generateMetadata({
     description: dict.meta.description,
     ogTitle: `${dict.brand.name} — ${dict.meta.ogHeadline}`,
     ogDescription: dict.meta.ogTagline,
+    manifest: "/manifest.webmanifest",
   });
 }
 
