@@ -1,23 +1,4 @@
-import { createHash } from "crypto";
-
-/** How often the site-wide photo selection rotates (default: every 6 hours). */
-const ROTATION_HOURS = Math.max(
-  1,
-  Number(process.env.PHOTO_ROTATION_HOURS) || 6
-);
-
-export const PHOTO_ROTATION_MS = ROTATION_HOURS * 60 * 60 * 1000;
-
-/** Time slot index — same value for all photo picks within this window. */
-export function getPhotoRotationSlot(now = Date.now()): number {
-  return Math.floor(now / PHOTO_ROTATION_MS);
-}
-
-export function getPhotoRotationHours(): number {
-  return ROTATION_HOURS;
-}
-
-/** Deterministic shuffle — same slot + list always yields the same order. */
+/** Fisher–Yates shuffle with a numeric seed (same seed → same order). */
 export function seededShuffle<T>(items: T[], seed: number): T[] {
   if (items.length <= 1) return [...items];
 
@@ -37,9 +18,7 @@ export function seededShuffle<T>(items: T[], seed: number): T[] {
   return arr;
 }
 
-export function rotationSeedForSlot(slot: number): number {
-  return parseInt(
-    createHash("sha256").update(`streetlens-photos:${slot}`).digest("hex").slice(0, 8),
-    16
-  );
+/** Random order — new seed on every call. */
+export function shuffled<T>(items: T[]): T[] {
+  return seededShuffle(items, Math.floor(Math.random() * 0xffffffff));
 }

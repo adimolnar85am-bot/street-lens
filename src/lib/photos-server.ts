@@ -1,15 +1,11 @@
 import { createHash } from "crypto";
 import fs from "fs";
 import path from "path";
+import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import type { GalleryPhoto, PhotoOrientation } from "./photos";
 import { PHOTO_ALT, PHOTO_COPYRIGHT } from "./photos";
-import {
-  getPhotoRotationHours,
-  getPhotoRotationSlot,
-  rotationSeedForSlot,
-  seededShuffle,
-} from "./photo-rotation";
+import { shuffled } from "./photo-rotation";
 
 const PHOTOS_DIR = path.join(process.cwd(), "public", "photos");
 const CATALOG_PATH = path.join(process.cwd(), "src/lib/photos.generated.json");
@@ -170,21 +166,11 @@ export function getVisiblePhotoSrcs(): string[] {
   return listDiskPhotos().filter((src) => !excluded.has(filenameFromSrc(src)));
 }
 
-let rotatedCache: { slot: number; photos: string[] } | null = null;
-
-/** Visible photos in a deterministic order that changes every rotation window. */
-export function getRotatedVisiblePhotoSrcs(): string[] {
+/** Shuffled once per page load / navigation — consistent across all sections. */
+export const getRotatedVisiblePhotoSrcs = cache((): string[] => {
   noStore();
-  const slot = getPhotoRotationSlot();
-  if (rotatedCache?.slot === slot) return rotatedCache.photos;
-
-  const base = getVisiblePhotoSrcs();
-  const photos = seededShuffle(base, rotationSeedForSlot(slot));
-  rotatedCache = { slot, photos };
-  return photos;
-}
-
-export { getPhotoRotationHours, getPhotoRotationSlot };
+  return shuffled(getVisiblePhotoSrcs());
+});
 
 export function getPhotosByOrientation(
   orientation: PhotoOrientation
@@ -340,7 +326,6 @@ export function excludePhoto(id: string): boolean {
   const excluded = new Set(readExcluded());
   excluded.add(file);
   writeExcluded([...excluded]);
-  rotatedCache = null;
   rebuildCatalog();
   return true;
 }
@@ -349,7 +334,6 @@ export function restorePhoto(id: string): boolean {
   const file = `${id}.jpg`;
   const excluded = readExcluded().filter((f) => f !== file);
   writeExcluded(excluded);
-  rotatedCache = null;
   rebuildCatalog();
   return true;
 }
@@ -360,7 +344,6 @@ export function deletePhotoPermanently(id: string): boolean {
   if (!fs.existsSync(filePath)) return false;
   fs.unlinkSync(filePath);
   writeExcluded(readExcluded().filter((f) => f !== file));
-  rotatedCache = null;
   rebuildCatalog();
   return true;
 }
@@ -419,7 +402,6 @@ export async function uploadPhotoFromBuffer(
 
   fs.writeFileSync(filePath, jpegBuffer);
   sizeCache.delete(filePath);
-  rotatedCache = null;
   rebuildCatalog();
 
   return { id, src: `/photos/${id}.jpg` };
