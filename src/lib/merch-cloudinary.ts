@@ -141,11 +141,24 @@ export async function writeMerchAssignmentsToCloudinary(
 ): Promise<void> {
   if (!isCloudinaryEnabled()) return;
   configureCloudinary();
+  const body = Buffer.from(JSON.stringify(assignments), "utf8");
   try {
-    await cloudinary.uploader.upload(JSON.stringify(assignments), {
-      public_id: ASSIGNMENTS_PUBLIC_ID,
-      resource_type: "raw",
-      overwrite: true,
+    await new Promise<void>((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          public_id: ASSIGNMENTS_PUBLIC_ID,
+          resource_type: "raw",
+          overwrite: true,
+        },
+        (error, result) => {
+          if (error || !result) {
+            reject(error ?? new Error("Cloudinary merch assignments upload failed"));
+            return;
+          }
+          resolve();
+        }
+      );
+      stream.end(body);
     });
   } catch (error) {
     console.error("Cloudinary merch assignments upload failed:", error);
