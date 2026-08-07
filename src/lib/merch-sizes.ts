@@ -24,6 +24,38 @@ export function buildMerchOrderBody(
   return `${productName}\n${sizeFieldLabel}: ${sizeText}`;
 }
 
+export function buildMerchCartOrderBody(
+  items: {
+    name: string;
+    price: number;
+    size: string | null;
+    quantity: number;
+  }[],
+  labels: {
+    oneSizeLabel: string;
+    sizeFieldLabel: string;
+    quantityLabel: string;
+    priceLabel: string;
+    totalLabel: string;
+  }
+): string {
+  const lines = items.map((item, index) => {
+    const parts = [`${index + 1}. ${item.name}`];
+    if (item.size) {
+      parts.push(
+        `   ${labels.sizeFieldLabel}: ${formatMerchSize(item.size, labels.oneSizeLabel)}`
+      );
+    }
+    parts.push(`   ${labels.quantityLabel}: ${item.quantity}`);
+    parts.push(`   ${labels.priceLabel}: ${item.price * item.quantity} RON`);
+    return parts.join("\n");
+  });
+
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  lines.push("", `${labels.totalLabel}: ${total} RON`);
+  return lines.join("\n");
+}
+
 export function isOneSizeProduct(sizes: string[] | undefined): boolean {
   return sizes?.length === 1 && sizes[0] === ONE_SIZE_TOKEN;
 }
