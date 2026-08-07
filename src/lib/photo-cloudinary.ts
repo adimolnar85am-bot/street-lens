@@ -66,53 +66,62 @@ async function fetchCloudinaryRawJson<T>(publicId: string): Promise<T | null> {
 
 async function uploadCloudinaryRawJson(publicId: string, data: unknown): Promise<void> {
   configureCloudinary();
-  await cloudinary.uploader.upload(JSON.stringify(data), {
-    public_id: publicId,
-    resource_type: "raw",
-    overwrite: true,
-  });
+  try {
+    await cloudinary.uploader.upload(JSON.stringify(data), {
+      public_id: publicId,
+      resource_type: "raw",
+      overwrite: true,
+    });
+  } catch (error) {
+    console.error("Cloudinary raw upload failed:", error);
+  }
 }
 
 export async function loadCloudinaryPhotoIndex(): Promise<CloudPhotoEntry[]> {
   if (!isCloudinaryEnabled()) return [];
   configureCloudinary();
 
-  const entries: CloudPhotoEntry[] = [];
-  let nextCursor: string | undefined;
+  try {
+    const entries: CloudPhotoEntry[] = [];
+    let nextCursor: string | undefined;
 
-  do {
-    const result = await cloudinary.api.resources({
-      type: "upload",
-      resource_type: "image",
-      prefix: PHOTO_FOLDER,
-      max_results: 500,
-      next_cursor: nextCursor,
-    });
-
-    for (const resource of result.resources) {
-      const publicId = resource.public_id as string;
-      const id = publicId.startsWith(`${PHOTO_FOLDER}/`)
-        ? publicId.slice(PHOTO_FOLDER.length + 1)
-        : publicId.split("/").pop() || "";
-      if (!id) continue;
-
-      const width = resource.width ?? 0;
-      const height = resource.height ?? 0;
-      entries.push({
-        id,
-        src: resource.secure_url,
-        width,
-        height,
-        orientation: classify(width, height),
-        aspectRatio: aspectRatioString(width, height),
-        uploadedAt: resource.created_at,
+    do {
+      const result = await cloudinary.api.resources({
+        type: "upload",
+        resource_type: "image",
+        prefix: PHOTO_FOLDER,
+        max_results: 500,
+        next_cursor: nextCursor,
       });
-    }
 
-    nextCursor = result.next_cursor;
-  } while (nextCursor);
+      for (const resource of result.resources) {
+        const publicId = resource.public_id as string;
+        const id = publicId.startsWith(`${PHOTO_FOLDER}/`)
+          ? publicId.slice(PHOTO_FOLDER.length + 1)
+          : publicId.split("/").pop() || "";
+        if (!id) continue;
 
-  return entries;
+        const width = resource.width ?? 0;
+        const height = resource.height ?? 0;
+        entries.push({
+          id,
+          src: resource.secure_url,
+          width,
+          height,
+          orientation: classify(width, height),
+          aspectRatio: aspectRatioString(width, height),
+          uploadedAt: resource.created_at,
+        });
+      }
+
+      nextCursor = result.next_cursor;
+    } while (nextCursor);
+
+    return entries;
+  } catch (error) {
+    console.error("Cloudinary photo index failed:", error);
+    return [];
+  }
 }
 
 export async function uploadPhotoToCloudinary(

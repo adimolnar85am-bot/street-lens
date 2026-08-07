@@ -20,35 +20,40 @@ export async function loadCloudinaryMerchIndex(): Promise<MerchPhoto[]> {
   if (!isCloudinaryEnabled()) return [];
   configureCloudinary();
 
-  const entries: MerchPhoto[] = [];
-  let nextCursor: string | undefined;
+  try {
+    const entries: MerchPhoto[] = [];
+    let nextCursor: string | undefined;
 
-  do {
-    const result = await cloudinary.api.resources({
-      type: "upload",
-      resource_type: "image",
-      prefix: MERCH_FOLDER,
-      max_results: 500,
-      next_cursor: nextCursor,
-    });
-
-    for (const resource of result.resources) {
-      const publicId = resource.public_id as string;
-      const id = publicId.startsWith(`${MERCH_FOLDER}/`)
-        ? publicId.slice(MERCH_FOLDER.length + 1)
-        : publicId.split("/").pop() || "";
-      if (!id) continue;
-      entries.push({
-        id,
-        src: resource.secure_url,
-        uploadedAt: resource.created_at,
+    do {
+      const result = await cloudinary.api.resources({
+        type: "upload",
+        resource_type: "image",
+        prefix: MERCH_FOLDER,
+        max_results: 500,
+        next_cursor: nextCursor,
       });
-    }
 
-    nextCursor = result.next_cursor;
-  } while (nextCursor);
+      for (const resource of result.resources) {
+        const publicId = resource.public_id as string;
+        const id = publicId.startsWith(`${MERCH_FOLDER}/`)
+          ? publicId.slice(MERCH_FOLDER.length + 1)
+          : publicId.split("/").pop() || "";
+        if (!id) continue;
+        entries.push({
+          id,
+          src: resource.secure_url,
+          uploadedAt: resource.created_at,
+        });
+      }
 
-  return entries;
+      nextCursor = result.next_cursor;
+    } while (nextCursor);
+
+    return entries;
+  } catch (error) {
+    console.error("Cloudinary merch index failed:", error);
+    return [];
+  }
 }
 
 export async function uploadMerchToCloudinary(
@@ -136,9 +141,13 @@ export async function writeMerchAssignmentsToCloudinary(
 ): Promise<void> {
   if (!isCloudinaryEnabled()) return;
   configureCloudinary();
-  await cloudinary.uploader.upload(JSON.stringify(assignments), {
-    public_id: ASSIGNMENTS_PUBLIC_ID,
-    resource_type: "raw",
-    overwrite: true,
-  });
+  try {
+    await cloudinary.uploader.upload(JSON.stringify(assignments), {
+      public_id: ASSIGNMENTS_PUBLIC_ID,
+      resource_type: "raw",
+      overwrite: true,
+    });
+  } catch (error) {
+    console.error("Cloudinary merch assignments upload failed:", error);
+  }
 }
