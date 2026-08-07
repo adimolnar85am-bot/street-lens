@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
+import { CartLink } from "@/components/CartLink";
 import { Menu, X, ChevronDown, Instagram, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/i18n/LocaleContext";
@@ -99,6 +100,7 @@ export function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
+            <CartLink />
             <LanguageSwitcher />
             <Link
               href={localePath(locale, "/photowalks")}
@@ -115,6 +117,7 @@ export function Header() {
           </div>
 
           <div className="flex lg:hidden items-center gap-2 shrink-0">
+            <CartLink />
             <LanguageSwitcher />
             <button
               className="p-2 -mr-1 text-cream"

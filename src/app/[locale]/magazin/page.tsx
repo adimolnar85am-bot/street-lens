@@ -51,13 +51,12 @@ export default async function MagazinPage({
               <MerchOrderCard
                 key={item.id}
                 item={item}
-                contactEmail={contactEmail}
-                orderSubject={shop.orderSubject}
                 addToCartLabel={shop.addToCart}
+                addedToCartLabel={shop.cartAddedLabel}
+                viewCartLabel={shop.cartViewLabel}
                 oneSizeLabel={shop.oneSizeLabel}
                 sizesLabel={shop.sizesLabel}
                 selectSizeLabel={shop.selectSizeLabel}
-                sizeFieldLabel={shop.sizeFieldLabel}
               />
             ))}
           </div>

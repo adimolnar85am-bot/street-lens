@@ -1,8 +1,8 @@
-import { ProtectedImage } from "@/components/ProtectedImage";
 import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { getPrintItems } from "@/lib/data-server";
 import { getShopContent, getSiteContent } from "@/lib/content-server";
+import { MerchOrderCard } from "@/components/MerchOrderCard";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/navigation";
@@ -48,24 +48,16 @@ export default async function PrintPage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {printItems.map((item) => (
-              <div key={item.id} className="group">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-ink-100 mb-4">
-                  <ProtectedImage
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <h2 className="text-ink font-medium">{item.name}</h2>
-                <p className="text-ink-700 font-display text-xl mt-2">{item.price} RON</p>
-                <a
-                  href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
-                  className="mt-4 inline-block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
-                >
-                  {shop.addToCart}
-                </a>
-              </div>
+              <MerchOrderCard
+                key={item.id}
+                item={item}
+                addToCartLabel={shop.addToCart}
+                addedToCartLabel={shop.cartAddedLabel}
+                viewCartLabel={shop.cartViewLabel}
+                oneSizeLabel={shop.oneSizeLabel}
+                sizesLabel={shop.sizesLabel}
+                selectSizeLabel={shop.selectSizeLabel}
+              />
             ))}
           </div>
 

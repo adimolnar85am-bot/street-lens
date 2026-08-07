@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { locales, isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { LocaleProvider } from "@/i18n/LocaleContext";
+import { CartProvider } from "@/components/CartProvider";
 import { HtmlLang } from "@/components/HtmlLang";
 import { Header, Footer } from "@/components/Header";
 import { OrganizationJsonLd } from "@/components/JsonLd";
@@ -54,11 +55,13 @@ export default async function LocaleLayout({
 
   return (
     <LocaleProvider locale={locale} dict={dict} content={content}>
-      <OrganizationJsonLd />
-      <HtmlLang />
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <CartProvider>
+        <OrganizationJsonLd />
+        <HtmlLang />
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </CartProvider>
     </LocaleProvider>
   );
 }

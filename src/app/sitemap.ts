@@ -16,6 +16,7 @@ const paths = [
   "/calendar",
   "/magazin",
   "/magazin/print",
+  "/magazin/cos",
   "/membership",
   "/fotografie/digital",
   "/fotografie/analog",
