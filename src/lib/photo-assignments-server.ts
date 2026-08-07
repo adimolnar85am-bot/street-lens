@@ -13,6 +13,11 @@ import {
   readAssignmentsFromBlob,
   writeAssignmentsToBlob,
 } from "./photo-blob";
+import {
+  isCloudinaryEnabled,
+  readPhotoAssignmentsFromCloudinary,
+  writePhotoAssignmentsToCloudinary,
+} from "./photo-cloudinary";
 
 const ASSIGNMENTS_PATH = path.join(
   process.cwd(),
@@ -44,7 +49,11 @@ function readAssignmentsFile(): PhotoAssignments {
   }
 }
 
-async function readAssignmentsFromBlobOrDisk(): Promise<PhotoAssignments> {
+async function readAssignmentsFromRemoteOrDisk(): Promise<PhotoAssignments> {
+  if (isCloudinaryEnabled()) {
+    const cloudData = await readPhotoAssignmentsFromCloudinary();
+    if (cloudData) return normalizeAssignments(cloudData);
+  }
   if (isBlobStorageEnabled()) {
     const blobData = await readAssignmentsFromBlob();
     if (blobData) return normalizeAssignments(blobData);
@@ -54,7 +63,7 @@ async function readAssignmentsFromBlobOrDisk(): Promise<PhotoAssignments> {
 
 export async function getPhotoAssignments(): Promise<PhotoAssignments> {
   noStore();
-  return readAssignmentsFromBlobOrDisk();
+  return readAssignmentsFromRemoteOrDisk();
 }
 
 export function getPhotoAssignmentsSync(): PhotoAssignments {
@@ -75,7 +84,9 @@ export async function writePhotoAssignments(
   } catch {
     /* read-only FS on Vercel */
   }
-  if (isBlobStorageEnabled()) {
+  if (isCloudinaryEnabled()) {
+    await writePhotoAssignmentsToCloudinary(normalized);
+  } else if (isBlobStorageEnabled()) {
     await writeAssignmentsToBlob(normalized);
   }
   return normalized;

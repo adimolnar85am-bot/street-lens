@@ -15,6 +15,16 @@ import {
   writeMerchAssignmentsToBlob,
 } from "./merch-blob";
 import {
+  cloudinaryMerchExists,
+  deleteMerchFromCloudinary,
+  isCloudinaryEnabled,
+  loadCloudinaryMerchIndex,
+  merchIdFromCloudinarySrc,
+  readMerchAssignmentsFromCloudinary,
+  uploadMerchToCloudinary,
+  writeMerchAssignmentsToCloudinary,
+} from "./merch-cloudinary";
+import {
   EMPTY_MERCH_ASSIGNMENTS,
   type MerchAssignments,
   type MerchPhoto,
@@ -53,7 +63,11 @@ function readAssignmentsFile(): MerchAssignments {
   }
 }
 
-async function readAssignmentsFromBlobOrDisk(): Promise<MerchAssignments> {
+async function readAssignmentsFromRemoteOrDisk(): Promise<MerchAssignments> {
+  if (isCloudinaryEnabled()) {
+    const cloudData = await readMerchAssignmentsFromCloudinary();
+    if (cloudData) return normalizeAssignments(cloudData);
+  }
   if (isBlobStorageEnabled()) {
     const blobData = await readMerchAssignmentsFromBlob();
     if (blobData) return normalizeAssignments(blobData);
@@ -63,15 +77,22 @@ async function readAssignmentsFromBlobOrDisk(): Promise<MerchAssignments> {
 
 export const hydrateMerchStorage = cache(async () => {
   noStore();
-  if (isBlobStorageEnabled()) {
-    merchEntries = await loadMerchBlobIndex();
-  } else {
-    merchEntries = listDiskMerchPhotos().map((src) => ({
-      id: merchIdFromSrc(src),
-      src,
-    }));
+  const cloudEntries = isCloudinaryEnabled() ? await loadCloudinaryMerchIndex() : [];
+  const blobEntries = isBlobStorageEnabled() ? await loadMerchBlobIndex() : [];
+  const localEntries = listDiskMerchPhotos().map((src) => ({
+    id: merchIdFromSrc(src),
+    src,
+  }));
+  const localIds = new Set(localEntries.map((e) => e.id));
+  const byId = new Map<string, MerchPhoto>();
+  for (const entry of blobEntries) {
+    if (!localIds.has(entry.id)) byId.set(entry.id, entry);
   }
-  assignmentsCache = await readAssignmentsFromBlobOrDisk();
+  for (const entry of cloudEntries) {
+    if (!localIds.has(entry.id)) byId.set(entry.id, entry);
+  }
+  merchEntries = [...byId.values()];
+  assignmentsCache = await readAssignmentsFromRemoteOrDisk();
 });
 
 export function getCachedMerchAssignments(): MerchAssignments {
@@ -79,6 +100,8 @@ export function getCachedMerchAssignments(): MerchAssignments {
 }
 
 function merchIdFromSrc(src: string): string {
+  const cloudId = merchIdFromCloudinarySrc(src);
+  if (cloudId) return cloudId;
   if (src.startsWith("http")) {
     return src.split("/").pop()?.replace(/\.jpe?g$/i, "") ?? "";
   }
@@ -203,6 +226,7 @@ async function processUploadImage(buffer: Buffer): Promise<Buffer> {
 async function merchExists(id: string): Promise<boolean> {
   const filePath = path.join(MERCH_DIR, `${id}.jpg`);
   if (fs.existsSync(filePath)) return true;
+  if (isCloudinaryEnabled() && (await cloudinaryMerchExists(id))) return true;
   return merchBlobExists(id);
 }
 
@@ -242,14 +266,21 @@ export async function uploadMerchPhotoFromBuffer(
   }
 
   const onVercel = Boolean(process.env.VERCEL);
+  const useCloudinary = isCloudinaryEnabled();
   const useBlob = isBlobStorageEnabled();
 
-  if (useBlob || onVercel) {
-    if (!useBlob) {
+  if (useCloudinary || (onVercel && !useBlob)) {
+    if (!useCloudinary) {
       throw new Error(
-        "Activează Vercel Blob: Vercel → Storage → Blob → Connect Store → redeploy."
+        "Configurează Cloudinary: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET în Vercel."
       );
     }
+    const entry = await uploadMerchToCloudinary(id, jpegBuffer);
+    merchEntries = [entry, ...merchEntries.filter((e) => e.id !== id)];
+    return { id, src: entry.src };
+  }
+
+  if (useBlob) {
     const entry = await uploadMerchToBlob(id, jpegBuffer);
     merchEntries = [entry, ...merchEntries.filter((e) => e.id !== id)];
     return { id, src: entry.src };
@@ -270,6 +301,10 @@ export async function deleteMerchPhotoPermanently(id: string): Promise<boolean> 
 
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
+    deleted = true;
+  }
+
+  if (await deleteMerchFromCloudinary(id)) {
     deleted = true;
   }
 
@@ -303,7 +338,9 @@ export async function writeMerchAssignments(
   } catch {
     /* read-only FS on Vercel */
   }
-  if (isBlobStorageEnabled()) {
+  if (isCloudinaryEnabled()) {
+    await writeMerchAssignmentsToCloudinary(normalized);
+  } else if (isBlobStorageEnabled()) {
     await writeMerchAssignmentsToBlob(normalized);
   }
   assignmentsCache = normalized;

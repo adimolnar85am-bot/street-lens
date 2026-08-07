@@ -24,6 +24,19 @@ import {
   writeExcludedToBlob,
   type BlobPhotoEntry,
 } from "./photo-blob";
+import {
+  cloudinaryPhotoExists,
+  deletePhotoFromCloudinary,
+  isCloudinaryEnabled,
+  loadCloudinaryPhotoIndex,
+  photoIdFromCloudinarySrc,
+  readExcludedFromCloudinary,
+  uploadPhotoToCloudinary,
+  writeExcludedToCloudinary,
+  type CloudPhotoEntry,
+} from "./photo-cloudinary";
+
+type RemotePhotoEntry = BlobPhotoEntry | CloudPhotoEntry;
 
 const PHOTOS_DIR = path.join(process.cwd(), "public", "photos");
 const CATALOG_PATH = path.join(process.cwd(), "src/lib/photos.generated.json");
@@ -52,6 +65,10 @@ type SizeMeta = {
 };
 
 function photoFileFromSrc(src: string): string {
+  if (src.includes("cloudinary.com")) {
+    const id = photoIdFromCloudinarySrc(src);
+    return id ? `${id}.jpg` : src.split("/").pop() || "";
+  }
   if (src.startsWith("http")) {
     return src.split("/").pop() || "";
   }
@@ -59,15 +76,27 @@ function photoFileFromSrc(src: string): string {
 }
 
 export function photoIdFromSrc(src: string): string {
+  const cloudId = photoIdFromCloudinarySrc(src);
+  if (cloudId) return cloudId;
   return photoFileFromSrc(src).replace(/\.jpe?g$/i, "");
 }
 
 let assignmentsCache: PhotoAssignments = { slots: {} };
 
 const sizeCache = new Map<string, SizeMeta>();
-let blobEntries: BlobPhotoEntry[] = [];
-let blobMetaBySrc = new Map<string, SizeMeta>();
+let remoteEntries: RemotePhotoEntry[] = [];
+let remoteMetaBySrc = new Map<string, SizeMeta>();
 let excludedCache: string[] | null = null;
+
+function mergeRemoteEntries(
+  cloudinaryEntries: CloudPhotoEntry[],
+  blobEntries: BlobPhotoEntry[]
+): RemotePhotoEntry[] {
+  const byId = new Map<string, RemotePhotoEntry>();
+  for (const entry of blobEntries) byId.set(entry.id, entry);
+  for (const entry of cloudinaryEntries) byId.set(entry.id, entry);
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
 
 function getImageSizeFromBuffer(buf: Buffer): { width: number; height: number } {
   if (buf[0] === 0x89 && buf[1] === 0x50) {
@@ -142,45 +171,59 @@ function metaFromDimensions(width: number, height: number): SizeMeta {
   };
 }
 
-/** Load blob index + excluded list (call once per request on server). */
+/** Load remote photo index + excluded list (call once per request on server). */
 export const hydratePhotoStorage = cache(async (recoverMissing = false) => {
   noStore();
-  if (isBlobStorageEnabled()) {
-    blobEntries = recoverMissing
+
+  const cloudinaryEntries = isCloudinaryEnabled()
+    ? await loadCloudinaryPhotoIndex()
+    : [];
+  const blobEntries = isBlobStorageEnabled()
+    ? recoverMissing
       ? await recoverMissingBlobPhotos()
-      : await loadBlobPhotoIndex();
-    blobMetaBySrc = new Map(
-      blobEntries.map((e) => [
-        e.src,
-        {
-          width: e.width,
-          height: e.height,
-          orientation: e.orientation,
-          aspectRatio: e.aspectRatio,
-        },
-      ])
-    );
+      : await loadBlobPhotoIndex()
+    : [];
+  remoteEntries = mergeRemoteEntries(cloudinaryEntries, blobEntries);
+  remoteMetaBySrc = new Map(
+    remoteEntries.map((e) => [
+      e.src,
+      {
+        width: e.width,
+        height: e.height,
+        orientation: e.orientation,
+        aspectRatio: e.aspectRatio,
+      },
+    ])
+  );
+
+  if (isCloudinaryEnabled()) {
+    excludedCache = await readExcludedFromCloudinary();
+  } else if (isBlobStorageEnabled()) {
     excludedCache = await readExcludedFromBlob();
-    if (!excludedCache.length) {
-      try {
-        if (fs.existsSync(EXCLUDED_PATH)) {
-          const local = JSON.parse(
-            fs.readFileSync(EXCLUDED_PATH, "utf8")
-          ) as string[];
-          if (local.length) {
-            excludedCache = local;
+  } else {
+    excludedCache = null;
+  }
+
+  if (!excludedCache?.length) {
+    try {
+      if (fs.existsSync(EXCLUDED_PATH)) {
+        const local = JSON.parse(
+          fs.readFileSync(EXCLUDED_PATH, "utf8")
+        ) as string[];
+        if (local.length) {
+          excludedCache = local;
+          if (isCloudinaryEnabled()) {
+            await writeExcludedToCloudinary(local);
+          } else if (isBlobStorageEnabled()) {
             await writeExcludedToBlob(local);
           }
         }
-      } catch {
-        /* non-fatal */
       }
+    } catch {
+      /* non-fatal */
     }
-  } else {
-    blobEntries = [];
-    blobMetaBySrc = new Map();
-    excludedCache = null;
   }
+
   assignmentsCache = await getPhotoAssignments();
 });
 
@@ -193,7 +236,7 @@ export function getPhotoSrcById(id: string): string | null {
   const file = `${id}.jpg`;
   if (excluded.has(file)) return null;
 
-  const blobEntry = blobEntries.find((e) => e.id === id);
+  const blobEntry = remoteEntries.find((e) => e.id === id);
   if (blobEntry) return blobEntry.src;
 
   for (const src of listAllPhotoSrcs()) {
@@ -239,10 +282,10 @@ export function getPhotoMeta(src: string): SizeMeta {
   if (cached) return cached;
 
   if (src.startsWith("http")) {
-    const blobMeta = blobMetaBySrc.get(src);
-    if (blobMeta) {
-      sizeCache.set(src, blobMeta);
-      return blobMeta;
+    const remoteMeta = remoteMetaBySrc.get(src);
+    if (remoteMeta) {
+      sizeCache.set(src, remoteMeta);
+      return remoteMeta;
     }
     const fallback: SizeMeta = {
       width: 0,
@@ -291,7 +334,9 @@ export function readExcluded(): string[] {
 
 async function writeExcluded(list: string[]) {
   excludedCache = list;
-  if (isBlobStorageEnabled()) {
+  if (isCloudinaryEnabled()) {
+    await writeExcludedToCloudinary(list);
+  } else if (isBlobStorageEnabled()) {
     await writeExcludedToBlob(list);
   }
   try {
@@ -314,17 +359,17 @@ export function listDiskPhotos(): string[] {
 export function listAllPhotoSrcs(): string[] {
   const local = listDiskPhotos();
   const localIds = new Set(local.map(photoIdFromSrc));
-  const blobSrcs = blobEntries
+  const remoteSrcs = remoteEntries
     .map((e) => e.src)
     .filter((src) => !localIds.has(photoIdFromSrc(src)));
-  return [...local, ...blobSrcs].sort((a, b) =>
+  return [...local, ...remoteSrcs].sort((a, b) =>
     photoIdFromSrc(a).localeCompare(photoIdFromSrc(b))
   );
 }
 
 function photoUploadedAtMs(src: string): number {
   if (src.startsWith("http")) {
-    const entry = blobEntries.find((e) => e.src === src);
+    const entry = remoteEntries.find((e) => e.src === src);
     if (entry?.uploadedAt) return new Date(entry.uploadedAt).getTime();
     return 0;
   }
@@ -339,10 +384,10 @@ function photoUploadedAtMs(src: string): number {
 export function listAllPhotoSrcsNewestFirst(): string[] {
   const local = listDiskPhotos();
   const localIds = new Set(local.map(photoIdFromSrc));
-  const blobSrcs = blobEntries
+  const remoteSrcs = remoteEntries
     .filter((e) => !localIds.has(e.id))
     .map((e) => e.src);
-  return [...blobSrcs, ...local].sort(
+  return [...remoteSrcs, ...local].sort(
     (a, b) => photoUploadedAtMs(b) - photoUploadedAtMs(a)
   );
 }
@@ -547,6 +592,7 @@ export function getAdminPhotos(): AdminPhoto[] {
 async function photoExists(id: string): Promise<boolean> {
   const filePath = path.join(PHOTOS_DIR, `${id}.jpg`);
   if (fs.existsSync(filePath)) return true;
+  if (isCloudinaryEnabled() && (await cloudinaryPhotoExists(id))) return true;
   return blobPhotoExists(id);
 }
 
@@ -578,6 +624,10 @@ export async function deletePhotoPermanently(id: string): Promise<boolean> {
     deleted = true;
   }
 
+  if (await deletePhotoFromCloudinary(id)) {
+    deleted = true;
+  }
+
   if (await deletePhotoFromBlob(id)) {
     deleted = true;
   }
@@ -585,9 +635,9 @@ export async function deletePhotoPermanently(id: string): Promise<boolean> {
   if (!deleted) return false;
 
   await writeExcluded(readExcluded().filter((f) => f !== file));
-  const removed = blobEntries.find((e) => e.id === id);
-  blobEntries = blobEntries.filter((e) => e.id !== id);
-  if (removed) blobMetaBySrc.delete(removed.src);
+  const removed = remoteEntries.find((e) => e.id === id);
+  remoteEntries = remoteEntries.filter((e) => e.id !== id);
+  if (removed) remoteMetaBySrc.delete(removed.src);
   rebuildCatalog();
   return true;
 }
@@ -686,17 +736,27 @@ export async function uploadPhotoFromBuffer(
   }
 
   const onVercel = Boolean(process.env.VERCEL);
+  const useCloudinary = isCloudinaryEnabled();
   const useBlob = isBlobStorageEnabled();
 
-  if (useBlob || onVercel) {
-    if (!useBlob) {
+  if (useCloudinary || (onVercel && !useBlob)) {
+    if (!useCloudinary) {
       throw new Error(
-        "Activează Vercel Blob: Vercel → Storage → Blob → Connect Store → redeploy."
+        "Configurează Cloudinary: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET în Vercel → Environment Variables → redeploy."
       );
     }
+    const entry = await uploadPhotoToCloudinary(id, jpegBuffer, meta);
+    remoteEntries = [entry, ...remoteEntries.filter((e) => e.id !== id)];
+    remoteMetaBySrc.set(entry.src, meta);
+    sizeCache.set(entry.src, meta);
+    rebuildCatalog();
+    return { id, src: entry.src };
+  }
+
+  if (useBlob) {
     const entry = await uploadPhotoToBlob(id, jpegBuffer, meta);
-    blobEntries = [entry, ...blobEntries.filter((e) => e.id !== id)];
-    blobMetaBySrc.set(entry.src, meta);
+    remoteEntries = [entry, ...remoteEntries.filter((e) => e.id !== id)];
+    remoteMetaBySrc.set(entry.src, meta);
     sizeCache.set(entry.src, meta);
     rebuildCatalog();
     return { id, src: entry.src };
