@@ -43,8 +43,12 @@ export default async function LocaleLayout({
   if (!isLocale(localeParam)) notFound();
 
   const locale = localeParam as Locale;
-  await hydratePhotoStorage();
-  await hydrateMerchStorage();
+  try {
+    await hydratePhotoStorage();
+    await hydrateMerchStorage();
+  } catch (error) {
+    console.error("Storage hydrate failed:", error);
+  }
   const dict = await getDictionary(locale);
   const site = getSiteContent();
   const content = {

@@ -48,45 +48,56 @@ async function readBlobPhotoIndexRaw(): Promise<BlobPhotoEntry[]> {
 export async function recoverMissingBlobPhotos(): Promise<BlobPhotoEntry[]> {
   if (!isBlobStorageEnabled()) return [];
 
-  const index = await readBlobPhotoIndexRaw();
-  const byId = new Map(index.map((entry) => [entry.id, entry]));
-  const missing: BlobPhotoEntry[] = [];
-  let cursor: string | undefined;
+  try {
+    const index = await readBlobPhotoIndexRaw();
+    const byId = new Map(index.map((entry) => [entry.id, entry]));
+    const missing: BlobPhotoEntry[] = [];
+    let cursor: string | undefined;
 
-  do {
-    const page = await list({ prefix: PHOTO_PREFIX, cursor, limit: 1000 });
-    for (const blob of page.blobs) {
-      const id = photoIdFromPathname(blob.pathname);
-      if (!id || byId.has(id)) continue;
-      const entry: BlobPhotoEntry = {
-        id,
-        src: blob.url,
-        width: 0,
-        height: 0,
-        orientation: "landscape",
-        aspectRatio: "3 / 2",
-        uploadedAt: blob.uploadedAt.toISOString(),
-      };
-      missing.push(entry);
-      byId.set(id, entry);
-    }
-    cursor = page.hasMore ? page.cursor : undefined;
-  } while (cursor);
+    do {
+      const page = await list({ prefix: PHOTO_PREFIX, cursor, limit: 1000 });
+      for (const blob of page.blobs) {
+        const id = photoIdFromPathname(blob.pathname);
+        if (!id || byId.has(id)) continue;
+        const entry: BlobPhotoEntry = {
+          id,
+          src: blob.url,
+          width: 0,
+          height: 0,
+          orientation: "landscape",
+          aspectRatio: "3 / 2",
+          uploadedAt: blob.uploadedAt.toISOString(),
+        };
+        missing.push(entry);
+        byId.set(id, entry);
+      }
+      cursor = page.hasMore ? page.cursor : undefined;
+    } while (cursor);
 
-  if (!missing.length) return index;
+    if (!missing.length) return index;
 
-  const merged = [...missing, ...index];
-  await saveBlobPhotoIndex(merged);
-  return merged;
+    const merged = [...missing, ...index];
+    await saveBlobPhotoIndex(merged);
+    return merged;
+  } catch (error) {
+    console.error("Blob photo recovery failed:", error);
+    return [];
+  }
 }
 
 export async function loadBlobPhotoIndex(): Promise<BlobPhotoEntry[]> {
-  const index = await readBlobPhotoIndexRaw();
-  if (index.length > 0) return index;
+  if (!isBlobStorageEnabled()) return [];
+  try {
+    const index = await readBlobPhotoIndexRaw();
+    if (index.length > 0) return index;
 
-  const { blobs } = await list({ prefix: PHOTO_PREFIX, limit: 1 });
-  if (!blobs.length) return [];
-  return recoverMissingBlobPhotos();
+    const { blobs } = await list({ prefix: PHOTO_PREFIX, limit: 1 });
+    if (!blobs.length) return [];
+    return recoverMissingBlobPhotos();
+  } catch (error) {
+    console.error("Blob photo index failed:", error);
+    return [];
+  }
 }
 
 async function saveBlobPhotoIndex(photos: BlobPhotoEntry[]): Promise<void> {

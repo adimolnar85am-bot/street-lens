@@ -45,32 +45,37 @@ async function saveMerchIndex(photos: MerchPhoto[]): Promise<void> {
 }
 
 export async function loadMerchBlobIndex(): Promise<MerchPhoto[]> {
-  const index = await readMerchIndexRaw();
-  if (index.length > 0) return index;
-
   if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) return [];
 
-  const { blobs } = await list({ prefix: MERCH_PREFIX, limit: 1 });
-  if (!blobs.length) return [];
+  try {
+    const index = await readMerchIndexRaw();
+    if (index.length > 0) return index;
 
-  const recovered: MerchPhoto[] = [];
-  let cursor: string | undefined;
-  do {
-    const page = await list({ prefix: MERCH_PREFIX, cursor, limit: 1000 });
-    for (const blob of page.blobs) {
-      const id = merchIdFromPathname(blob.pathname);
-      if (!id) continue;
-      recovered.push({
-        id,
-        src: blob.url,
-        uploadedAt: blob.uploadedAt.toISOString(),
-      });
-    }
-    cursor = page.hasMore ? page.cursor : undefined;
-  } while (cursor);
+    const { blobs } = await list({ prefix: MERCH_PREFIX, limit: 1 });
+    if (!blobs.length) return [];
 
-  if (recovered.length) await saveMerchIndex(recovered);
-  return recovered;
+    const recovered: MerchPhoto[] = [];
+    let cursor: string | undefined;
+    do {
+      const page = await list({ prefix: MERCH_PREFIX, cursor, limit: 1000 });
+      for (const blob of page.blobs) {
+        const id = merchIdFromPathname(blob.pathname);
+        if (!id) continue;
+        recovered.push({
+          id,
+          src: blob.url,
+          uploadedAt: blob.uploadedAt.toISOString(),
+        });
+      }
+      cursor = page.hasMore ? page.cursor : undefined;
+    } while (cursor);
+
+    if (recovered.length) await saveMerchIndex(recovered);
+    return recovered;
+  } catch (error) {
+    console.error("Blob merch index failed:", error);
+    return [];
+  }
 }
 
 export async function uploadMerchToBlob(
