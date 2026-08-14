@@ -1,4 +1,5 @@
 import { del, list, put } from "@vercel/blob";
+import { isCloudinaryEnabled } from "./cloudinary-config";
 
 const PHOTO_PREFIX = "photos/";
 const INDEX_PATH = "meta/photos-index.json";
@@ -22,6 +23,8 @@ export type BlobPhotoEntry = {
 };
 
 export function isBlobStorageEnabled(): boolean {
+  // Cloudinary is the production store; ignore legacy Blob env vars when configured.
+  if (isCloudinaryEnabled()) return false;
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 }
 
