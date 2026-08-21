@@ -48,6 +48,8 @@ const en: DeepStringify<typeof ro> = {
     merchDesc: "Tees, caps, photo accessories",
     print: "Print",
     printDesc: "Limited community editions",
+    cart: "Cart",
+    cartDesc: "Added items — send your order",
     resources: "Resources",
     blog: "Blog",
     blogDesc: "Articles, interviews, gear reviews",

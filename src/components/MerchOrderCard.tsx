@@ -1,9 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { ProtectedImage } from "@/components/ProtectedImage";
+import { useCart } from "@/components/CartProvider";
+import { useLocale } from "@/i18n/LocaleContext";
+import { localePath } from "@/i18n/navigation";
 import {
-  buildMerchOrderBody,
   formatMerchSize,
   formatMerchSizesSummary,
   isOneSizeProduct,
@@ -22,27 +25,27 @@ export type MerchOrderItem = {
 
 type MerchOrderCardProps = {
   item: MerchOrderItem;
-  contactEmail: string;
-  orderSubject: string;
   addToCartLabel: string;
+  addedToCartLabel: string;
+  viewCartLabel: string;
   oneSizeLabel: string;
   sizesLabel: string;
   selectSizeLabel: string;
-  sizeFieldLabel: string;
   className?: string;
 };
 
 export function MerchOrderCard({
   item,
-  contactEmail,
-  orderSubject,
   addToCartLabel,
+  addedToCartLabel,
+  viewCartLabel,
   oneSizeLabel,
   sizesLabel,
   selectSizeLabel,
-  sizeFieldLabel,
   className,
 }: MerchOrderCardProps) {
+  const { locale } = useLocale();
+  const { addItem } = useCart();
   const sizesSummary = formatMerchSizesSummary(item.sizes, oneSizeLabel);
   const needsSelection = productRequiresSizeSelection(item.sizes);
   const oneSize = isOneSizeProduct(item.sizes);
@@ -55,15 +58,23 @@ export function MerchOrderCard({
   const [selectedSize, setSelectedSize] = useState<string | null>(
     needsSelection ? null : defaultSize
   );
+  const [justAdded, setJustAdded] = useState(false);
 
   const orderSize = needsSelection ? selectedSize : defaultSize;
-  const canOrder = !needsSelection || Boolean(selectedSize);
+  const canAdd = !needsSelection || Boolean(selectedSize);
 
-  const mailtoHref = canOrder
-    ? `mailto:${contactEmail}?subject=${encodeURIComponent(orderSubject)}&body=${encodeURIComponent(
-        buildMerchOrderBody(item.name, orderSize, oneSizeLabel, sizeFieldLabel)
-      )}`
-    : undefined;
+  function handleAddToCart() {
+    if (!canAdd) return;
+    addItem({
+      productId: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      size: orderSize,
+    });
+    setJustAdded(true);
+    window.setTimeout(() => setJustAdded(false), 1800);
+  }
 
   return (
     <div className={cn("group", className)}>
@@ -112,22 +123,30 @@ export function MerchOrderCard({
         <p className="mt-3 text-xs text-ink-400">{selectSizeLabel}</p>
       ) : null}
 
-      {canOrder && mailtoHref ? (
-        <a
-          href={mailtoHref}
-          className="mt-4 block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
+      <button
+        type="button"
+        disabled={!canAdd}
+        onClick={handleAddToCart}
+        className={cn(
+          "mt-4 block w-full py-2.5 text-sm font-medium rounded-sm transition-colors text-center",
+          canAdd
+            ? justAdded
+              ? "bg-signal text-ink"
+              : "bg-ink hover:bg-ink-800 text-cream"
+            : "bg-ink-200 text-ink-400 cursor-not-allowed"
+        )}
+      >
+        {justAdded ? addedToCartLabel : addToCartLabel}
+      </button>
+
+      {justAdded ? (
+        <Link
+          href={localePath(locale, "/magazin/cos")}
+          className="mt-2 block text-center text-xs text-ink-500 hover:text-signal transition-colors"
         >
-          {addToCartLabel}
-        </a>
-      ) : (
-        <button
-          type="button"
-          disabled
-          className="mt-4 block w-full py-2.5 bg-ink-200 text-ink-400 text-sm font-medium rounded-sm cursor-not-allowed text-center"
-        >
-          {addToCartLabel}
-        </button>
-      )}
+          {viewCartLabel} →
+        </Link>
+      ) : null}
     </div>
   );
 }

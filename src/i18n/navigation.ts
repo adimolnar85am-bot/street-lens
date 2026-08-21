@@ -103,6 +103,11 @@ export function getNavigation(locale: Locale, dict: Dictionary): NavItem[] {
           href: localePath(locale, "/magazin/print"),
           description: dict.nav.printDesc,
         },
+        {
+          label: dict.nav.cart,
+          href: localePath(locale, "/magazin/cos"),
+          description: dict.nav.cartDesc,
+        },
       ],
     },
     {

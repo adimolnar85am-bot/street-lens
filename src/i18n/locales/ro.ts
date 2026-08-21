@@ -42,6 +42,8 @@ const ro = {
     merchDesc: "Tricouri, șepci, accesorii foto",
     print: "Print",
     printDesc: "Tiraje limitate ale comunității",
+    cart: "Coș",
+    cartDesc: "Produse adăugate — trimite comanda",
     resources: "Resurse",
     blog: "Blog",
     blogDesc: "Articole, interviuri, recenzii gear",
