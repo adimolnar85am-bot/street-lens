@@ -61,7 +61,7 @@ export default async function PhotowalksPage({
                   <span className="inline-block px-3 py-1 bg-signal/15 text-signal text-xs font-medium rounded-sm mb-2">
                     {walk.theme}
                   </span>
-                  <h2 className="font-display text-2xl text-ink">{walk.title}</h2>
+                  <h2 className="font-display text-2xl text-cream">{walk.title}</h2>
                 </div>
               </div>
               <div className="p-6">

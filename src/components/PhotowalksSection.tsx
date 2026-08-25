@@ -82,8 +82,8 @@ export function PhotowalksSection({
                 <span className="inline-block px-3 py-1 bg-signal/15 text-signal text-xs font-medium rounded-sm mb-3">
                   {dict.photowalks.nextWalk}
                 </span>
-                <h3 className="font-display text-2xl text-ink mb-2">{latest.theme}</h3>
-                <div className="flex items-center gap-4 text-sm text-ink-300">
+                <h3 className="font-display text-2xl text-cream mb-2">{latest.theme}</h3>
+                <div className="flex items-center gap-4 text-sm text-cream/80">
                   <span className="flex items-center gap-1">
                     <Coffee className="w-4 h-4" />
                     {dict.photowalks.meetupFormat}

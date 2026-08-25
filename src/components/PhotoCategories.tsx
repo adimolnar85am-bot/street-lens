@@ -63,7 +63,7 @@ export function PhotoCategories({
 
                 <div className="absolute top-2 left-2 sm:top-6 sm:left-6">
                   <div className="w-7 h-7 sm:w-10 sm:h-10 bg-cream/10 backdrop-blur-sm rounded-sm flex items-center justify-center border border-cream/20">
-                    <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-ink" />
+                    <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-cream" />
                   </div>
                 </div>
 
@@ -71,14 +71,14 @@ export function PhotoCategories({
                   <p className="hidden sm:block text-scarlet text-xs tracking-widest uppercase mb-2">
                     {cat.tagline}
                   </p>
-                  <h3 className="font-display text-xs leading-snug sm:text-2xl lg:text-3xl text-ink mb-1 sm:mb-3">
+                  <h3 className="font-display text-xs leading-snug sm:text-2xl lg:text-3xl text-cream mb-1 sm:mb-3">
                     <span className="sm:hidden">{shortTitles(dict, cat.id)}</span>
                     <span className="hidden sm:inline">{cat.title}</span>
                   </h3>
-                  <p className="hidden lg:block text-ink-300 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="hidden lg:block text-cream/80 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {cat.description}
                   </p>
-                  <span className="hidden sm:inline-flex items-center gap-2 text-ink text-sm font-medium group-hover:text-scarlet transition-colors">
+                  <span className="hidden sm:inline-flex items-center gap-2 text-cream text-sm font-medium group-hover:text-scarlet transition-colors">
                     {dict.formats.explore}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>

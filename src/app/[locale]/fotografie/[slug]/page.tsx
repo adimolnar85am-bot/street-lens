@@ -43,7 +43,7 @@ export default async function FotografiePage({ params }: Props) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
             <Link
               href={localePath(locale, "/")}
-              className="inline-flex items-center gap-2 text-ink-300 hover:text-ink text-sm mb-6 transition-colors"
+              className="inline-flex items-center gap-2 text-cream/70 hover:text-cream text-sm mb-6 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               {dict.common.home}
@@ -51,7 +51,7 @@ export default async function FotografiePage({ params }: Props) {
             <p className="text-scarlet text-sm tracking-widest uppercase mb-2">
               {category.tagline}
             </p>
-            <h1 className="font-display text-4xl lg:text-6xl text-ink">
+            <h1 className="font-display text-4xl lg:text-6xl text-cream">
               {category.title}
             </h1>
           </div>
