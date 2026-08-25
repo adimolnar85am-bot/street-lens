@@ -73,7 +73,7 @@ export function AdminLoginForm() {
           <strong className="text-ink-400">/admin/login</strong>, apoi
           „Adaugă pe ecranul principal”. Iconița trebuie să se numească{" "}
           <strong className="text-ink-400">Admin</strong> — șterge shortcut-ul
-          vechi „streetlens” dacă există.
+          vechi „Street Lens" sau „Admin" dacă există.
         </p>
       </form>
     </div>

@@ -1,10 +1,10 @@
 /** Client-safe photo constants & types (no filesystem). */
 
 export const PHOTO_COPYRIGHT =
-  "© Street Lens. Toate drepturile rezervate.";
+  "© ALT:FRAME. Toate drepturile rezervate.";
 
 /** Generic alt — never expose filenames */
-export const PHOTO_ALT = "Fotografie din comunitatea Street Lens";
+export const PHOTO_ALT = "Fotografie din comunitatea ALT:FRAME";
 
 const categories = ["digital", "analog", "telefon"] as const;
 

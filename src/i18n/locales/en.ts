@@ -6,7 +6,7 @@ type DeepStringify<T> = {
 
 const en: DeepStringify<typeof ro> = {
   meta: {
-    title: "Street Lens — Street Photography Community",
+    title: "ALT:FRAME — Street Photography Community",
     description:
       "Street photography community. Coffee meetup, then a photo walk — contests, gallery, merch.",
     ogHeadline: "The street is the studio.",
@@ -14,7 +14,7 @@ const en: DeepStringify<typeof ro> = {
       "Coffee, photo walks, contests, and gallery — street photography together.",
   },
   brand: {
-    name: "Street Lens",
+    name: "ALT:FRAME",
     tagline: "Street · City",
   },
   nav: {
@@ -160,7 +160,7 @@ const en: DeepStringify<typeof ro> = {
     title: "Theme #1: Reflections",
     themeNumber: "#1",
     rulesLink: "Rules",
-    uploadSubject: "Street Lens — Contest Theme #1",
+    uploadSubject: "ALT:FRAME — Contest Theme #1",
     theme:
       "Any reflection — windows, puddles, mirrors, screens, evening light",
     prizeText: "Gallery feature + exclusive print",
@@ -178,17 +178,17 @@ const en: DeepStringify<typeof ro> = {
     analog: "Analog",
     phone: "Phone",
     series: "Series",
-    photographer: "Street Lens",
+    photographer: "ALT:FRAME",
   },
   contact: {
-    email: "hello@streetlens.ro",
-    instagram: "https://instagram.com/streetlens.ro",
-    youtube: "https://youtube.com/@streetlens",
+    email: "hello@altframe.ro",
+    instagram: "https://instagram.com/altframe.ro",
+    youtube: "https://youtube.com/@altframe",
   },
   about: {
     pageTitle: "About us",
     pageBody:
-      "Street Lens is a street photography community — we meet for coffee, head out on the street, and document together.",
+      "ALT:FRAME is a street photography community — we meet for coffee, head out on the street, and document together.",
     missionTitle: "Our mission",
     missionBody:
       "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We build an active, accessible community with weekly outings, contests, and resources for all levels.",
@@ -207,26 +207,26 @@ const en: DeepStringify<typeof ro> = {
   contestRules: {
     pageTitle: "Contest rules",
     pageBody:
-      "Official rules for Street Lens contests. The active theme is #1 — Reflections.",
+      "Official rules for ALT:FRAME contests. The active theme is #1 — Reflections.",
     eligibilityTitle: "1. Eligibility",
     eligibilityBody:
-      "All Street Lens community members may enter, any format (digital, analog, phone). The photo must be your own work and match the active theme.",
+      "All ALT:FRAME community members may enter, any format (digital, analog, phone). The photo must be your own work and match the active theme.",
     submissionTitle: "2. Submission",
     submissionBody:
-      "Submit one photo per theme at maximum resolution by email to hello@streetlens.ro with subject “Contest Theme #X”. Include your name. The deadline is shown on the contest page.",
+      "Submit one photo per theme at maximum resolution by email to hello@altframe.ro with subject “Contest Theme #X”. Include your name. The deadline is shown on the contest page.",
     judgingTitle: "3. Judging",
     judgingBody:
       "The community jury evaluates composition, theme relevance, originality, and emotional impact. The jury’s decision is final.",
     prizesTitle: "4. Prizes",
     prizesBody:
-      "The winner receives a gallery feature, promotion on Street Lens socials, and a numbered exclusive print. Prizes cannot be exchanged for cash.",
+      "The winner receives a gallery feature, promotion on ALT:FRAME socials, and a numbered exclusive print. Prizes cannot be exchanged for cash.",
     copyrightTitle: "5. Copyright",
     copyrightBody:
-      "You keep copyright. By submitting, you grant Street Lens the right to display the photo on the site and social media with credit. Third-party redistribution is prohibited.",
+      "You keep copyright. By submitting, you grant ALT:FRAME the right to display the photo on the site and social media with credit. Third-party redistribution is prohibited.",
   },
   contestArchive: {
     pageTitle: "Winners archive",
-    pageBody: "Award-winning work from past Street Lens contests.",
+    pageBody: "Award-winning work from past ALT:FRAME contests.",
     emptyTitle: "First edition in progress",
     emptyBody:
       "Contest Theme #1 — Reflections — is active now. Winners will be published here after judging.",
@@ -246,7 +246,7 @@ const en: DeepStringify<typeof ro> = {
   },
   blog: {
     pageTitle: "Blog",
-    pageBody: "Articles, techniques, and stories from the Street Lens community.",
+    pageBody: "Articles, techniques, and stories from the ALT:FRAME community.",
     readMore: "Read article",
   },
   calendar: {
@@ -262,18 +262,18 @@ const en: DeepStringify<typeof ro> = {
   legal: {
     termsTitle: "Terms & conditions",
     termsUpdated: "Last updated: August 2026",
-    termsIntro: "By accessing Street Lens, you accept the terms below.",
+    termsIntro: "By accessing ALT:FRAME, you accept the terms below.",
     termsUseTitle: "Use of the site",
     termsUseBody:
       "Site content is for the street photography community. Automated scraping, bulk image copying, or activity that harms the platform is not allowed.",
     termsContentTitle: "Content and copyright",
     termsContentBody:
-      "Gallery photos belong to the Street Lens community and are protected. Redistribution, downloading, or commercial use without written permission is prohibited.",
+      "Gallery photos belong to the ALT:FRAME community and are protected. Redistribution, downloading, or commercial use without written permission is prohibited.",
     termsLiabilityTitle: "Limitation of liability",
     termsLiabilityBody:
-      "Street Lens does not guarantee uninterrupted availability. We are not responsible for external links.",
+      "ALT:FRAME does not guarantee uninterrupted availability. We are not responsible for external links.",
     privacyTitle: "Privacy policy",
-    privacyIntro: "We respect the privacy of Street Lens community members.",
+    privacyIntro: "We respect the privacy of ALT:FRAME community members.",
     privacyDataTitle: "Data collected",
     privacyDataBody:
       "We collect email only if you subscribe to the newsletter or contact us. We do not sell data to third parties.",
@@ -282,7 +282,7 @@ const en: DeepStringify<typeof ro> = {
       "We use essential cookies for site operation and admin sessions. No advertising tracking.",
     privacyContactTitle: "Contact",
     privacyContactBody:
-      "For privacy questions, email hello@streetlens.ro.",
+      "For privacy questions, email hello@altframe.ro.",
   },
   shop: {
     eyebrow: "Shop",
@@ -293,7 +293,7 @@ const en: DeepStringify<typeof ro> = {
     seePrints: "See prints",
     pageTitle: "Shop",
     pageBody:
-      "Official Street Lens merch. Every purchase supports photowalks and the platform.",
+      "Official ALT:FRAME merch. Every purchase supports photowalks and the platform.",
     addToCart: "Add to cart",
     printSectionTitle: "Limited edition prints",
     printSectionBody:
@@ -305,7 +305,7 @@ const en: DeepStringify<typeof ro> = {
     poster: "Community poster",
     catTees: "Tees",
     catPrint: "Print",
-    orderSubject: "Street Lens order",
+    orderSubject: "ALT:FRAME order",
     printPageTitle: "Limited edition prints",
     printPageBody:
       "Numbered editions from photowalks and the community gallery. Each print is signed.",
@@ -347,7 +347,7 @@ const en: DeepStringify<typeof ro> = {
     patronF3: "Workshop priority",
     patronF4: "25% merch discount",
     patronF5: "Your name on the site",
-    joinSubject: "Street Lens — Membership",
+    joinSubject: "ALT:FRAME — Membership",
   },
   footer: {
     about:
@@ -358,7 +358,7 @@ const en: DeepStringify<typeof ro> = {
     newsletterBody: "Get the photowalk theme and community news.",
     emailPlaceholder: "email@example.com",
     copyright:
-      "© 2026 Street Lens. Photos are protected — redistribution is prohibited.",
+      "© 2026 ALT:FRAME. Photos are protected — redistribution is prohibited.",
     terms: "Terms",
     privacy: "Privacy",
   },
@@ -368,7 +368,7 @@ const en: DeepStringify<typeof ro> = {
     otherFormats: "Other formats",
     backToContests: "Back to contests",
     contactUs: "Contact us",
-    newsletterSubject: "Street Lens — Newsletter",
+    newsletterSubject: "ALT:FRAME — Newsletter",
   },
   articles: {
     digital1Title: "Ideal settings for digital street photography",

@@ -1,6 +1,6 @@
 {
-  "name": "Street Lens",
-  "short_name": "streetlens",
+  "name": "ALT:FRAME",
+  "short_name": "altframe",
   "description": "Comunitate de street photography — cafea, tură foto, galerie, concursuri.",
   "start_url": "/ro",
   "scope": "/",
@@ -48,7 +48,7 @@
     {
       "name": "Galerie",
       "short_name": "Galerie",
-      "description": "Vezi galeria streetlens",
+      "description": "Vezi galeria ALT:FRAME",
       "url": "/ro/galerie",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },

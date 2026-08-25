@@ -2,8 +2,8 @@ import { type UploadApiResponse } from "cloudinary";
 import { configureCloudinary, cloudinary, isCloudinaryEnabled } from "./cloudinary-config";
 import type { MerchAssignments, MerchPhoto } from "./merch-photos.types";
 
-const MERCH_FOLDER = "street-lens/merch";
-const ASSIGNMENTS_PUBLIC_ID = "street-lens/meta/merch-assignments";
+const MERCH_FOLDER = "alt-frame/merch";
+const ASSIGNMENTS_PUBLIC_ID = "alt-frame/meta/merch-assignments";
 
 export { isCloudinaryEnabled };
 
@@ -12,7 +12,7 @@ export function cloudinaryMerchPublicId(id: string): string {
 }
 
 export function merchIdFromCloudinarySrc(src: string): string | null {
-  const match = src.match(/street-lens\/merch\/([^./?]+)/i);
+  const match = src.match(/alt-frame\/merch\/([^./?]+)/i);
   return match?.[1] ?? null;
 }
 

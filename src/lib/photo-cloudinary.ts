@@ -3,9 +3,9 @@ import { configureCloudinary, cloudinary, isCloudinaryEnabled } from "./cloudina
 import type { PhotoOrientation } from "./photos";
 import type { PhotoAssignments } from "./photo-assignments.types";
 
-const PHOTO_FOLDER = "street-lens/photos";
-const EXCLUDED_PUBLIC_ID = "street-lens/meta/excluded";
-const ASSIGNMENTS_PUBLIC_ID = "street-lens/meta/photo-assignments";
+const PHOTO_FOLDER = "alt-frame/photos";
+const EXCLUDED_PUBLIC_ID = "alt-frame/meta/excluded";
+const ASSIGNMENTS_PUBLIC_ID = "alt-frame/meta/photo-assignments";
 
 export type CloudPhotoEntry = {
   id: string;
@@ -48,7 +48,7 @@ export function cloudinaryPhotoPublicId(id: string): string {
 }
 
 export function photoIdFromCloudinarySrc(src: string): string | null {
-  const match = src.match(/street-lens\/photos\/([^./?]+)/i);
+  const match = src.match(/alt-frame\/photos\/([^./?]+)/i);
   return match?.[1] ?? null;
 }
 

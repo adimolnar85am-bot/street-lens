@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none" role="img" aria-label="streetlens">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" fill="none" role="img" aria-label="ALT:FRAME">
   <g transform="translate(8 8) scale(0.64)">
     <path d="M22 34V22H34" stroke="#E20612" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M66 22H78V34" stroke="#E20612" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -18,6 +18,6 @@
     font-size="34"
     letter-spacing="-0.03em"
   >
-    <tspan font-weight="400">street</tspan><tspan font-weight="700">lens</tspan>
+    <tspan font-weight="400">ALT</tspan><tspan font-weight="700">:FRAME</tspan>
   </text>
 </svg>

@@ -1,17 +1,17 @@
 import { cn } from "@/lib/utils";
 
-type StreetlensMarkProps = {
+type AltFrameMarkProps = {
   size?: number;
   className?: string;
   animate?: boolean;
 };
 
 /** Inline viewfinder mark — red brackets, cream lens, yellow tally. */
-export function StreetlensMark({
+export function AltFrameMark({
   size = 44,
   className,
   animate = false,
-}: StreetlensMarkProps) {
+}: AltFrameMarkProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ export function StreetlensMark({
   );
 }
 
-type StreetlensWordmarkProps = {
+type AltFrameWordmarkProps = {
   className?: string;
   animate?: boolean;
   size?: "sm" | "md" | "lg" | "header";
@@ -73,15 +73,14 @@ const sizeClass = {
   sm: "text-lg",
   md: "text-xl lg:text-2xl",
   lg: "text-2xl",
-  /* Fits header with RO + menu on ~320px; larger from sm up */
-  header: "text-[1.35rem] sm:text-2xl lg:text-[1.75rem]",
+  header: "text-[1.2rem] sm:text-xl lg:text-[1.55rem]",
 } as const;
 
-export function StreetlensWordmark({
+export function AltFrameWordmark({
   className,
   animate = false,
   size = "md",
-}: StreetlensWordmarkProps) {
+}: AltFrameWordmarkProps) {
   return (
     <span
       className={cn(
@@ -92,8 +91,8 @@ export function StreetlensWordmark({
       )}
       aria-hidden="true"
     >
-      <span className="font-normal">street</span>
-      <span className="font-bold">lens</span>
+      <span className="font-normal">ALT</span>
+      <span className="font-bold">:FRAME</span>
     </span>
   );
 }

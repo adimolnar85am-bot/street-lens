@@ -1,4 +1,4 @@
-# Street Lens — Comunitate de Street Photography
+# ALT:FRAME — Comunitate de Street Photography
 
 Site modern pentru comunitatea de fotografi de stradă 
 cu focus pe photowalk-uri săptămânale, hartă interactivă și secțiuni bine organizate.

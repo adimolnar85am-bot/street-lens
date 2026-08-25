@@ -68,7 +68,7 @@ body {
   }
 }
 
-/* Logo: viewfinder focuses, then streetlens emerges from the mark */
+/* Logo: viewfinder focuses, then ALT:FRAME wordmark emerges from the mark */
 @keyframes logoMarkFocus {
   0% {
     opacity: 0;

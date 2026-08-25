@@ -1,4 +1,4 @@
-import { StreetlensMark, StreetlensWordmark } from "@/components/StreetlensMark";
+import { AltFrameMark, AltFrameWordmark } from "@/components/AltFrameMark";
 import { cn } from "@/lib/utils";
 
 type BrandLogoProps = {
@@ -17,12 +17,12 @@ export function BrandLogo({
   className,
   variant = "horizontal",
   animate = false,
-  alt = "streetlens",
+  alt = "ALT:FRAME",
 }: BrandLogoProps) {
   if (variant === "mark") {
     return (
       <span className={cn("inline-flex", className)} role="img" aria-label={alt}>
-        <StreetlensMark size={height} animate={animate} />
+        <AltFrameMark size={height} animate={animate} />
       </span>
     );
   }
@@ -34,9 +34,9 @@ export function BrandLogo({
         role="img"
         aria-label={alt}
       >
-        <StreetlensMark size={height} animate={animate} />
+        <AltFrameMark size={height} animate={animate} />
         <span className={cn(animate && "logo-word-reveal-down")}>
-          <StreetlensWordmark size="lg" />
+          <AltFrameWordmark size="lg" />
         </span>
       </span>
     );
@@ -51,13 +51,13 @@ export function BrandLogo({
       role="img"
       aria-label={alt}
     >
-      <StreetlensMark
+      <AltFrameMark
         size={height}
         animate={animate}
         className="shrink-0"
       />
       <span className="min-w-0 inline-flex">
-        <StreetlensWordmark animate={animate} size="header" />
+        <AltFrameWordmark animate={animate} size="header" />
       </span>
     </span>
   );

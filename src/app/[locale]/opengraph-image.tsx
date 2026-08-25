@@ -5,7 +5,7 @@ import { BrandMark } from "@/lib/brand-mark";
 import { defaultOgPhoto, siteUrl } from "@/lib/site";
 
 export const runtime = "edge";
-export const alt = "Street Lens";
+export const alt = "ALT:FRAME";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -78,8 +78,8 @@ export default async function OgImage({
                 letterSpacing: "-0.03em",
               }}
             >
-              <span style={{ fontWeight: 400 }}>street</span>
-              <span style={{ fontWeight: 700 }}>lens</span>
+              <span style={{ fontWeight: 400 }}>ALT</span>
+              <span style={{ fontWeight: 700 }}>:FRAME</span>
             </div>
           </div>
           <div

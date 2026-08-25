@@ -1,6 +1,6 @@
 const ro = {
   meta: {
-    title: "Street Lens — Comunitate de Street Photography",
+    title: "ALT:FRAME — Comunitate de Street Photography",
     description:
       "Comunitate de street photography. Ne întâlnim la cafea, apoi ieșim în tură foto — concursuri, galerie, merch.",
     ogHeadline: "Orașul, fără filtru.",
@@ -8,7 +8,7 @@ const ro = {
       "Cafea, tură foto, concursuri și galerie — street photography, împreună.",
   },
   brand: {
-    name: "Street Lens",
+    name: "ALT:FRAME",
     tagline: "Strada · Oraș",
   },
   nav: {
@@ -154,7 +154,7 @@ const ro = {
     title: "Tema #1: Reflexii",
     themeNumber: "#1",
     rulesLink: "Regulament",
-    uploadSubject: "Street Lens — Concurs Tema #1",
+    uploadSubject: "ALT:FRAME — Concurs Tema #1",
     theme:
       "Orice reflexie — geamuri, bălți, oglinzi, ecrane, lumină de seară",
     prizeText: "Feature în galerie + print exclusiv",
@@ -172,17 +172,17 @@ const ro = {
     analog: "Analog",
     phone: "Telefon",
     series: "Serie",
-    photographer: "Street Lens",
+    photographer: "ALT:FRAME",
   },
   contact: {
-    email: "hello@streetlens.ro",
-    instagram: "https://instagram.com/streetlens.ro",
-    youtube: "https://youtube.com/@streetlens",
+    email: "hello@altframe.ro",
+    instagram: "https://instagram.com/altframe.ro",
+    youtube: "https://youtube.com/@altframe",
   },
   about: {
     pageTitle: "Despre noi",
     pageBody:
-      "Street Lens e comunitatea de street photography — ne întâlnim la cafea, ieșim pe stradă și documentăm împreună.",
+      "ALT:FRAME e comunitatea de street photography — ne întâlnim la cafea, ieșim pe stradă și documentăm împreună.",
     missionTitle: "Misiunea noastră",
     missionBody:
       "Credem că fotografia de stradă se trăiește pe stradă — nu în studio. Digital, analog sau telefon: fiecare format are loc. Construim o comunitate activă, accesibilă și inspirată, cu ieșiri săptămânale, concursuri și resurse pentru toți nivelurile.",
@@ -201,26 +201,26 @@ const ro = {
   contestRules: {
     pageTitle: "Regulament concurs",
     pageBody:
-      "Regulile oficiale pentru concursurile Street Lens. Tema activă este #1 — Reflexii.",
+      "Regulile oficiale pentru concursurile ALT:FRAME. Tema activă este #1 — Reflexii.",
     eligibilityTitle: "1. Eligibilitate",
     eligibilityBody:
-      "Pot participa toți membrii comunității Street Lens, indiferent de format (digital, analog, telefon). Fotografia trebuie să fie realizată de participant și să respecte tema activă.",
+      "Pot participa toți membrii comunității ALT:FRAME, indiferent de format (digital, analog, telefon). Fotografia trebuie să fie realizată de participant și să respecte tema activă.",
     submissionTitle: "2. Trimitere",
     submissionBody:
-      "Trimite o singură fotografie per temă, la rezoluție maximă, prin email la hello@streetlens.ro cu subiectul „Concurs Tema #X”. Include numele tău. Deadline-ul este afișat pe pagina concursului.",
+      "Trimite o singură fotografie per temă, la rezoluție maximă, prin email la hello@altframe.ro cu subiectul „Concurs Tema #X”. Include numele tău. Deadline-ul este afișat pe pagina concursului.",
     judgingTitle: "3. Jurizare",
     judgingBody:
       "Juriul comunității evaluează compoziția, relevanța temei, originalitatea și impactul emoțional. Decizia juriului este finală.",
     prizesTitle: "4. Premii",
     prizesBody:
-      "Câștigătorul primește feature în galerie, promovare pe rețelele Street Lens și un print exclusiv numerotat. Premiile nu pot fi schimbate în bani.",
+      "Câștigătorul primește feature în galerie, promovare pe rețelele ALT:FRAME și un print exclusiv numerotat. Premiile nu pot fi schimbate în bani.",
     copyrightTitle: "5. Drepturi de autor",
     copyrightBody:
-      "Participantul păstrează drepturile de autor. Prin trimitere, acordă Street Lens dreptul de a afișa fotografia pe site și social media, cu credit. Redistribuirea de către terți este interzisă.",
+      "Participantul păstrează drepturile de autor. Prin trimitere, acordă ALT:FRAME dreptul de a afișa fotografia pe site și social media, cu credit. Redistribuirea de către terți este interzisă.",
   },
   contestArchive: {
     pageTitle: "Arhivă câștigători",
-    pageBody: "Lucrările premiate din concursurile anterioare Street Lens.",
+    pageBody: "Lucrările premiate din concursurile anterioare ALT:FRAME.",
     emptyTitle: "Prima ediție în curs",
     emptyBody:
       "Concursul Tema #1 — Reflexii — este activ acum. Câștigătorii vor fi publicați aici după jurizare.",
@@ -241,7 +241,7 @@ const ro = {
   blog: {
     pageTitle: "Blog",
     pageBody:
-      "Articole, tehnici și povești din comunitatea Street Lens.",
+      "Articole, tehnici și povești din comunitatea ALT:FRAME.",
     readMore: "Citește articolul",
   },
   calendar: {
@@ -258,19 +258,19 @@ const ro = {
     termsTitle: "Termeni și condiții",
     termsUpdated: "Ultima actualizare: august 2026",
     termsIntro:
-      "Prin accesarea site-ului Street Lens, accepți termenii de mai jos.",
+      "Prin accesarea site-ului ALT:FRAME, accepți termenii de mai jos.",
     termsUseTitle: "Utilizarea site-ului",
     termsUseBody:
       "Conținutul site-ului este destinat comunității de street photography. Nu este permisă utilizarea automată (scraping), copierea în masă a imaginilor sau orice activitate care afectează funcționarea platformei.",
     termsContentTitle: "Conținut și copyright",
     termsContentBody:
-      "Fotografiile din galerie aparțin comunității Street Lens și sunt protejate. Redistribuirea, descărcarea sau utilizarea comercială fără acord scris este interzisă.",
+      "Fotografiile din galerie aparțin comunității ALT:FRAME și sunt protejate. Redistribuirea, descărcarea sau utilizarea comercială fără acord scris este interzisă.",
     termsLiabilityTitle: "Limitarea răspunderii",
     termsLiabilityBody:
-      "Street Lens nu garantează disponibilitatea continuă a site-ului. Nu suntem răspunzători pentru conținutul link-urilor externe.",
+      "ALT:FRAME nu garantează disponibilitatea continuă a site-ului. Nu suntem răspunzători pentru conținutul link-urilor externe.",
     privacyTitle: "Politica de confidențialitate",
     privacyIntro:
-      "Respectăm confidențialitatea membrilor comunității Street Lens.",
+      "Respectăm confidențialitatea membrilor comunității ALT:FRAME.",
     privacyDataTitle: "Date colectate",
     privacyDataBody:
       "Colectăm adresa de email doar dacă te abonezi la newsletter sau ne contactezi. Nu vindem date către terți.",
@@ -279,7 +279,7 @@ const ro = {
       "Folosim cookie-uri esențiale pentru funcționarea site-ului și sesiunea admin. Nu folosim tracking publicitar.",
     privacyContactTitle: "Contact",
     privacyContactBody:
-      "Pentru întrebări despre date personale, scrie-ne la hello@streetlens.ro.",
+      "Pentru întrebări despre date personale, scrie-ne la hello@altframe.ro.",
   },
   shop: {
     eyebrow: "Magazin",
@@ -291,7 +291,7 @@ const ro = {
     seePrints: "Vezi printurile",
     pageTitle: "Magazin",
     pageBody:
-      "Merch oficial al comunității Street Lens. Fiecare achiziție susține photowalk-urile și dezvoltarea platformei.",
+      "Merch oficial al comunității ALT:FRAME. Fiecare achiziție susține photowalk-urile și dezvoltarea platformei.",
     addToCart: "Adaugă în coș",
     printSectionTitle: "Printuri tiraj limitat",
     printSectionBody:
@@ -303,7 +303,7 @@ const ro = {
     poster: "Poster comunitate",
     catTees: "Tricouri",
     catPrint: "Print",
-    orderSubject: "Comandă Street Lens",
+    orderSubject: "Comandă ALT:FRAME",
     printPageTitle: "Printuri tiraj limitat",
     printPageBody:
       "Tiraje numerotate din photowalk-uri și galeria comunității. Fiecare print e semnat.",
@@ -345,7 +345,7 @@ const ro = {
     patronF3: "Prioritate la workshop-uri",
     patronF4: "25% discount merch",
     patronF5: "Numele tău pe site",
-    joinSubject: "Street Lens — Membership",
+    joinSubject: "ALT:FRAME — Membership",
   },
   footer: {
     about:
@@ -357,7 +357,7 @@ const ro = {
       "Primești tema photowalk-ului și noutățile comunității.",
     emailPlaceholder: "email@exemplu.ro",
     copyright:
-      "© 2026 Street Lens. Fotografiile sunt protejate — redistribuirea e interzisă.",
+      "© 2026 ALT:FRAME. Fotografiile sunt protejate — redistribuirea e interzisă.",
     terms: "Termeni",
     privacy: "Confidențialitate",
   },
@@ -367,7 +367,7 @@ const ro = {
     otherFormats: "Alte formate",
     backToContests: "Înapoi la concursuri",
     contactUs: "Contactează-ne",
-    newsletterSubject: "Street Lens — Newsletter",
+    newsletterSubject: "ALT:FRAME — Newsletter",
   },
   articles: {
     digital1Title: "Setări ideale pentru street photography digital",

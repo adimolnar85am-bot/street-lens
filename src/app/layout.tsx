@@ -12,11 +12,11 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  applicationName: "streetlens",
+  applicationName: "ALT:FRAME",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "streetlens",
+    title: "ALT:FRAME",
   },
   formatDetection: {
     telephone: false,
