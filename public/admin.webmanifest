@@ -1,7 +1,7 @@
 {
-  "name": "ALT:FRAME Admin",
+  "name": "alt:frame Admin",
   "short_name": "Admin",
-  "description": "Panou administrare ALT:FRAME — poze, conținut, setări.",
+  "description": "Panou administrare alt:frame — poze, conținut, setări.",
   "start_url": "/admin/login?source=homescreen",
   "scope": "/admin",
   "id": "/admin",

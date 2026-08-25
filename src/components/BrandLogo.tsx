@@ -2,27 +2,26 @@ import { AltFrameMark, AltFrameWordmark } from "@/components/AltFrameMark";
 import { cn } from "@/lib/utils";
 
 type BrandLogoProps = {
-  /** Mark size in px. */
   height?: number;
   className?: string;
-  /** horizontal = mark + wordmark side by side; mark = icon only; stacked = mark over wordmark */
-  variant?: "horizontal" | "mark" | "stacked";
-  /** Animate wordmark emerging from the mark (header). */
+  variant?: "horizontal" | "mark" | "stacked" | "wordmark";
   animate?: boolean;
+  inverted?: boolean;
   alt?: string;
 };
 
 export function BrandLogo({
   height = 44,
   className,
-  variant = "horizontal",
+  variant = "wordmark",
   animate = false,
-  alt = "ALT:FRAME",
+  inverted = false,
+  alt = "alt:frame",
 }: BrandLogoProps) {
   if (variant === "mark") {
     return (
       <span className={cn("inline-flex", className)} role="img" aria-label={alt}>
-        <AltFrameMark size={height} animate={animate} />
+        <AltFrameMark size={height} />
       </span>
     );
   }
@@ -34,31 +33,31 @@ export function BrandLogo({
         role="img"
         aria-label={alt}
       >
-        <AltFrameMark size={height} animate={animate} />
-        <span className={cn(animate && "logo-word-reveal-down")}>
-          <AltFrameWordmark size="lg" />
-        </span>
+        <AltFrameMark size={height} />
+        <AltFrameWordmark size="lg" inverted={inverted} />
+      </span>
+    );
+  }
+
+  if (variant === "horizontal") {
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center gap-2.5 min-w-0 max-w-full",
+          className
+        )}
+        role="img"
+        aria-label={alt}
+      >
+        <AltFrameMark size={height} className="shrink-0" />
+        <AltFrameWordmark animate={animate} size="header" inverted={inverted} />
       </span>
     );
   }
 
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 min-w-0 max-w-full",
-        className
-      )}
-      role="img"
-      aria-label={alt}
-    >
-      <AltFrameMark
-        size={height}
-        animate={animate}
-        className="shrink-0"
-      />
-      <span className="min-w-0 inline-flex">
-        <AltFrameWordmark animate={animate} size="header" />
-      </span>
+    <span className={cn("inline-flex min-w-0", className)} role="img" aria-label={alt}>
+      <AltFrameWordmark animate={animate} size="header" inverted={inverted} />
     </span>
   );
 }

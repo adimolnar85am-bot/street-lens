@@ -3,63 +3,21 @@ import { cn } from "@/lib/utils";
 type AltFrameMarkProps = {
   size?: number;
   className?: string;
-  animate?: boolean;
 };
 
-/** Inline viewfinder mark — red brackets, cream lens, yellow tally. */
-export function AltFrameMark({
-  size = 44,
-  className,
-  animate = false,
-}: AltFrameMarkProps) {
+/** Circle avatar mark — black disc with "alt:" for icon contexts. */
+export function AltFrameMark({ size = 44, className }: AltFrameMarkProps) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      width={size}
-      height={size}
-      fill="none"
-      className={cn("block", animate && "logo-mark-focus", className)}
+    <span
+      className={cn(
+        "inline-flex items-center justify-center rounded-full bg-ink shrink-0 font-bold lowercase tracking-tight text-cream",
+        className
+      )}
+      style={{ width: size, height: size, fontSize: size * 0.28 }}
       aria-hidden="true"
     >
-      <path
-        d="M22 34V22H34"
-        stroke="#E20612"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M66 22H78V34"
-        stroke="#E20612"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M22 66V78H34"
-        stroke="#E20612"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M66 78H78V66"
-        stroke="#E20612"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <rect x="67" y="24" width="7" height="7" rx="1" fill="#FFB800" />
-      <circle cx="50" cy="50" r="19" stroke="#f8f4ef" strokeWidth="2.2" />
-      <circle cx="50" cy="50" r="13.5" stroke="#f8f4ef" strokeWidth="1.6" />
-      <circle cx="50" cy="50" r="9" fill="#0a0a0a" />
-      <path
-        d="M46 44.5a5.5 5.5 0 1 1 2.2 10.8 4 4 0 0 0-1.8-7.2 4 4 0 0 0-2.4 3.4z"
-        fill="#f8f4ef"
-        opacity="0.92"
-      />
-    </svg>
+      alt:
+    </span>
   );
 }
 
@@ -67,32 +25,57 @@ type AltFrameWordmarkProps = {
   className?: string;
   animate?: boolean;
   size?: "sm" | "md" | "lg" | "header";
+  /** Light text for dark backgrounds (hero). */
+  inverted?: boolean;
 };
 
 const sizeClass = {
   sm: "text-lg",
   md: "text-xl lg:text-2xl",
-  lg: "text-2xl",
-  header: "text-[1.2rem] sm:text-xl lg:text-[1.55rem]",
+  lg: "text-2xl lg:text-3xl",
+  header: "text-[1.35rem] sm:text-xl lg:text-[1.65rem]",
 } as const;
 
 export function AltFrameWordmark({
   className,
   animate = false,
   size = "md",
+  inverted = false,
 }: AltFrameWordmarkProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-baseline leading-none tracking-tight text-cream whitespace-nowrap",
+        "inline-flex items-baseline leading-none tracking-[-0.02em] whitespace-nowrap font-bold lowercase",
+        inverted ? "text-cream" : "text-ink",
         sizeClass[size],
         animate && "logo-word-reveal",
         className
       )}
       aria-hidden="true"
     >
-      <span className="font-normal">ALT</span>
-      <span className="font-bold">:FRAME</span>
+      <span>alt</span>
+      <span className="text-scarlet">:</span>
+      <span>frame</span>
     </span>
+  );
+}
+
+/** Serif tagline — "see otherwise." */
+export function AltFrameTagline({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <p
+      className={cn(
+        "font-tagline text-scarlet lowercase tracking-normal",
+        className
+      )}
+    >
+      {children}
+    </p>
   );
 }

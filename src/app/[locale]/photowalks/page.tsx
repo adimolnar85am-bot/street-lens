@@ -23,16 +23,16 @@ export default async function PhotowalksPage({
 
   return (
     <div className="min-h-screen">
-      <div className="bg-ink-900 border-b border-ink-800 py-16 lg:py-24">
+      <div className="bg-white border-b border-line py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.home}
           </Link>
-          <h1 className="font-display text-4xl lg:text-6xl text-cream mb-4">
+          <h1 className="font-display text-4xl lg:text-6xl text-ink mb-4">
             {dict.photowalks.pageTitle}
           </h1>
           <p className="text-ink-300 max-w-2xl leading-relaxed">
@@ -47,7 +47,7 @@ export default async function PhotowalksPage({
             <Link
               key={walk.id}
               href={localePath(locale, `/photowalks/${walk.id}`)}
-              className="group bg-ink-900 rounded-xl overflow-hidden border border-ink-800 hover:border-ink-600 transition-colors"
+              className="group bg-white rounded-xl overflow-hidden border border-line hover:border-ink-300 transition-colors"
             >
               <div className="relative aspect-[16/9]">
                 <ProtectedImage
@@ -61,7 +61,7 @@ export default async function PhotowalksPage({
                   <span className="inline-block px-3 py-1 bg-signal/15 text-signal text-xs font-medium rounded-sm mb-2">
                     {walk.theme}
                   </span>
-                  <h2 className="font-display text-2xl text-cream">{walk.title}</h2>
+                  <h2 className="font-display text-2xl text-ink">{walk.title}</h2>
                 </div>
               </div>
               <div className="p-6">

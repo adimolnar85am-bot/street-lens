@@ -34,7 +34,7 @@ export function GalleryClient({ photos }: { photos: GalleryPhoto[] }) {
               "px-4 py-2 text-sm rounded-full border transition-colors",
               filter === f.id
                 ? "bg-signal text-ink border-signal font-semibold"
-                : "bg-ink-900 text-ink-300 border-ink-700 hover:border-ink-500"
+                : "bg-white text-ink-300 border-line hover:border-ink-500"
             )}
           >
             {f.label}
@@ -63,7 +63,7 @@ export function GalleryClient({ photos }: { photos: GalleryPhoto[] }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
-                <p className="text-cream font-medium text-sm">{photo.title}</p>
+                <p className="text-ink font-medium text-sm">{photo.title}</p>
                 <p className="text-ink-300 text-xs">{photo.photographer}</p>
               </div>
             </div>

@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { AdminManifestFix } from "@/components/AdminManifestFix";
 
 export const metadata: Metadata = {
-  title: "Admin — ALT:FRAME",
-  applicationName: "ALT:FRAME Admin",
+  title: "Admin — alt:frame",
+  applicationName: "alt:frame Admin",
   manifest: "/admin.webmanifest",
   appleWebApp: {
     capable: true,

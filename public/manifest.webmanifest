@@ -1,5 +1,5 @@
 {
-  "name": "ALT:FRAME",
+  "name": "alt:frame",
   "short_name": "altframe",
   "description": "Comunitate de street photography — cafea, tură foto, galerie, concursuri.",
   "start_url": "/ro",
@@ -7,8 +7,8 @@
   "id": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#F2EFE8",
+  "theme_color": "#F2EFE8",
   "lang": "ro",
   "dir": "ltr",
   "categories": ["photography", "social"],
@@ -48,7 +48,7 @@
     {
       "name": "Galerie",
       "short_name": "Galerie",
-      "description": "Vezi galeria ALT:FRAME",
+      "description": "Vezi galeria alt:frame",
       "url": "/ro/galerie",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },

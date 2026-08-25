@@ -8,8 +8,8 @@ export function BrandMark({ size }: { size: number }) {
   const r3 = 9 * s;
   const tally = 7 * s;
   const pad = size * 0.08;
-  const red = "#E20612";
-  const cream = "#f8f4ef";
+  const red = "#FF2400";
+  const cream = "#F2EFE8";
 
   const bracket = (flipX: number, flipY: number) => {
     const x = flipX > 0 ? size - pad - cornerLen : pad + cornerLen;

@@ -2,7 +2,7 @@ export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
   "https://alt-frame-theta.vercel.app";
 
-export const siteName = "ALT:FRAME";
+export const siteName = "alt:frame";
 
 export const social = {
   instagram: "https://instagram.com/altframe.ro",

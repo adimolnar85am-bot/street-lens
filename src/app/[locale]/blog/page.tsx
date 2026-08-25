@@ -25,18 +25,18 @@ export default async function BlogPage({
 
   return (
     <div>
-      <div className="bg-ink-900 border-b border-ink-800 py-16 lg:py-24">
+      <div className="bg-white border-b border-line py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.home}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <Newspaper className="w-8 h-8 text-signal/80" />
-            <h1 className="font-display text-4xl lg:text-6xl text-cream">
+            <Newspaper className="w-8 h-8 text-scarlet" />
+            <h1 className="font-display text-4xl lg:text-6xl text-ink">
               {blog.pageTitle}
             </h1>
           </div>
@@ -60,10 +60,10 @@ export default async function BlogPage({
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <p className="text-xs text-signal/70 uppercase tracking-wider mb-2">
+              <p className="text-xs text-scarlet uppercase tracking-wider mb-2">
                 {article.category}
               </p>
-              <h2 className="font-display text-xl text-cream group-hover:text-signal transition-colors">
+              <h2 className="font-display text-xl text-ink group-hover:text-signal transition-colors">
                 {article.title}
               </h2>
               <p className="text-sm text-ink-400 mt-2 line-clamp-2">{article.excerpt}</p>

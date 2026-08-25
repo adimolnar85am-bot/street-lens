@@ -39,7 +39,7 @@ export function MembershipCTA({
           {membership.homepageCards.map((tier) => (
             <div
               key={tier.price}
-              className="p-5 bg-cream rounded-lg border border-ink-200 text-left"
+              className="p-5 bg-white border border-line text-left"
             >
               <p className="font-display text-xl text-ink">{tier.price}</p>
               <p className="text-ink-400 text-xs mt-2 leading-relaxed">{tier.features}</p>
@@ -49,7 +49,7 @@ export function MembershipCTA({
 
         <Link
           href={localePath(locale, "/membership")}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-ink hover:bg-ink-800 text-cream font-medium rounded-sm transition-colors"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-scarlet hover:bg-scarlet-dark text-cream font-mono text-xs tracking-wide transition-colors"
         >
           {membership.learnMore}
           <ArrowRight className="w-4 h-4" />

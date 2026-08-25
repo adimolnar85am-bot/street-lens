@@ -6,16 +6,16 @@ type DeepStringify<T> = {
 
 const en: DeepStringify<typeof ro> = {
   meta: {
-    title: "ALT:FRAME — Street Photography Community",
+    title: "alt:frame — photography community from Bucharest",
     description:
-      "Street photography community. Coffee meetup, then a photo walk — contests, gallery, merch.",
-    ogHeadline: "The street is the studio.",
+      "A photography community from Bucharest. We meet for coffee, walk the city, and document together.",
+    ogHeadline: "we see the city. we share perspectives.",
     ogTagline:
-      "Coffee, photo walks, contests, and gallery — street photography together.",
+      "Photowalks, contests, and gallery — street photography together.",
   },
   brand: {
-    name: "ALT:FRAME",
-    tagline: "Street · City",
+    name: "alt:frame",
+    tagline: "see otherwise.",
   },
   nav: {
     community: "Community",
@@ -61,10 +61,10 @@ const en: DeepStringify<typeof ro> = {
     menu: "Menu",
   },
   hero: {
-    locationBadge: "Coffee · Walk",
+    locationBadge: "Bucharest",
     eyebrow: "photo community",
-    title1: "The street",
-    title2: "is the studio.",
+    title1: "we see the city.",
+    title2: "we share perspectives.",
     body: "We meet on Saturdays — organized over coffee, then head out for a themed photo walk. Numbered contests, a shared archive. Mirrorless, film, or phone: what you see matters more than what you carry.",
     ctaWalk: "Photowalk #1",
     ctaMap: "Frames from walks",
@@ -160,7 +160,7 @@ const en: DeepStringify<typeof ro> = {
     title: "Theme #1: Reflections",
     themeNumber: "#1",
     rulesLink: "Rules",
-    uploadSubject: "ALT:FRAME — Contest Theme #1",
+    uploadSubject: "alt:frame — Contest Theme #1",
     theme:
       "Any reflection — windows, puddles, mirrors, screens, evening light",
     prizeText: "Gallery feature + exclusive print",
@@ -178,7 +178,7 @@ const en: DeepStringify<typeof ro> = {
     analog: "Analog",
     phone: "Phone",
     series: "Series",
-    photographer: "ALT:FRAME",
+    photographer: "alt:frame",
   },
   contact: {
     email: "hello@altframe.ro",
@@ -188,7 +188,7 @@ const en: DeepStringify<typeof ro> = {
   about: {
     pageTitle: "About us",
     pageBody:
-      "ALT:FRAME is a street photography community — we meet for coffee, head out on the street, and document together.",
+      "alt:frame is a street photography community — we meet for coffee, head out on the street, and document together.",
     missionTitle: "Our mission",
     missionBody:
       "We believe the street is the best photo studio. Digital, analog, or phone — every format has a place. We build an active, accessible community with weekly outings, contests, and resources for all levels.",
@@ -207,10 +207,10 @@ const en: DeepStringify<typeof ro> = {
   contestRules: {
     pageTitle: "Contest rules",
     pageBody:
-      "Official rules for ALT:FRAME contests. The active theme is #1 — Reflections.",
+      "Official rules for alt:frame contests. The active theme is #1 — Reflections.",
     eligibilityTitle: "1. Eligibility",
     eligibilityBody:
-      "All ALT:FRAME community members may enter, any format (digital, analog, phone). The photo must be your own work and match the active theme.",
+      "All alt:frame community members may enter, any format (digital, analog, phone). The photo must be your own work and match the active theme.",
     submissionTitle: "2. Submission",
     submissionBody:
       "Submit one photo per theme at maximum resolution by email to hello@altframe.ro with subject “Contest Theme #X”. Include your name. The deadline is shown on the contest page.",
@@ -219,14 +219,14 @@ const en: DeepStringify<typeof ro> = {
       "The community jury evaluates composition, theme relevance, originality, and emotional impact. The jury’s decision is final.",
     prizesTitle: "4. Prizes",
     prizesBody:
-      "The winner receives a gallery feature, promotion on ALT:FRAME socials, and a numbered exclusive print. Prizes cannot be exchanged for cash.",
+      "The winner receives a gallery feature, promotion on alt:frame socials, and a numbered exclusive print. Prizes cannot be exchanged for cash.",
     copyrightTitle: "5. Copyright",
     copyrightBody:
-      "You keep copyright. By submitting, you grant ALT:FRAME the right to display the photo on the site and social media with credit. Third-party redistribution is prohibited.",
+      "You keep copyright. By submitting, you grant alt:frame the right to display the photo on the site and social media with credit. Third-party redistribution is prohibited.",
   },
   contestArchive: {
     pageTitle: "Winners archive",
-    pageBody: "Award-winning work from past ALT:FRAME contests.",
+    pageBody: "Award-winning work from past alt:frame contests.",
     emptyTitle: "First edition in progress",
     emptyBody:
       "Contest Theme #1 — Reflections — is active now. Winners will be published here after judging.",
@@ -246,7 +246,7 @@ const en: DeepStringify<typeof ro> = {
   },
   blog: {
     pageTitle: "Blog",
-    pageBody: "Articles, techniques, and stories from the ALT:FRAME community.",
+    pageBody: "Articles, techniques, and stories from the alt:frame community.",
     readMore: "Read article",
   },
   calendar: {
@@ -262,18 +262,18 @@ const en: DeepStringify<typeof ro> = {
   legal: {
     termsTitle: "Terms & conditions",
     termsUpdated: "Last updated: August 2026",
-    termsIntro: "By accessing ALT:FRAME, you accept the terms below.",
+    termsIntro: "By accessing alt:frame, you accept the terms below.",
     termsUseTitle: "Use of the site",
     termsUseBody:
       "Site content is for the street photography community. Automated scraping, bulk image copying, or activity that harms the platform is not allowed.",
     termsContentTitle: "Content and copyright",
     termsContentBody:
-      "Gallery photos belong to the ALT:FRAME community and are protected. Redistribution, downloading, or commercial use without written permission is prohibited.",
+      "Gallery photos belong to the alt:frame community and are protected. Redistribution, downloading, or commercial use without written permission is prohibited.",
     termsLiabilityTitle: "Limitation of liability",
     termsLiabilityBody:
-      "ALT:FRAME does not guarantee uninterrupted availability. We are not responsible for external links.",
+      "alt:frame does not guarantee uninterrupted availability. We are not responsible for external links.",
     privacyTitle: "Privacy policy",
-    privacyIntro: "We respect the privacy of ALT:FRAME community members.",
+    privacyIntro: "We respect the privacy of alt:frame community members.",
     privacyDataTitle: "Data collected",
     privacyDataBody:
       "We collect email only if you subscribe to the newsletter or contact us. We do not sell data to third parties.",
@@ -293,7 +293,7 @@ const en: DeepStringify<typeof ro> = {
     seePrints: "See prints",
     pageTitle: "Shop",
     pageBody:
-      "Official ALT:FRAME merch. Every purchase supports photowalks and the platform.",
+      "Official alt:frame merch. Every purchase supports photowalks and the platform.",
     addToCart: "Add to cart",
     printSectionTitle: "Limited edition prints",
     printSectionBody:
@@ -305,7 +305,7 @@ const en: DeepStringify<typeof ro> = {
     poster: "Community poster",
     catTees: "Tees",
     catPrint: "Print",
-    orderSubject: "ALT:FRAME order",
+    orderSubject: "alt:frame order",
     printPageTitle: "Limited edition prints",
     printPageBody:
       "Numbered editions from photowalks and the community gallery. Each print is signed.",
@@ -347,18 +347,18 @@ const en: DeepStringify<typeof ro> = {
     patronF3: "Workshop priority",
     patronF4: "25% merch discount",
     patronF5: "Your name on the site",
-    joinSubject: "ALT:FRAME — Membership",
+    joinSubject: "alt:frame — Membership",
   },
   footer: {
     about:
-      "Street photography community. We meet on Saturdays for coffee, then a photo walk — with themes we choose together.",
+      "A photography community from Bucharest. We see the city. We share perspectives.",
     community: "Community",
     photography: "Photography",
     newsletter: "Newsletter",
     newsletterBody: "Get the photowalk theme and community news.",
     emailPlaceholder: "email@example.com",
     copyright:
-      "© 2026 ALT:FRAME. Photos are protected — redistribution is prohibited.",
+      "© 2026 alt:frame. Photos are protected — redistribution is prohibited.",
     terms: "Terms",
     privacy: "Privacy",
   },
@@ -368,7 +368,7 @@ const en: DeepStringify<typeof ro> = {
     otherFormats: "Other formats",
     backToContests: "Back to contests",
     contactUs: "Contact us",
-    newsletterSubject: "ALT:FRAME — Newsletter",
+    newsletterSubject: "alt:frame — Newsletter",
   },
   articles: {
     digital1Title: "Ideal settings for digital street photography",

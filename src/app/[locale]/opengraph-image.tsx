@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
-import { BrandMark } from "@/lib/brand-mark";
 import { defaultOgPhoto, siteUrl } from "@/lib/site";
 
 export const runtime = "edge";
-export const alt = "ALT:FRAME";
+export const alt = "alt:frame";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +28,7 @@ export default async function OgImage({
           flexDirection: "column",
           justifyContent: "flex-end",
           position: "relative",
-          backgroundColor: "#171717",
+          backgroundColor: "#111111",
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -42,6 +41,7 @@ export default async function OgImage({
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            filter: "grayscale(100%) contrast(1.08) brightness(0.72)",
           }}
         />
         <div
@@ -49,7 +49,7 @@ export default async function OgImage({
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to top, rgba(23,23,23,0.95) 0%, rgba(23,23,23,0.4) 45%, rgba(23,23,23,0.15) 100%)",
+              "linear-gradient(to top, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.45) 45%, rgba(17,17,17,0.1) 100%)",
           }}
         />
         <div
@@ -58,46 +58,50 @@ export default async function OgImage({
             display: "flex",
             flexDirection: "column",
             padding: "56px 64px",
-            gap: "16px",
+            gap: "20px",
           }}
         >
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "20px",
+              alignItems: "baseline",
+              fontSize: 40,
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              color: "#F2EFE8",
             }}
           >
-            <BrandMark size={56} />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                color: "#f8f4ef",
-                fontSize: 36,
-                letterSpacing: "-0.03em",
-              }}
-            >
-              <span style={{ fontWeight: 400 }}>ALT</span>
-              <span style={{ fontWeight: 700 }}>:FRAME</span>
-            </div>
+            <span>alt</span>
+            <span style={{ color: "#FF2400" }}>:</span>
+            <span>frame</span>
           </div>
           <div
             style={{
-              fontSize: 64,
-              fontWeight: 800,
-              color: "#f8f4ef",
-              lineHeight: 0.95,
+              fontSize: 28,
+              fontStyle: "normal",
+              color: "#FF2400",
+              letterSpacing: "0",
+            }}
+          >
+            {dict.brand.tagline}
+          </div>
+          <div
+            style={{
+              fontSize: 56,
+              fontWeight: 700,
+              color: "#F2EFE8",
+              lineHeight: 1,
               letterSpacing: "-0.03em",
               maxWidth: 900,
+              textTransform: "uppercase",
             }}
           >
             {dict.meta.ogHeadline}
           </div>
           <div
             style={{
-              fontSize: 26,
-              color: "rgba(248,244,239,0.75)",
+              fontSize: 24,
+              color: "rgba(242,239,232,0.75)",
               maxWidth: 780,
               lineHeight: 1.35,
             }}

@@ -22,16 +22,16 @@ export default async function HartaPage({
 
   return (
     <div>
-      <div className="bg-ink-900 border-b border-ink-800 py-12">
+      <div className="bg-white border-b border-line py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.home}
           </Link>
-          <h1 className="font-display text-4xl lg:text-5xl text-cream">
+          <h1 className="font-display text-4xl lg:text-5xl text-ink">
             {dict.map.pageTitle}
           </h1>
         </div>

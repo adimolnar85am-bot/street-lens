@@ -17,13 +17,13 @@ export function GallerySection({
   const galleryPreview = getGalleryPreview(12);
 
   return (
-    <section className="py-20 lg:py-28 bg-ink">
+    <section className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-scarlet text-sm font-semibold tracking-widest uppercase mb-3">
             {dict.gallery.eyebrow}
           </p>
-          <h2 className="font-display text-3xl lg:text-5xl text-cream leading-tight mb-4">
+          <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight mb-4">
             {dict.gallery.title}
           </h2>
           <p className="text-ink-400 max-w-xl mx-auto text-sm">
@@ -52,7 +52,7 @@ export function GallerySection({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-cream font-medium text-sm">{photo.title}</p>
+                  <p className="text-ink font-medium text-sm">{photo.title}</p>
                   <p className="text-ink-300 text-xs">{photo.photographer}</p>
                 </div>
               </div>
@@ -63,7 +63,7 @@ export function GallerySection({
         <div className="text-center mt-12">
           <Link
             href={localePath(locale, "/galerie")}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-600 hover:border-cream text-cream text-sm font-medium rounded-sm transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-300 hover:border-cream text-ink text-sm font-medium rounded-sm transition-colors"
           >
             {dict.gallery.seeAll}
             <ArrowRight className="w-4 h-4" />
