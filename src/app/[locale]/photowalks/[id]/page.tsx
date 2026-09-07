@@ -44,18 +44,18 @@ export default async function PhotowalkDetailPage({ params }: Props) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
             <Link
               href={localePath(locale, "/photowalks")}
-              className="inline-flex items-center gap-2 text-ink-300 hover:text-cream text-sm mb-6 transition-colors"
+              className="inline-flex items-center gap-2 text-cream/70 hover:text-cream text-sm mb-6 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               {dict.photowalks.allWalks}
             </Link>
-            <span className="inline-block px-3 py-1 bg-signal/15 text-signal text-xs font-medium rounded-sm mb-3">
+            <span className="inline-block px-3 py-1 bg-scarlet/20 text-scarlet text-xs font-medium mb-3">
               {walk.theme}
             </span>
             <h1 className="font-display text-4xl lg:text-5xl text-cream mb-4">
               {walk.title}
             </h1>
-            <div className="flex flex-wrap gap-4 text-sm text-ink-300">
+            <div className="flex flex-wrap gap-4 text-sm text-cream/80">
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
                 {formatDate(walk.date)}
@@ -78,7 +78,7 @@ export default async function PhotowalkDetailPage({ params }: Props) {
           {walk.description}
         </p>
 
-        <h2 className="font-display text-2xl text-cream mb-6">
+        <h2 className="font-display text-2xl text-ink mb-6">
           {dict.photowalks.trailPhotos}
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
@@ -96,7 +96,7 @@ export default async function PhotowalkDetailPage({ params }: Props) {
               <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                 <p className="text-cream font-medium text-sm">{pin.title}</p>
-                <p className="text-ink-300 text-xs">{pin.photographer}</p>
+                <p className="text-cream/70 text-xs">{pin.photographer}</p>
               </div>
             </div>
           ))}

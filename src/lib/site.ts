@@ -1,13 +1,13 @@
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://street-lens-theta.vercel.app";
+  "https://alt-frame-theta.vercel.app";
 
-export const siteName = "Street Lens";
+export const siteName = "alt:frame";
 
 export const social = {
-  instagram: "https://instagram.com/streetlens.ro",
-  youtube: "https://youtube.com/@streetlens",
-  email: "hello@streetlens.ro",
+  instagram: "https://instagram.com/altframe.ro",
+  youtube: "https://youtube.com/@altframe",
+  email: "hello@altframe.ro",
 } as const;
 
 /** Default OG share photo (landscape from hero set) */

@@ -18,7 +18,7 @@ const MapContainer = dynamic(
 function MapLoading() {
   const { dict } = useLocale();
   return (
-    <div className="w-full h-full bg-ink-900 flex items-center justify-center">
+    <div className="w-full h-full bg-white flex items-center justify-center">
       <p className="text-ink-400 text-sm">{dict.map.loading}</p>
     </div>
   );
@@ -37,7 +37,7 @@ export function PhotowalkMap({ walks }: { walks: Photowalk[] }) {
     <section className="py-20 lg:py-28 bg-warm section-accent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-scarlet text-sm font-semibold tracking-widest uppercase mb-3">
             {dict.map.eyebrow}
           </p>
           <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight mb-4">
@@ -59,7 +59,7 @@ export function PhotowalkMap({ walks }: { walks: Photowalk[] }) {
               className={cn(
                 "px-4 py-2 text-sm rounded-full border transition-colors",
                 selectedWalk === w.id
-                  ? "bg-ink text-cream border-ink"
+                  ? "bg-warm text-ink border-ink"
                   : "bg-cream text-ink-600 border-ink-200 hover:border-ink-400"
               )}
             >
@@ -82,7 +82,7 @@ export function PhotowalkMap({ walks }: { walks: Photowalk[] }) {
             <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-80 bg-cream rounded-lg shadow-2xl overflow-hidden animate-fade-in z-[1000]">
               <button
                 onClick={() => setSelectedPin(null)}
-                className="absolute top-3 right-3 z-10 w-8 h-8 bg-ink/80 rounded-full flex items-center justify-center text-cream hover:bg-ink transition-colors"
+                className="absolute top-3 right-3 z-10 w-8 h-8 bg-warm/80 rounded-full flex items-center justify-center text-ink hover:bg-warm transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>

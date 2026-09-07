@@ -62,8 +62,8 @@ export default async function MagazinPage({
             ))}
           </div>
 
-          <div className="mt-20 p-10 lg:p-16 bg-ink rounded-2xl text-center">
-            <h2 className="font-display text-3xl text-cream mb-4">
+          <div className="mt-20 p-10 lg:p-16 bg-warm rounded-2xl text-center">
+            <h2 className="font-display text-3xl text-ink mb-4">
               {shop.printSectionTitle}
             </h2>
             <p className="text-ink-400 max-w-lg mx-auto mb-8">
@@ -77,7 +77,7 @@ export default async function MagazinPage({
             </a>
             <Link
               href={localePath(locale, "/magazin/print")}
-              className="ml-4 inline-block px-6 py-3 text-cream/70 hover:text-cream text-sm font-medium transition-colors"
+              className="ml-4 inline-block px-6 py-3 text-ink/70 hover:text-ink text-sm font-medium transition-colors"
             >
               {shop.sectionSeePrints}
             </Link>

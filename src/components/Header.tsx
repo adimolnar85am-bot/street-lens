@@ -18,7 +18,7 @@ function LanguageSwitcher() {
   return (
     <Link
       href={switchLocalePath(pathname ?? "/", otherLocale)}
-      className="px-2.5 sm:px-3 py-1.5 text-xs font-bold tracking-wider border border-ink-600 hover:border-signal text-cream/70 hover:text-signal rounded-sm transition-colors shrink-0"
+      className="px-2.5 sm:px-3 py-1.5 font-mono text-xs tracking-wider border border-line hover:border-scarlet text-ink/70 hover:text-scarlet transition-colors shrink-0"
       aria-label={dict.lang.switchTo}
     >
       {dict.lang[otherLocale]}
@@ -37,8 +37,8 @@ export function Header() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-ink-800">
-      <div className="h-0.5 bg-signal/40" />
+    <header className="sticky top-0 z-50 bg-warm/95 backdrop-blur-md border-b border-line">
+      <div className="h-px bg-line" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-2 sm:gap-4 h-16 lg:h-20">
           <Link
@@ -58,8 +58,8 @@ export function Header() {
               >
                 <button
                   className={cn(
-                    "flex items-center gap-1 px-4 py-2 text-sm font-semibold text-cream/80 hover:text-signal transition-colors rounded-md",
-                    openDropdown === item.label && "text-signal bg-ink-800"
+                    "flex items-center gap-1 px-4 py-2 font-mono text-xs tracking-wide text-ink/80 hover:text-scarlet transition-colors",
+                    openDropdown === item.label && "text-scarlet"
                   )}
                 >
                   {item.label}
@@ -73,15 +73,15 @@ export function Header() {
 
                 {item.children && openDropdown === item.label && (
                   <div className="absolute top-full left-0 pt-2 w-72 animate-fade-in">
-                    <div className="bg-ink-900 border border-ink-700 rounded-lg shadow-2xl overflow-hidden">
-                      <div className="h-0.5 bg-signal/50" />
+                    <div className="bg-white border border-line overflow-hidden">
+                      <div className="h-px bg-line" />
                       {item.children.map((child) => (
                         <Link
                           key={child.label}
                           href={child.href || "#"}
-                          className="block px-5 py-4 hover:bg-ink-800 transition-colors border-b border-ink-800 last:border-0 group"
+                          className="block px-5 py-4 hover:bg-warm transition-colors border-b border-line last:border-0 group"
                         >
-                          <span className="block text-sm font-semibold text-cream group-hover:text-signal transition-colors">
+                          <span className="block text-sm font-semibold text-ink group-hover:text-signal transition-colors">
                             {child.label}
                           </span>
                           {child.description && (
@@ -102,13 +102,13 @@ export function Header() {
             <LanguageSwitcher />
             <Link
               href={localePath(locale, "/photowalks")}
-              className="text-sm font-semibold text-cream/70 hover:text-signal transition-colors"
+              className="font-mono text-xs text-ink/70 hover:text-scarlet transition-colors"
             >
               {dict.nav.nextWalk}
             </Link>
             <Link
               href={localePath(locale, "/membership")}
-              className="px-5 py-2.5 bg-signal hover:bg-signal-light text-ink text-sm font-bold rounded-sm transition-colors"
+              className="px-5 py-2.5 bg-scarlet hover:bg-scarlet-dark text-cream font-mono text-xs tracking-wide transition-colors"
             >
               {dict.nav.join}
             </Link>
@@ -117,7 +117,7 @@ export function Header() {
           <div className="flex lg:hidden items-center gap-2 shrink-0">
             <LanguageSwitcher />
             <button
-              className="p-2 -mr-1 text-cream"
+              className="p-2 -mr-1 text-ink"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={dict.nav.menu}
             >
@@ -128,12 +128,12 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-ink-900 border-t border-ink-800 max-h-[80vh] overflow-y-auto">
+        <div className="lg:hidden bg-white border-t border-line max-h-[80vh] overflow-y-auto">
           <div className="px-4 py-4 space-y-1">
             {navigation.map((item) => (
               <div key={item.label}>
                 <button
-                  className="flex items-center justify-between w-full px-4 py-3 text-cream font-medium"
+                  className="flex items-center justify-between w-full px-4 py-3 text-ink font-medium"
                   onClick={() =>
                     setMobileExpanded(
                       mobileExpanded === item.label ? null : item.label
@@ -154,7 +154,7 @@ export function Header() {
                       <Link
                         key={child.label}
                         href={child.href || "#"}
-                        className="block px-4 py-2.5 text-sm text-ink-300 hover:text-cream hover:bg-ink-800 rounded-md"
+                        className="block px-4 py-2.5 text-sm text-ink-300 hover:text-ink hover:bg-warm rounded-md"
                         onClick={() => setMobileOpen(false)}
                       >
                         {child.label}
@@ -167,7 +167,7 @@ export function Header() {
             <div className="pt-4 px-4">
               <Link
                 href={localePath(locale, "/membership")}
-                className="block w-full text-center px-5 py-3 bg-signal text-ink font-bold rounded-sm"
+                className="block w-full text-center px-5 py-3 bg-scarlet text-cream font-mono text-xs tracking-wide"
                 onClick={() => setMobileOpen(false)}
               >
                 {dict.nav.joinCommunity}
@@ -201,7 +201,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-ink border-t border-ink-800">
+    <footer className="bg-warm border-t border-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
@@ -214,7 +214,7 @@ export function Footer() {
                 href={dict.contact.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ink-400 hover:text-cream transition-colors"
+                className="text-ink-400 hover:text-ink transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
@@ -223,7 +223,7 @@ export function Footer() {
                 href={dict.contact.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ink-400 hover:text-cream transition-colors"
+                className="text-ink-400 hover:text-ink transition-colors"
                 aria-label="YouTube"
               >
                 <Youtube className="w-5 h-5" />
@@ -232,13 +232,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-cream font-medium mb-4">{dict.footer.community}</h4>
+            <h4 className="text-ink font-medium mb-4">{dict.footer.community}</h4>
             <ul className="space-y-2">
               {communityLinks.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-sm text-ink-400 hover:text-cream transition-colors"
+                    className="text-sm text-ink-400 hover:text-ink transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -248,13 +248,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-cream font-medium mb-4">{dict.footer.photography}</h4>
+            <h4 className="text-ink font-medium mb-4">{dict.footer.photography}</h4>
             <ul className="space-y-2">
               {photoLinks.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-sm text-ink-400 hover:text-cream transition-colors"
+                    className="text-sm text-ink-400 hover:text-ink transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -264,7 +264,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-cream font-medium mb-4">{content.newsletter.title}</h4>
+            <h4 className="text-ink font-medium mb-4">{content.newsletter.title}</h4>
             <p className="text-sm text-ink-400 mb-4">{content.newsletter.body}</p>
             <form
               className="flex gap-2"
@@ -276,7 +276,7 @@ export function Footer() {
                 type="email"
                 name="email"
                 placeholder={content.newsletter.emailPlaceholder}
-                className="flex-1 px-4 py-2.5 bg-ink-800 border border-ink-700 rounded-sm text-sm text-cream placeholder:text-ink-500 focus:outline-none focus:border-signal"
+                className="flex-1 px-4 py-2.5 bg-warm border border-line rounded-sm text-sm text-ink placeholder:text-ink-500 focus:outline-none focus:border-signal"
               />
               <button
                 type="submit"
@@ -288,24 +288,24 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-ink-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t border-line flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-ink-500">{dict.footer.copyright}</p>
           <div className="flex gap-6 text-xs text-ink-500">
             <Link
               href={localePath(locale, "/termeni")}
-              className="hover:text-cream transition-colors"
+              className="hover:text-ink transition-colors"
             >
               {dict.footer.terms}
             </Link>
             <Link
               href={localePath(locale, "/confidentialitate")}
-              className="hover:text-cream transition-colors"
+              className="hover:text-ink transition-colors"
             >
               {dict.footer.privacy}
             </Link>
             <Link
               href={localePath(locale, "/membership")}
-              className="hover:text-cream transition-colors"
+              className="hover:text-ink transition-colors"
             >
               {dict.nav.membership}
             </Link>

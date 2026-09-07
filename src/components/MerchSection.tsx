@@ -28,7 +28,7 @@ export function MerchSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
           <div>
-            <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+            <p className="text-scarlet text-sm font-semibold tracking-widest uppercase mb-3">
               {shop.sectionEyebrow}
             </p>
             <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight">
@@ -56,13 +56,13 @@ export function MerchSection({
           ))}
         </div>
 
-        <div className="mt-12 p-8 lg:p-12 bg-ink rounded-xl flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div className="mt-12 p-8 lg:p-12 bg-warm rounded-xl flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-signal/20 rounded-lg flex items-center justify-center">
-              <ShoppingBag className="w-7 h-7 text-signal/80" />
+              <ShoppingBag className="w-7 h-7 text-scarlet" />
             </div>
             <div>
-              <h3 className="font-display text-xl text-cream">{shop.sectionPrintTitle}</h3>
+              <h3 className="font-display text-xl text-ink">{shop.sectionPrintTitle}</h3>
               <p className="text-ink-400 text-sm mt-1">{shop.sectionPrintBody}</p>
             </div>
           </div>

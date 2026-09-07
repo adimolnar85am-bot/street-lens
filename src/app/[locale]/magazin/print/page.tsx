@@ -49,7 +49,7 @@ export default async function PrintPage({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {printItems.map((item) => (
               <div key={item.id} className="group">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-ink-100 mb-4">
+                <div className="relative aspect-square rounded-xl overflow-hidden bg-warm-100 mb-4">
                   <ProtectedImage
                     src={item.image}
                     alt={item.name}
@@ -61,7 +61,7 @@ export default async function PrintPage({
                 <p className="text-ink-700 font-display text-xl mt-2">{item.price} RON</p>
                 <a
                   href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(item.name)}`}
-                  className="mt-4 inline-block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
+                  className="mt-4 inline-block w-full py-2.5 bg-warm hover:bg-warm text-ink text-sm font-medium rounded-sm transition-colors text-center"
                 >
                   {shop.addToCart}
                 </a>
@@ -69,7 +69,7 @@ export default async function PrintPage({
             ))}
           </div>
 
-          <div className="mt-16 p-10 bg-ink rounded-2xl text-center">
+          <div className="mt-16 p-10 bg-warm rounded-2xl text-center">
             <p className="text-ink-400 max-w-lg mx-auto mb-6">{shop.printSectionBody}</p>
             <a
               href={`mailto:${contactEmail}?subject=${encodeURIComponent(shop.orderSubject)}&body=${encodeURIComponent(shop.customPrint)}`}

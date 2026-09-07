@@ -21,18 +21,18 @@ export default async function RegulamentPage({
 
   return (
     <div>
-      <div className="bg-ink-900 border-b border-ink-800 py-16 lg:py-24">
+      <div className="bg-white border-b border-line py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/concursuri")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.backToContests}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <FileText className="w-8 h-8 text-signal/80" />
-            <h1 className="font-display text-4xl lg:text-5xl text-cream">
+            <FileText className="w-8 h-8 text-scarlet" />
+            <h1 className="font-display text-4xl lg:text-5xl text-ink">
               {rules.pageTitle}
             </h1>
           </div>
@@ -43,7 +43,7 @@ export default async function RegulamentPage({
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
         {rules.sections.map((section) => (
           <section key={section.title}>
-            <h2 className="font-display text-xl text-cream mb-3">{section.title}</h2>
+            <h2 className="font-display text-xl text-ink mb-3">{section.title}</h2>
             <p className="text-ink-300 leading-relaxed">{section.body}</p>
           </section>
         ))}

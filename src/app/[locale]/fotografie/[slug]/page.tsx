@@ -43,12 +43,12 @@ export default async function FotografiePage({ params }: Props) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
             <Link
               href={localePath(locale, "/")}
-              className="inline-flex items-center gap-2 text-ink-300 hover:text-cream text-sm mb-6 transition-colors"
+              className="inline-flex items-center gap-2 text-cream/70 hover:text-cream text-sm mb-6 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               {dict.common.home}
             </Link>
-            <p className="text-signal/80 text-sm tracking-widest uppercase mb-2">
+            <p className="text-scarlet text-sm tracking-widest uppercase mb-2">
               {category.tagline}
             </p>
             <h1 className="font-display text-4xl lg:text-6xl text-cream">
@@ -63,14 +63,14 @@ export default async function FotografiePage({ params }: Props) {
           {category.description}
         </p>
 
-        <h2 className="font-display text-2xl lg:text-3xl text-cream mb-8">
+        <h2 className="font-display text-2xl lg:text-3xl text-ink mb-8">
           {dict.common.articles}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           {category.articles.map((article) => (
             <article
               key={article.title}
-              className="group bg-ink-900 rounded-xl overflow-hidden border border-ink-800 hover:border-ink-600 transition-colors"
+              className="group bg-white rounded-xl overflow-hidden border border-line hover:border-ink-300 transition-colors"
             >
               <div className="relative aspect-[16/10]">
                 <ProtectedImage
@@ -84,7 +84,7 @@ export default async function FotografiePage({ params }: Props) {
                 <time className="text-xs text-ink-400">
                   {formatDate(article.date)}
                 </time>
-                <h3 className="font-display text-xl text-cream mt-2 group-hover:text-signal/80 transition-colors">
+                <h3 className="font-display text-xl text-ink mt-2 group-hover:text-scarlet transition-colors">
                   {article.title}
                 </h3>
                 <p className="text-ink-400 text-sm mt-2 leading-relaxed">
@@ -95,7 +95,7 @@ export default async function FotografiePage({ params }: Props) {
           ))}
         </div>
 
-        <h2 className="font-display text-2xl text-cream mb-6">
+        <h2 className="font-display text-2xl text-ink mb-6">
           {dict.common.otherFormats}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -103,7 +103,7 @@ export default async function FotografiePage({ params }: Props) {
             <Link
               key={cat.id}
               href={localePath(locale, `/fotografie/${cat.slug}`)}
-              className="flex items-center gap-4 p-4 bg-ink-900 rounded-lg border border-ink-800 hover:border-ink-600 transition-colors group"
+              className="flex items-center gap-4 p-4 bg-white rounded-lg border border-line hover:border-ink-300 transition-colors group"
             >
               <div className="relative w-16 h-20 rounded-md overflow-hidden flex-shrink-0">
                 <ProtectedImage
@@ -114,12 +114,12 @@ export default async function FotografiePage({ params }: Props) {
                 />
               </div>
               <div>
-                <h3 className="text-cream font-medium group-hover:text-signal/80 transition-colors">
+                <h3 className="text-ink font-medium group-hover:text-scarlet transition-colors">
                   {cat.title}
                 </h3>
                 <p className="text-ink-400 text-xs mt-1">{cat.tagline}</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-ink-500 ml-auto group-hover:text-signal/80 group-hover:translate-x-1 transition-all" />
+              <ArrowRight className="w-4 h-4 text-ink-500 ml-auto group-hover:text-scarlet group-hover:translate-x-1 transition-all" />
             </Link>
           ))}
         </div>

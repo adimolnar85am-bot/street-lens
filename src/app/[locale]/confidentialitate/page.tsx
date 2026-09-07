@@ -23,17 +23,17 @@ export default async function ConfidentialitatePage({
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
       <Link
         href={localePath(locale, "/")}
-        className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+        className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         {dict.common.home}
       </Link>
-      <h1 className="font-display text-4xl text-cream mb-10">{privacy.pageTitle}</h1>
+      <h1 className="font-display text-4xl text-ink mb-10">{privacy.pageTitle}</h1>
       <p className="text-ink-300 leading-relaxed mb-10">{privacy.intro}</p>
       <div className="space-y-8">
         {privacy.sections.map((s) => (
           <section key={s.title}>
-            <h2 className="font-display text-xl text-cream mb-3">{s.title}</h2>
+            <h2 className="font-display text-xl text-ink mb-3">{s.title}</h2>
             <p className="text-ink-300 leading-relaxed">{s.body}</p>
           </section>
         ))}

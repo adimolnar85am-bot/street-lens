@@ -22,14 +22,14 @@ export function MerchPreviewCard({
 
   return (
     <Link href={localePath(locale, "/magazin")} className="group">
-      <div className="relative aspect-square rounded-lg overflow-hidden bg-ink-100 mb-3">
+      <div className="relative aspect-square rounded-lg overflow-hidden bg-warm-100 mb-3">
         <ProtectedImage
           src={item.image}
           alt={item.name}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors" />
+        <div className="absolute inset-0 bg-warm/0 group-hover:bg-warm/10 transition-colors" />
       </div>
       <p className="text-xs text-ink-400 uppercase tracking-wider">{item.category}</p>
       <h3 className="text-ink font-medium text-sm mt-1 group-hover:text-signal transition-colors">

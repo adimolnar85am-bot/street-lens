@@ -1,22 +1,40 @@
 import type { Metadata, Viewport } from "next";
-import { Urbanist } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  Instrument_Sans,
+  Instrument_Serif,
+} from "next/font/google";
 import { CopyrightProtection } from "@/components/CopyrightProtection";
 import { PwaRegister } from "@/components/PwaRegister";
 import "./globals.css";
 
-const urbanist = Urbanist({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-urbanist",
+  variable: "--font-instrument-sans",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+  weight: ["400"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  applicationName: "streetlens",
+  applicationName: "alt:frame",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
-    title: "streetlens",
+    statusBarStyle: "default",
+    title: "alt:frame",
   },
   formatDetection: {
     telephone: false,
@@ -41,8 +59,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  colorScheme: "dark",
+  themeColor: "#F2EFE8",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -51,8 +69,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ro" className={urbanist.variable} suppressHydrationWarning>
-      <body className={`${urbanist.className} bg-ink text-cream antialiased`}>
+    <html
+      lang="ro"
+      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body
+        className={`${instrumentSans.className} bg-warm text-ink antialiased`}
+      >
         <PwaRegister />
         <CopyrightProtection />
         {children}

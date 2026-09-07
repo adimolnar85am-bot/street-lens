@@ -57,13 +57,13 @@ export default async function MembershipPage({
                 key={tier.name}
                 className={`rounded-2xl p-8 ${
                   tier.highlighted
-                    ? "bg-ink text-cream ring-2 ring-signal/40 scale-105 shadow-2xl"
+                    ? "bg-warm text-ink ring-2 ring-signal/40 scale-105 shadow-2xl"
                     : "bg-cream border border-ink-200"
                 }`}
               >
                 <h2
                   className={`font-display text-2xl ${
-                    tier.highlighted ? "text-cream" : "text-ink"
+                    tier.highlighted ? "text-ink" : "text-ink"
                   }`}
                 >
                   {tier.name}
@@ -71,7 +71,7 @@ export default async function MembershipPage({
                 <div className="mt-4 mb-6">
                   <span
                     className={`font-display text-4xl ${
-                      tier.highlighted ? "text-cream" : "text-ink"
+                      tier.highlighted ? "text-ink" : "text-ink"
                     }`}
                   >
                     {tier.price}
@@ -89,7 +89,7 @@ export default async function MembershipPage({
                     <li key={feature} className="flex items-start gap-3">
                       <Check
                         className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                          tier.highlighted ? "text-signal/80" : "text-signal"
+                          tier.highlighted ? "text-scarlet" : "text-signal"
                         }`}
                       />
                       <span
@@ -108,14 +108,14 @@ export default async function MembershipPage({
                     className={`block w-full py-3 text-sm font-bold rounded-sm transition-colors text-center ${
                       tier.highlighted
                         ? "bg-signal hover:bg-signal-light text-ink"
-                        : "bg-ink hover:bg-ink-800 text-cream"
+                        : "bg-warm hover:bg-warm text-ink"
                     }`}
                   >
                     {tier.cta}
                   </a>
                 ) : (
                   <button
-                    className="w-full py-3 text-sm font-bold rounded-sm bg-ink-100 text-ink-500 cursor-default"
+                    className="w-full py-3 text-sm font-bold rounded-sm bg-warm-100 text-ink-500 cursor-default"
                     disabled
                   >
                     {tier.cta}

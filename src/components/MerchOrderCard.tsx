@@ -67,7 +67,7 @@ export function MerchOrderCard({
 
   return (
     <div className={cn("group", className)}>
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-ink-100 mb-4">
+      <div className="relative aspect-square rounded-xl overflow-hidden bg-warm-100 mb-4">
         <ProtectedImage
           src={item.image}
           alt={item.name}
@@ -94,7 +94,7 @@ export function MerchOrderCard({
                   className={cn(
                     "min-w-[2.25rem] px-2.5 py-1.5 text-xs font-medium rounded-sm border transition-colors",
                     selectedSize === size
-                      ? "bg-ink text-cream border-ink"
+                      ? "bg-warm text-ink border-ink"
                       : "bg-cream text-ink-600 border-ink-200 hover:border-ink-400"
                   )}
                 >
@@ -115,7 +115,7 @@ export function MerchOrderCard({
       {canOrder && mailtoHref ? (
         <a
           href={mailtoHref}
-          className="mt-4 block w-full py-2.5 bg-ink hover:bg-ink-800 text-cream text-sm font-medium rounded-sm transition-colors text-center"
+          className="mt-4 block w-full py-2.5 bg-warm hover:bg-warm text-ink text-sm font-medium rounded-sm transition-colors text-center"
         >
           {addToCartLabel}
         </a>
@@ -123,7 +123,7 @@ export function MerchOrderCard({
         <button
           type="button"
           disabled
-          className="mt-4 block w-full py-2.5 bg-ink-200 text-ink-400 text-sm font-medium rounded-sm cursor-not-allowed text-center"
+          className="mt-4 block w-full py-2.5 bg-warm-200 text-ink-400 text-sm font-medium rounded-sm cursor-not-allowed text-center"
         >
           {addToCartLabel}
         </button>

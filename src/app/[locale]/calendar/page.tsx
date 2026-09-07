@@ -64,11 +64,11 @@ export default async function CalendarPage({
               </Link>
             </div>
 
-            <div className="p-6 bg-ink rounded-xl">
-              <p className="text-xs text-signal/70 font-semibold uppercase tracking-wider mb-2">
+            <div className="p-6 bg-warm rounded-xl">
+              <p className="text-xs text-scarlet font-semibold uppercase tracking-wider mb-2">
                 {dict.calendar.contestDeadline}
               </p>
-              <h3 className="font-display text-xl text-cream mb-2">{contest.title}</h3>
+              <h3 className="font-display text-xl text-ink mb-2">{contest.title}</h3>
               <p className="text-sm text-ink-400 flex items-center gap-2 mb-4">
                 <Trophy className="w-4 h-4" />
                 {dict.contest.deadline}: {formatDate(contest.deadline)}

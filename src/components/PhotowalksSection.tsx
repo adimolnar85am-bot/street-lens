@@ -18,14 +18,14 @@ export function PhotowalksSection({
   const latest = photowalks[0];
 
   return (
-    <section className="py-20 lg:py-28 bg-ink">
+    <section className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+            <p className="text-scarlet text-sm font-semibold tracking-widest uppercase mb-3">
               {dict.photowalks.eyebrow}
             </p>
-            <h2 className="font-display text-3xl lg:text-5xl text-cream leading-tight mb-6">
+            <h2 className="font-display text-3xl lg:text-5xl text-ink leading-tight mb-6">
               {dict.photowalks.title1}
               <br />
               {dict.photowalks.title2}
@@ -37,7 +37,7 @@ export function PhotowalksSection({
                 <Link
                   key={walk.id}
                   href={localePath(locale, `/photowalks/${walk.id}`)}
-                  className="flex items-center gap-4 p-4 rounded-lg bg-ink-900 border border-ink-800 hover:border-ink-600 transition-colors group"
+                  className="flex items-center gap-4 p-4 rounded-lg bg-white border border-line hover:border-ink-300 transition-colors group"
                 >
                   <div className="relative w-20 h-14 rounded-md overflow-hidden flex-shrink-0">
                     <ProtectedImage
@@ -48,21 +48,21 @@ export function PhotowalksSection({
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-cream font-medium text-sm truncate group-hover:text-signal/80 transition-colors">
+                    <p className="text-ink font-medium text-sm truncate group-hover:text-scarlet transition-colors">
                       {walk.title}
                     </p>
                     <p className="text-ink-400 text-xs mt-1">
                       {formatDate(walk.date)} · {walk.theme}
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-ink-500 group-hover:text-signal/80 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  <ArrowRight className="w-4 h-4 text-ink-500 group-hover:text-scarlet group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </Link>
               ))}
             </div>
 
             <Link
               href={localePath(locale, "/photowalks")}
-              className="inline-flex items-center gap-2 text-signal/80 hover:text-cream text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-scarlet hover:text-ink text-sm font-medium transition-colors"
             >
               {dict.photowalks.seeAll}
               <ArrowRight className="w-4 h-4" />
@@ -83,7 +83,7 @@ export function PhotowalksSection({
                   {dict.photowalks.nextWalk}
                 </span>
                 <h3 className="font-display text-2xl text-cream mb-2">{latest.theme}</h3>
-                <div className="flex items-center gap-4 text-sm text-ink-300">
+                <div className="flex items-center gap-4 text-sm text-cream/80">
                   <span className="flex items-center gap-1">
                     <Coffee className="w-4 h-4" />
                     {dict.photowalks.meetupFormat}
@@ -96,11 +96,11 @@ export function PhotowalksSection({
               </div>
             </div>
 
-            <div className="absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 bg-ink-900 border border-ink-700 rounded-lg p-4 shadow-2xl">
+            <div className="absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 bg-white border border-line rounded-lg p-4 shadow-2xl">
               <p className="text-ink-400 text-xs uppercase tracking-wider mb-1">
                 {dict.photowalks.pinsOnMap}
               </p>
-              <p className="text-3xl font-display text-cream">{latest.pins.length}+</p>
+              <p className="text-3xl font-display text-ink">{latest.pins.length}+</p>
               <p className="text-ink-400 text-xs">{dict.photowalks.photosDocumented}</p>
             </div>
           </div>

@@ -23,16 +23,16 @@ export default async function GaleriePage({
 
   return (
     <div>
-      <div className="bg-ink-900 border-b border-ink-800 py-16 lg:py-24">
+      <div className="bg-white border-b border-line py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.home}
           </Link>
-          <h1 className="font-display text-4xl lg:text-6xl text-cream mb-4">
+          <h1 className="font-display text-4xl lg:text-6xl text-ink mb-4">
             {dict.gallery.pageTitle}
           </h1>
           <p className="text-ink-300 max-w-2xl leading-relaxed">

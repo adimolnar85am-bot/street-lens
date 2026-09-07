@@ -26,18 +26,18 @@ export default async function ConcursuriPage({
 
   return (
     <div>
-      <div className="bg-ink-900 border-b border-ink-800 py-16 lg:py-24">
+      <div className="bg-white border-b border-line py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href={localePath(locale, "/")}
-            className="inline-flex items-center gap-2 text-ink-400 hover:text-cream text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-400 hover:text-ink text-sm mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {dict.common.home}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <Trophy className="w-8 h-8 text-signal/80" />
-            <h1 className="font-display text-4xl lg:text-6xl text-cream">
+            <Trophy className="w-8 h-8 text-scarlet" />
+            <h1 className="font-display text-4xl lg:text-6xl text-ink">
               {dict.contest.pageTitle}
             </h1>
           </div>
@@ -62,27 +62,27 @@ export default async function ConcursuriPage({
             <span className="inline-block px-3 py-1 bg-signal/15 text-signal text-xs font-medium rounded-sm mb-4">
               {dict.contest.active}
             </span>
-            <h2 className="font-display text-3xl lg:text-4xl text-cream mb-4">
+            <h2 className="font-display text-3xl lg:text-4xl text-ink mb-4">
               {activeContest.title}
             </h2>
             <p className="text-ink-300 leading-relaxed mb-8">{activeContest.theme}</p>
 
             <dl className="space-y-4 mb-8">
-              <div className="flex justify-between py-3 border-b border-ink-800">
+              <div className="flex justify-between py-3 border-b border-line">
                 <dt className="text-ink-400 text-sm">{dict.contest.deadline}</dt>
-                <dd className="text-cream text-sm font-medium">
+                <dd className="text-ink text-sm font-medium">
                   {formatDate(activeContest.deadline)}
                 </dd>
               </div>
-              <div className="flex justify-between py-3 border-b border-ink-800">
+              <div className="flex justify-between py-3 border-b border-line">
                 <dt className="text-ink-400 text-sm">{dict.contest.received}</dt>
-                <dd className="text-cream text-sm font-medium">
+                <dd className="text-ink text-sm font-medium">
                   {activeContest.submissions}
                 </dd>
               </div>
-              <div className="flex justify-between py-3 border-b border-ink-800">
+              <div className="flex justify-between py-3 border-b border-line">
                 <dt className="text-ink-400 text-sm">{dict.contest.prize}</dt>
-                <dd className="text-cream text-sm font-medium">
+                <dd className="text-ink text-sm font-medium">
                   {activeContest.prize}
                 </dd>
               </div>
@@ -98,7 +98,7 @@ export default async function ConcursuriPage({
               </a>
               <Link
                 href={localePath(locale, "/concursuri/regulament")}
-                className="inline-flex items-center gap-2 px-6 py-4 text-cream/70 hover:text-cream text-sm font-medium transition-colors justify-center"
+                className="inline-flex items-center gap-2 px-6 py-4 text-ink/70 hover:text-ink text-sm font-medium transition-colors justify-center"
               >
                 {dict.contest.rulesLink}
               </Link>

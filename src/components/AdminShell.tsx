@@ -28,7 +28,7 @@ export function AdminNav({
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
             <p className="text-xs text-signal/80 font-semibold tracking-widest uppercase">
-              Admin Street Lens
+              Admin alt:frame
             </p>
             <h1 className="font-display text-2xl">{title}</h1>
             {subtitle ? (

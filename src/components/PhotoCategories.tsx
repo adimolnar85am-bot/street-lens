@@ -31,7 +31,7 @@ export function PhotoCategories({
     <section className="py-16 sm:py-20 lg:py-28 bg-cream section-accent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-8 sm:mb-12 lg:mb-16">
-          <p className="text-signal/70 text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="text-scarlet text-sm font-semibold tracking-widest uppercase mb-3">
             {dict.formats.eyebrow}
           </p>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-5xl text-ink leading-tight mb-3 sm:mb-4">
@@ -49,7 +49,7 @@ export function PhotoCategories({
               <Link
                 key={cat.id}
                 href={localePath(locale, `/fotografie/${cat.slug}`)}
-                className="group relative overflow-hidden rounded-md sm:rounded-lg bg-ink aspect-[3/5] sm:aspect-[3/4] lg:aspect-[4/5] min-w-0"
+                className="group relative overflow-hidden rounded-md sm:rounded-lg bg-warm aspect-[3/5] sm:aspect-[3/4] lg:aspect-[4/5] min-w-0"
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <ProtectedImage
@@ -68,17 +68,17 @@ export function PhotoCategories({
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-6 lg:p-8">
-                  <p className="hidden sm:block text-signal/80 text-xs tracking-widest uppercase mb-2">
+                  <p className="hidden sm:block text-scarlet text-xs tracking-widest uppercase mb-2">
                     {cat.tagline}
                   </p>
                   <h3 className="font-display text-xs leading-snug sm:text-2xl lg:text-3xl text-cream mb-1 sm:mb-3">
                     <span className="sm:hidden">{shortTitles(dict, cat.id)}</span>
                     <span className="hidden sm:inline">{cat.title}</span>
                   </h3>
-                  <p className="hidden lg:block text-ink-300 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="hidden lg:block text-cream/80 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {cat.description}
                   </p>
-                  <span className="hidden sm:inline-flex items-center gap-2 text-cream text-sm font-medium group-hover:text-signal/80 transition-colors">
+                  <span className="hidden sm:inline-flex items-center gap-2 text-cream text-sm font-medium group-hover:text-scarlet transition-colors">
                     {dict.formats.explore}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
