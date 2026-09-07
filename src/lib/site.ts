@@ -1,6 +1,6 @@
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://alt-frame-theta.vercel.app";
+  "https://street-lens-theta.vercel.app";
 
 export const siteName = "alt:frame";
 
