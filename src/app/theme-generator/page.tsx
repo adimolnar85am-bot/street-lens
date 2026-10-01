@@ -86,14 +86,33 @@ SEE OTHERWISE.`;
             alt<span className="text-[#ff2400]">:</span>frame
           </div>
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
-            START HERE
+            START HERE / 03 OCT 2026
           </div>
         </header>
+
+        <div className="grid grid-cols-2 gap-px border-x border-b border-black/15 bg-black/15 sm:grid-cols-4">
+          <div className="bg-[#f2efe8] px-4 py-4">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">DATE</p>
+            <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">SAT · 03 OCT</p>
+          </div>
+          <div className="bg-[#f2efe8] px-4 py-4">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">MEET</p>
+            <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">09:00</p>
+          </div>
+          <div className="bg-[#f2efe8] px-4 py-4">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">START</p>
+            <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">MERON ROSETTI</p>
+          </div>
+          <div className="bg-[#f2efe8] px-4 py-4">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">ADDRESS</p>
+            <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">PIATA ROSETTI 6</p>
+          </div>
+        </div>
 
         <div className="grid flex-1 items-center gap-12 py-14 lg:grid-cols-[0.75fr_1.25fr] lg:py-20">
           <div>
             <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.24em] text-[#ff2400]">
-              ALT:FRAME / PHOTOWALK
+              ALT:FRAME / PHOTOWALK · BUCHAREST
             </p>
             <h1 className="font-display max-w-xl text-[clamp(3.4rem,9vw,7.8rem)] uppercase leading-[0.84] tracking-[-0.065em]">
               YOUR THEME
@@ -121,7 +140,7 @@ SEE OTHERWISE.`;
             </div>
 
             <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-black/40">
-              Generate again. See otherwise.
+              3 HOURS · GENERATE AGAIN · SEE OTHERWISE.
             </p>
           </div>
 
@@ -169,7 +188,7 @@ SEE OTHERWISE.`;
                   <div className="grid grid-cols-2 gap-4 border-t border-white/15 pt-5">
                     <div>
                       <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
-                        TIME
+                        DURATION
                       </p>
                       <p className="font-display text-xl">{current.time}</p>
                     </div>
