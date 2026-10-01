@@ -64,7 +64,7 @@ export default function StandaloneThemeGenerator() {
 ${current.challenge}
 
 RULE: ${current.rule}
-TIME: ${current.time}
+DURATION: ${current.time}
 LEVEL: ${current.level}
 
 SEE OTHERWISE.`;
