@@ -90,7 +90,7 @@ SEE OTHERWISE.`;
           </div>
         </header>
 
-        <div className="grid grid-cols-2 gap-px border-x border-b border-black/15 bg-black/15 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-px border-x border-b border-black/15 bg-black/15 sm:grid-cols-5">
           <div className="bg-[#f2efe8] px-4 py-4">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">DATE</p>
             <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">SAT · 03 OCT</p>
@@ -106,6 +106,16 @@ SEE OTHERWISE.`;
           <div className="bg-[#f2efe8] px-4 py-4">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">ADDRESS</p>
             <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">PIATA ROSETTI 6</p>
+          </div>          <div className="bg-[#f2efe8] px-4 py-4">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-black/45">ROUTE</p>
+            <a
+              href="https://maps.app.goo.gl/1gE22E1NMghvkx5H9?g_st=ic"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em] underline decoration-[#ff2400] underline-offset-4 hover:text-[#ff2400]"
+            >
+              OPEN IN MAPS ↗
+            </a>
           </div>
         </div>
 
