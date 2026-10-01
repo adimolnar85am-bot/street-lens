@@ -13,30 +13,30 @@ type Theme = {
 };
 
 const themes: Theme[] = [
-  { title: "WAIT FOR IT", challenge: "Find a strong frame. Stay there. Let the city enter it.", rule: "One location. One decisive moment.", time: "15 MIN", level: "MEDIUM" },
-  { title: "ONE COLOR", challenge: "Choose one color and build your walk around it.", rule: "The color must matter to the composition.", time: "30 MIN", level: "EASY" },
-  { title: "NO CENTER", challenge: "Make the frame work without placing the subject in the center.", rule: "Keep the center empty.", time: "20 MIN", level: "MEDIUM" },
-  { title: "3 METERS", challenge: "Photograph only what exists within three meters of you.", rule: "No wide establishing shots.", time: "20 MIN", level: "EASY" },
-  { title: "THE ACCIDENT", challenge: "Look for a visual coincidence you could never stage.", rule: "Wait for alignment, reflection, shadow or gesture.", time: "30 MIN", level: "HARD" },
-  { title: "NO PEOPLE", challenge: "Tell a human story without photographing a person.", rule: "Use traces, objects, spaces and signs.", time: "25 MIN", level: "MEDIUM" },
-  { title: "36 FRAMES", challenge: "Pretend you are shooting one roll of film.", rule: "Exactly 36 frames. No deleting.", time: "60 MIN", level: "HARD" },
-  { title: "ONE LENS", challenge: "Choose one focal length and stay with it.", rule: "No lens changes.", time: "45 MIN", level: "MEDIUM" },
-  { title: "LOOK DOWN", challenge: "Find the story beneath eye level.", rule: "Keep the camera below your waist.", time: "20 MIN", level: "EASY" },
-  { title: "LOOK UP", challenge: "Ignore the street. Photograph what rises above it.", rule: "No ground in the frame.", time: "20 MIN", level: "EASY" },
-  { title: "FOUND FRAME", challenge: "Use doors, windows, gaps and architecture as frames.", rule: "The frame must already exist.", time: "30 MIN", level: "MEDIUM" },
-  { title: "REFLECTION", challenge: "Photograph a scene through a reflective surface.", rule: "Glass, water, metal or mirrors only.", time: "30 MIN", level: "MEDIUM" },
-  { title: "WAITING", challenge: "Photograph someone or something that is waiting.", rule: "No posed subjects.", time: "30 MIN", level: "EASY" },
-  { title: "NO POSTCARD", challenge: "Show the city without making a tourist photograph.", rule: "No landmarks or obvious views.", time: "30 MIN", level: "MEDIUM" },
-  { title: "THE ORDINARY", challenge: "Make something completely ordinary worth looking at.", rule: "Your subject must be something you normally ignore.", time: "30 MIN", level: "EASY" },
-  { title: "LAYERED", challenge: "Build a photograph with foreground, subject and background.", rule: "Three visual layers minimum.", time: "30 MIN", level: "HARD" },
-  { title: "ONE FRAME", challenge: "Create one photograph that sums up the walk.", rule: "Submit only one final frame.", time: "45 MIN", level: "HARD" },
-  { title: "SAME PLACE", challenge: "Stay in one small area and find five different photographs.", rule: "Do not leave the zone.", time: "30 MIN", level: "MEDIUM" },
-  { title: "SHADOW", challenge: "Let shadow become the main subject.", rule: "Light must do most of the storytelling.", time: "30 MIN", level: "EASY" },
-  { title: "CLOSE", challenge: "Get closer than your first instinct tells you.", rule: "Fill the frame.", time: "20 MIN", level: "MEDIUM" },
-  { title: "BACKWARDS", challenge: "Walk a familiar route in reverse and photograph it differently.", rule: "No returning to your usual viewpoint.", time: "30 MIN", level: "MEDIUM" },
-  { title: "SILENCE", challenge: "Find a photograph that feels quiet inside a busy city.", rule: "Avoid obvious action.", time: "30 MIN", level: "HARD" },
-  { title: "LIGHT HUNTER", challenge: "Follow one patch of interesting light through the street.", rule: "Light comes first, subject second.", time: "30 MIN", level: "MEDIUM" },
-  { title: "FIVE FRAMES", challenge: "Tell a small story in exactly five photographs.", rule: "Every frame must add something new.", time: "45 MIN", level: "HARD" },
+  { title: "WAIT FOR IT", challenge: "Find a strong frame. Stay there. Let the city enter it.", rule: "One location. One decisive moment.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "ONE COLOR", challenge: "Choose one color and build your walk around it.", rule: "The color must matter to the composition.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "NO CENTER", challenge: "Make the frame work without placing the subject in the center.", rule: "Keep the center empty.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "3 METERS", challenge: "Photograph only what exists within three meters of you.", rule: "No wide establishing shots.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "THE ACCIDENT", challenge: "Look for a visual coincidence you could never stage.", rule: "Wait for alignment, reflection, shadow or gesture.", time: "FULL PHOTOWALK", level: "HARD" },
+  { title: "NO PEOPLE", challenge: "Tell a human story without photographing a person.", rule: "Use traces, objects, spaces and signs.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "36 FRAMES", challenge: "Pretend you are shooting one roll of film.", rule: "Exactly 36 frames. No deleting.", time: "FULL PHOTOWALK", level: "HARD" },
+  { title: "ONE LENS", challenge: "Choose one focal length and stay with it.", rule: "No lens changes.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "LOOK DOWN", challenge: "Find the story beneath eye level.", rule: "Keep the camera below your waist.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "LOOK UP", challenge: "Ignore the street. Photograph what rises above it.", rule: "No ground in the frame.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "FOUND FRAME", challenge: "Use doors, windows, gaps and architecture as frames.", rule: "The frame must already exist.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "REFLECTION", challenge: "Photograph a scene through a reflective surface.", rule: "Glass, water, metal or mirrors only.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "WAITING", challenge: "Photograph someone or something that is waiting.", rule: "No posed subjects.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "NO POSTCARD", challenge: "Show the city without making a tourist photograph.", rule: "No landmarks or obvious views.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "THE ORDINARY", challenge: "Make something completely ordinary worth looking at.", rule: "Your subject must be something you normally ignore.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "LAYERED", challenge: "Build a photograph with foreground, subject and background.", rule: "Three visual layers minimum.", time: "FULL PHOTOWALK", level: "HARD" },
+  { title: "ONE FRAME", challenge: "Create one photograph that sums up the walk.", rule: "Submit only one final frame.", time: "FULL PHOTOWALK", level: "HARD" },
+  { title: "SAME PLACE", challenge: "Stay in one small area and find five different photographs.", rule: "Do not leave the zone.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "SHADOW", challenge: "Let shadow become the main subject.", rule: "Light must do most of the storytelling.", time: "FULL PHOTOWALK", level: "EASY" },
+  { title: "CLOSE", challenge: "Get closer than your first instinct tells you.", rule: "Fill the frame.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "BACKWARDS", challenge: "Walk a familiar route in reverse and photograph it differently.", rule: "No returning to your usual viewpoint.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "SILENCE", challenge: "Find a photograph that feels quiet inside a busy city.", rule: "Avoid obvious action.", time: "FULL PHOTOWALK", level: "HARD" },
+  { title: "LIGHT HUNTER", challenge: "Follow one patch of interesting light through the street.", rule: "Light comes first, subject second.", time: "FULL PHOTOWALK", level: "MEDIUM" },
+  { title: "FIVE FRAMES", challenge: "Tell a small story in exactly five photographs.", rule: "Every frame must add something new.", time: "FULL PHOTOWALK", level: "HARD" },
 ];
 
 export default function StandaloneThemeGenerator() {
@@ -99,7 +99,7 @@ SEE OTHERWISE.`;
               YOUR THEME
             </h1>
             <p className="mt-7 max-w-md text-base leading-6 text-black/65 sm:text-lg">
-              Start with this challenge. Generate another one anytime.
+              Start with this challenge. Take it through the entire photowalk.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
