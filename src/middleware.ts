@@ -72,7 +72,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/api")) {
+  if (pathname.startsWith("/api") || pathname === "/theme-generator") {
     return NextResponse.next();
   }
 
