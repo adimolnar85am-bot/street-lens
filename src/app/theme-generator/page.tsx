@@ -119,6 +119,21 @@ SEE OTHERWISE.`;
           </div>
         </div>
 
+        <div className="border-x border-b border-black/15 bg-[#111] px-4 py-4 text-[#f2efe8] sm:flex sm:items-center sm:justify-between sm:px-5">
+          <div>
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/45">COMMUNICATION</p>
+            <p className="mt-1 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">INSTAGRAM GROUP</p>
+          </div>
+          <a
+            href="https://ig.me/j/JuWMe13s5OJo8rD4/"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-flex items-center gap-2 border border-[#f2efe8] px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] transition hover:bg-[#ff2400] hover:border-[#ff2400] sm:mt-0"
+          >
+            JOIN GROUP ↗
+          </a>
+        </div>
+
         <div className="grid flex-1 items-center gap-12 py-14 lg:grid-cols-[0.75fr_1.25fr] lg:py-20">
           <div>
             <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.24em] text-[#ff2400]">
