@@ -40,7 +40,7 @@ const themes: Theme[] = [
 ];
 
 export default function StandaloneThemeGenerator() {
-  const [current, setCurrent] = useState<Theme>(() => themes[Math.floor(Math.random() * themes.length)]);
+  const [current, setCurrent] = useState<Theme>(themes[0]);
   const [copied, setCopied] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
 
@@ -86,20 +86,20 @@ SEE OTHERWISE.`;
             alt<span className="text-[#ff2400]">:</span>frame
           </div>
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-black/55">
-            THEME GENERATOR
+            START HERE
           </div>
         </header>
 
         <div className="grid flex-1 items-center gap-12 py-14 lg:grid-cols-[0.75fr_1.25fr] lg:py-20">
           <div>
             <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.24em] text-[#ff2400]">
-              ALT:FRAME / TOOL
+              ALT:FRAME / PHOTOWALK
             </p>
             <h1 className="font-display max-w-xl text-[clamp(3.4rem,9vw,7.8rem)] uppercase leading-[0.84] tracking-[-0.065em]">
-              THEME GENERATOR
+              YOUR THEME
             </h1>
             <p className="mt-7 max-w-md text-base leading-6 text-black/65 sm:text-lg">
-              A random challenge for your next photowalk.
+              Start with this challenge. Generate another one anytime.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
@@ -108,7 +108,7 @@ SEE OTHERWISE.`;
                 onClick={generate}
                 className="bg-[#ff2400] px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-[#ff2400] focus:ring-offset-2 focus:ring-offset-[#f2efe8]"
               >
-                GENERATE THEME
+                NEW THEME
               </button>
 
               <button
