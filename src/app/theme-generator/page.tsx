@@ -338,6 +338,67 @@ SEE OTHERWISE.`;
             </div>
           </article>
         </div>
+
+
+      <section className="border-t border-black/15 pt-10 pb-8">
+        <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#ff2400]">
+              QUICK GUIDE
+            </p>
+            <h3 className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-[-0.05em] sm:text-5xl">
+              HOW IT
+              <br />
+              WORKS
+            </h3>
+            <p className="mt-5 max-w-sm text-sm leading-6 text-black/60">
+              Pick one challenge and carry it with you through the whole photowalk.
+            </p>
+          </div>
+
+          <div className="grid gap-px border border-black/15 bg-black/15 sm:grid-cols-2">
+            <div className="bg-[#f2efe8] p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">01 / READ</p>
+              <h4 className="mt-3 font-display text-2xl uppercase tracking-[-0.04em]">START WITH THE THEME</h4>
+              <p className="mt-3 text-sm leading-6 text-black/60">
+                Read the challenge and the rule. The theme is your creative direction for the entire walk.
+              </p>
+            </div>
+
+            <div className="bg-[#f2efe8] p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">02 / GENERATE</p>
+              <h4 className="mt-3 font-display text-2xl uppercase tracking-[-0.04em]">NEED ANOTHER ONE?</h4>
+              <p className="mt-3 text-sm leading-6 text-black/60">
+                Tap <span className="font-mono font-bold">NEW THEME</span> to move to a different challenge.
+              </p>
+            </div>
+
+            <div className="bg-[#f2efe8] p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">03 / TAKE</p>
+              <h4 className="mt-3 font-display text-2xl uppercase tracking-[-0.04em]">RESERVE YOUR THEME</h4>
+              <p className="mt-3 text-sm leading-6 text-black/60">
+                Tap <span className="font-mono font-bold">TAKE THIS THEME</span> when you are ready. A claimed theme is marked as taken for the group.
+              </p>
+            </div>
+
+            <div className="bg-[#f2efe8] p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">04 / SHOOT</p>
+              <h4 className="mt-3 font-display text-2xl uppercase tracking-[-0.04em]">TAKE IT OUTSIDE</h4>
+              <p className="mt-3 text-sm leading-6 text-black/60">
+                Keep the theme in mind while you walk. There is no right photograph. Look for your interpretation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 border border-black bg-[#111] px-5 py-4 text-[#f2efe8] sm:px-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">IMPORTANT</p>
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-white/80">
+            Generate until something clicks. Reserve only the theme you actually want to shoot.
+            Once a theme is taken, it is no longer offered as a new choice to the group.
+          </p>
+        </div>
+      </section>
       </section>
     </main>
   );
