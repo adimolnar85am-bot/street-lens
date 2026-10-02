@@ -1,25 +1,48 @@
-import { list, put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
 const EVENT_ID = "2026-10-03";
-const PREFIX = `theme-locks/${EVENT_ID}/`;
-const MAX_THEMES = 24;
+const REDIS_KEY = `altframe:theme-locks:${EVENT_ID}`;
 
-function blobEnabled() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+function getRedisConfig() {
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.KV_REST_API_URL ||
+    "";
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.KV_REST_API_TOKEN ||
+    "";
+
+  if (!url || !token) return null;
+  return { url: url.replace(/\/$/, ""), token };
 }
 
-async function getLockedThemes(): Promise<string[]> {
-  if (!blobEnabled()) return [];
+async function redisCommand<T = unknown>(command: string[]) {
+  const config = getRedisConfig();
+  if (!config) throw new Error("Redis is not configured");
 
-  const page = await list({ prefix: PREFIX, limit: MAX_THEMES });
-  return page.blobs
-    .map((blob) => blob.pathname.replace(PREFIX, "").replace(/\.json$/i, ""))
-    .filter(Boolean);
+  const response = await fetch(
+    `${config.url}/${command.map(encodeURIComponent).join("/")}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Redis request failed: ${response.status}`);
+  }
+
+  const data = (await response.json()) as { result?: T; error?: string };
+  if (data.error) throw new Error(data.error);
+  return data.result as T;
 }
 
 export async function GET() {
-  if (!blobEnabled()) {
+  if (!getRedisConfig()) {
     return NextResponse.json(
       { enabled: false, locked: [] },
       { headers: { "Cache-Control": "no-store" } }
@@ -27,9 +50,9 @@ export async function GET() {
   }
 
   try {
-    const locked = await getLockedThemes();
+    const locked = await redisCommand<string[]>(["SMEMBERS", REDIS_KEY]);
     return NextResponse.json(
-      { enabled: true, locked },
+      { enabled: true, locked: locked ?? [] },
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (error) {
@@ -42,7 +65,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!blobEnabled()) {
+  if (!getRedisConfig()) {
     return NextResponse.json(
       { enabled: false, error: "storage_unavailable" },
       { status: 503 }
@@ -61,38 +84,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_theme" }, { status: 400 });
   }
 
-  const pathname = `${PREFIX}${themeId}.json`;
-
   try {
-    await put(
-      pathname,
-      JSON.stringify({
-        themeId,
-        event: EVENT_ID,
-        takenAt: new Date().toISOString(),
-      }),
-      {
-        access: "public",
-        addRandomSuffix: false,
-        allowOverwrite: false,
-        contentType: "application/json",
-      }
-    );
+    const added = await redisCommand<number>(["SADD", REDIS_KEY, themeId]);
 
-    return NextResponse.json({ enabled: true, taken: true, themeId });
-  } catch {
-    try {
-      const locked = await getLockedThemes();
-      if (locked.includes(themeId)) {
-        return NextResponse.json(
-          { enabled: true, taken: false, themeId, error: "already_taken" },
-          { status: 409 }
-        );
-      }
-    } catch (error) {
-      console.error("Theme lock conflict check failed:", error);
+    if (added === 1) {
+      return NextResponse.json({
+        enabled: true,
+        taken: true,
+        themeId,
+      });
     }
 
+    return NextResponse.json(
+      {
+        enabled: true,
+        taken: false,
+        themeId,
+        error: "already_taken",
+      },
+      { status: 409 }
+    );
+  } catch (error) {
+    console.error("Theme lock write failed:", error);
     return NextResponse.json(
       { enabled: false, error: "storage_unavailable" },
       { status: 503 }
