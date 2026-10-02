@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Level = "EASY" | "MEDIUM" | "HARD";
 
@@ -43,19 +43,97 @@ export default function StandaloneThemeGenerator() {
   const [current, setCurrent] = useState<Theme>(themes[0]);
   const [copied, setCopied] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
+  const [locked, setLocked] = useState<string[]>([]);
+  const [storageEnabled, setStorageEnabled] = useState(true);
+  const [claiming, setClaiming] = useState(false);
+  const [claimed, setClaimed] = useState(false);
+
+  function themeId(theme: Theme) {
+    return `AF-${String(themes.indexOf(theme) + 1).padStart(2, "0")}`;
+  }
+
+  async function refreshLocks() {
+    try {
+      const response = await fetch("/api/theme-locks", { cache: "no-store" });
+      if (!response.ok) throw new Error("storage unavailable");
+      const data = (await response.json()) as { enabled?: boolean; locked?: string[] };
+      setStorageEnabled(data.enabled !== false);
+      setLocked(data.locked ?? []);
+    } catch {
+      setStorageEnabled(false);
+    }
+  }
+
+  useEffect(() => {
+    void refreshLocks();
+    const interval = window.setInterval(() => {
+      void refreshLocks();
+    }, 5000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!locked.length || claimed) return;
+    const currentId = themeId(current);
+    if (!locked.includes(currentId)) return;
+
+    const available = themes.filter(
+      (theme) =>
+        !locked.includes(themeId(theme)) &&
+        theme.title !== current.title
+    );
+    if (available.length) {
+      setCurrent(available[Math.floor(Math.random() * available.length)]);
+      setCopied(false);
+    }
+  }, [locked, current, claimed]);
 
   function generate() {
     const available = themes.filter(
-      (theme) => !history.includes(theme.title) && theme.title !== current.title
+      (theme) =>
+        !history.includes(theme.title) &&
+        theme.title !== current.title &&
+        !locked.includes(themeId(theme))
     );
     const pool = available.length
       ? available
       : themes.filter((theme) => theme.title !== current.title);
     const next = pool[Math.floor(Math.random() * pool.length)];
 
+    if (!next) return;
     setHistory((items) => [...items.slice(-7), current.title]);
     setCurrent(next);
     setCopied(false);
+    setClaimed(false);
+  }
+
+  async function claimTheme() {
+    if (!storageEnabled || claiming || claimed) return;
+
+    setClaiming(true);
+    try {
+      const response = await fetch("/api/theme-locks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ themeId: themeId(current) }),
+      });
+
+      if (response.status === 409) {
+        await refreshLocks();
+        setClaimed(false);
+        return;
+      }
+
+      if (!response.ok) throw new Error("claim failed");
+      setLocked((items) =>
+        items.includes(themeId(current)) ? items : [...items, themeId(current)]
+      );
+      setClaimed(true);
+    } catch {
+      setStorageEnabled(false);
+    } finally {
+      setClaiming(false);
+    }
   }
 
   async function copyTheme() {
@@ -157,6 +235,15 @@ SEE OTHERWISE.`;
 
               <button
                 type="button"
+                onClick={claimTheme}
+                disabled={claiming || claimed || !storageEnabled}
+                className="border border-black px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.16em] transition hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:ring-offset-[#f2efe8]"
+              >
+                {claimed ? "THEME TAKEN" : claiming ? "TAKING..." : "TAKE THIS THEME"}
+              </button>
+
+              <button
+                type="button"
                 onClick={copyTheme}
                 className="border border-black px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.16em] transition hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:ring-offset-[#f2efe8]"
               >
@@ -164,9 +251,20 @@ SEE OTHERWISE.`;
               </button>
             </div>
 
-            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-black/40">
-              3 HOURS · GENERATE AGAIN · SEE OTHERWISE.
-            </p>
+            <div className="mt-5 space-y-2">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-black/40">
+                3 HOURS · GENERATE AGAIN · SEE OTHERWISE.
+              </p>
+              {storageEnabled ? (
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-black/45">
+                  {themes.length - locked.length} THEMES AVAILABLE · SHARED LIVE
+                </p>
+              ) : (
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#ff2400]">
+                  SHARED MODE OFF · LOCAL GENERATOR
+                </p>
+              )}
+            </div>
           </div>
 
           <article className="relative border border-black bg-[#111] text-[#f2efe8] shadow-[12px_12px_0_#ff2400]">
@@ -226,6 +324,12 @@ SEE OTHERWISE.`;
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="border-t border-white/20 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.16em]">
+              <span className={claimed ? "text-[#ff2400]" : "text-white/45"}>
+                {claimed ? "TAKEN / THIS THEME IS RESERVED" : "TAKE THIS THEME TO RESERVE IT FOR THE GROUP"}
+              </span>
             </div>
 
             <div className="flex items-center justify-between border-t border-white/20 px-5 py-4 font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
